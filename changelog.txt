@@ -1,0 +1,7 @@
+TODO
+add credits to twc!
+defaultconfig.php?
+translation-hints
+
+Version 1alpha1 - released 2011-12-05
+cmb	initial release
