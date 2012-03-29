@@ -11,10 +11,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -38,9 +38,9 @@ $uploader_sizes = array('', 'small', 'medium', 'large');
  */
 function uploader_init() {
     global $pth, $sl, $cf, $plugin_cf, $plugin_tx, $uploader_types, $uploader_sizes;
-    
-    $pcf =& $plugin_cf['uploader'];
-    $ptx =& $plugin_tx['uploader'];
+
+    $pcf = $plugin_cf['uploader'];
+    $ptx = $plugin_tx['uploader'];
     if (!isset($_SESSION)) {session_start();}
     $uploader =& $_SESSION['uploader'];
     $uploader = NULL;

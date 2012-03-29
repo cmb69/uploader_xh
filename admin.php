@@ -4,7 +4,7 @@
  * Back-end functionality of Uploader_XH.
  * Copyright (c) 2011 Christoph M. Becker (see license.txt)
  */
- 
+
 // utf-8-marker: äöüß
 
 
@@ -14,7 +14,7 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 }
 
 
-define('UPLOADER_VERSION', '1alpha1');
+define('UPLOADER_VERSION', '1alpha2');
 
 
 /**
@@ -56,7 +56,7 @@ function uploader_system_check() {
 
 function uploader_select_onchange($param) {
     global $sn;
-    
+
     $url = $sn.'?&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text';
     if ($param != 'type') {$url .= '&amp;type='.UPLOADER_TYPE;}
     if ($param != 'subdir') {$url .= '&amp;subdir='.UPLOADER_SUBDIR;}
@@ -68,7 +68,7 @@ function uploader_select_onchange($param) {
 
 function uploader_type_select() {
     global $pth, $sn, $plugin_tx, $uploader_types;
-    
+
     $htm = '<select id="uploader-type" title="'.$plugin_tx['uploader']['label_type'].'"'
 	    .' onchange="'.uploader_select_onchange('type').'">'."\n";
     foreach ($uploader_types as $type) {
@@ -103,7 +103,7 @@ function uploader_subdir_select_rec($parent) {
 
 function uploader_subdir_select() {
     global $pth, $sn, $plugin_tx;
-    
+
     return '<select id="uploader-subdir" title="'.$plugin_tx['uploader']['label_subdir'].'"'
 	    .' onchange="'.uploader_select_onchange('subdir').'">'."\n"
 	    .'<option>/</option>'."\n"
@@ -114,7 +114,7 @@ function uploader_subdir_select() {
 
 function uploader_resize_select() {
     global $plugin_tx, $uploader_sizes;
-    
+
     $htm = '<select id="uploader-resize" title="'.$plugin_tx['uploader']['label_resize'].'"'
 	    .' onchange="'.uploader_select_onchange('resize').'">'."\n";
     foreach ($uploader_sizes as $size) {
@@ -129,7 +129,7 @@ function uploader_resize_select() {
 
 function uploader_admin_main() {
     global $pth, $uploader_types, $uploader_sizes;
-    
+
     include_once($pth['folder']['plugins'].'uploader/init.php');
     define('UPLOADER_TYPE',
 	    isset($_GET['type']) && in_array($_GET['type'], $uploader_types) && isset($pth['folder'][$_GET['type']])
@@ -154,9 +154,9 @@ initvar('uploader');
 if (!empty($uploader)) {
     initvar('admin');
     initvar('action');
-    
+
     $o .= print_plugin_admin('on');
-    
+
     switch ($admin) {
 	case '':
 	    $o .= uploader_version().uploader_system_check();
