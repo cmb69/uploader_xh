@@ -2,6 +2,11 @@ TODO
 add credits to twc!
 defaultconfig.php?
 translation-hints
+credit Wolfgang as first tester/bug reporter
+prohibit direkt access to init.php
+check security issues
+clear up license in init.php (only this file)
+add plugin icon
 
 Version 1alpha2 - released 2012-03-29
 cmb	fixed bug: changing the selectbox was not possible under IE (reported by wolfgang_58)
