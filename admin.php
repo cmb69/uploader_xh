@@ -26,7 +26,7 @@ function uploader_version() {
     return '<h1><a href="http://3-magi.net/?CMSimple_XH/Uploader_XH">Uploader_XH</a></h1>'."\n"
 	    .tag('img src="'.$pth['folder']['plugins'].'uploader/uploader.png" width="128"'
 	    .' height="128" alt="Plugin icon" class="uploader_plugin_icon"')
-	    .'<p>Version: '.UPLOADER_VERSION.'</p>'."\n"
+	    .'<p style="margin-top: 1em">Version: '.UPLOADER_VERSION.'</p>'."\n"
 	    .'<p>Copyright &copy; 2011-2012 <a href="http://3-magi.net/">Christoph M. Becker</a></p>'."\n"
 	    .'<p>Uploader_XH is powered by '
 	    .'<a href="http://www.plupload.com/">Plupload</a>.</p>'."\n"
