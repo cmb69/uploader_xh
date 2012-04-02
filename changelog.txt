@@ -2,10 +2,7 @@ TODO
     defaultconfig.php?
     translation-hints
     uploader localization from back-end
-    update to newest Plupload
-
-    subdir is vulnerable (..)
-    check security issues
+    update to newest Plupload/jquery
 
 Version 1alpha3 - released 2012-02-04
 cmb	fixed bug: plugin back-end was always displayed, when register_globals is on (reported by Tata)
@@ -15,6 +12,7 @@ cmb	prohibited direct access to init.php
 cmb	implemented system check
 cmb	added plugin icon
 cmb	updated manual
+cmb	prohibited upload to parent folders
 
 Version 1alpha2 - released 2012-03-29
 cmb	fixed bug: changing the selectbox was not possible under IE (reported by wolfgang_58)

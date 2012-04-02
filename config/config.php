@@ -15,8 +15,8 @@ $plugin_cf['uploader']['size_chunk']="2mb";
 
 $plugin_cf['uploader']['ext_images']="jpg,gif,png";
 $plugin_cf['uploader']['ext_downloads']="pdf,zip";
-$plugin_cf['uploader']['ext_media']="flv,mp3";
-$plugin_cf['uploader']['ext_userfiles']="jpg,gif,png,pdf,zip,flv,mp3";
+$plugin_cf['uploader']['ext_media']="flv,mp3,mp4";
+$plugin_cf['uploader']['ext_userfiles']="jpg,gif,png,pdf,zip,flv,mp3,mp4";
 
 $plugin_cf['uploader']['runtimes']="gears,browserplus,silverlight,flash,html5";
 

@@ -16,9 +16,10 @@ if (!isset($_SESSION['uploader_runtimes'])) {
 
 $_SESSION['uploader_type'] = isset($_GET['type']) && isset($_SESSION['uploader_folder'][$_GET['type']])
 	? $_GET['type'] : 'images';
-$_SESSION['uploader_subdir'] = isset($_GET['subdir'])
-	&& is_dir($_SESSION['uploader_folder'][$_SESSION['uploader_type']].$_GET['subdir'])
-	? $_GET['subdir'] : '';
+$subdir = !isset($_GET['subdir']) ? ''
+	: preg_replace('/\.\.[\/\\\\]?/', '', get_magic_quotes_gpc() ? stripslashes($_GET['subdir']) : $_GET['subdir']);
+$_SESSION['uploader_subdir'] = is_dir($_SESSION['uploader_folder'][$_SESSION['uploader_type']].$subdir)
+	? $subdir : '';
 define('RESIZE',
 	isset($_GET['resize']) && in_array($_GET['resize'], array('small', 'medium', 'large'))
 	? $_GET['resize'] : '');

@@ -159,14 +159,15 @@ function uploader_admin_main() {
     define('UPLOADER_TYPE',
 	    isset($_GET['type']) && in_array($_GET['type'], $uploader_types) && isset($pth['folder'][$_GET['type']])
 	    ? $_GET['type'] : 'images');
+    $subdir = isset($_GET['subdir']) ? preg_replace('/\.\.[\/\\\\]?/', '', stsl($_GET['subdir'])) : '';
     define('UPLOADER_SUBDIR',
-	    isset($_GET['subdir']) && file_exists($pth['folder'][UPLOADER_TYPE].$_GET['subdir'])
-	    ? $_GET['subdir'] : '');
+	    isset($_GET['subdir']) && is_dir($pth['folder'][UPLOADER_TYPE].$subdir)
+	    ? $subdir : '');
     define('UPLOADER_RESIZE',
 	    isset($_GET['resize']) && in_array($_GET['resize'], $uploader_sizes)
 	    ? $_GET['resize'] : '');
     return '<div id="uploader-controls">'.uploader_type_select().uploader_subdir_select().uploader_resize_select().'</div>'."\n"
-	    .'<iframe frameBorder="0" width="100%" height="400px" src="'
+	    .'<iframe id="uploader" frameBorder="0" src="'
 		.$pth['folder']['plugins'].'uploader/uploader.php?type='
 		.UPLOADER_TYPE.'&amp;subdir='.UPLOADER_SUBDIR.'&amp;resize='.UPLOADER_RESIZE.'"></iframe>'."\n";
 }
