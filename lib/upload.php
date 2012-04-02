@@ -1,9 +1,9 @@
 <?php
 /**
- * upload.php
+ * The upload widget.
  *
  * Copyright 2009, Moxiecode Systems AB
- * Copyright 2011, Christoph M. Becker
+ * Copyright 2011-2012, Christoph M. Becker
  * Released under GPL License.
  *
  * License: http://www.plupload.com/license
@@ -13,7 +13,7 @@
 
 if (!isset($_SESSION)) {session_start();}
 
-if (!isset($_SESSION['uploader'])) {
+if (!isset($_SESSION['uploader_runtimes'])) {
     header('HTTP/1.0 403 Forbidden');
     exit;
 }
@@ -28,7 +28,7 @@ header("Pragma: no-cache");
 
 // Settings
 //$targetDir = ini_get("upload_tmp_dir") . DIRECTORY_SEPARATOR . "plupload";
-$targetDir = $_SESSION['uploader']['folder'][$_SESSION['uploader']['type']].$_SESSION['uploader']['subdir'];
+$targetDir = $_SESSION['uploader_folder'][$_SESSION['uploader_type']].$_SESSION['uploader_subdir'];
 
 //$cleanupTargetDir = false; // Remove old files
 //$maxFileAge = 60 * 60; // Temp file age in seconds
@@ -66,7 +66,7 @@ if ($chunks < 2 && file_exists($targetDir . $fileName)) {
 
 // Remove old temp files
 /* this doesn't really work by now
-	
+
 if (is_dir($targetDir) && ($dir = opendir($targetDir))) {
 	while (($file = readdir($dir)) !== false) {
 		$filePath = $targetDir . DIRECTORY_SEPARATOR . $file;

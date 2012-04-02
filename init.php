@@ -3,7 +3,7 @@
 /**
  * Initialization of Uploader_XH.
  *
- * Copyright (c) by 2011 Christoph M. Becker
+ * Copyright (c) by 2011-2012 Christoph M. Becker
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,11 @@
  * THE SOFTWARE.
  */
 
-// utf-8-marker: äöüß
+
+if (!defined('CMSIMPLE_XH_VERSION')) {
+    header('HTTP/1.0 403 Forbidden');
+    exit;
+}
 
 
 $uploader_types = array('images', 'downloads', 'media', 'userfiles');
@@ -42,24 +46,26 @@ function uploader_init() {
     $pcf = $plugin_cf['uploader'];
     $ptx = $plugin_tx['uploader'];
     if (!isset($_SESSION)) {session_start();}
-    $uploader =& $_SESSION['uploader'];
-    $uploader = NULL;
-    $uploader['runtimes'] = $pcf['runtimes'];
+    $_SESSION['uploader_runtimes'] = $pcf['runtimes'];
     foreach ($uploader_types as $type) {
 	if (isset($pth['folder'][$type])) {
-	    $uploader['folder'][$type] = dirname($_SERVER['SCRIPT_FILENAME']).'/'.$pth['folder'][$type];
-	    $uploader['title'][$type] = $ptx['title_'.$type];
-	    $uploader['exts'][$type] = $pcf['ext_'.$type];
+	    $_SESSION['uploader_folder'][$type] = dirname($_SERVER['SCRIPT_FILENAME']).'/'.$pth['folder'][$type];
+	    $_SESSION['uploader_title'][$type] = $ptx['title_'.$type];
+	    $_SESSION['uploader_exts'][$type] = $pcf['ext_'.$type];
+	} else {
+	    unset($_SESSION['uploader_folder'][$type], $_SESSION['uploader_title'][$type],
+		    $_SESSION['uploader_exts'][$type]);
 	}
     }
-    $uploader['max_size'] = $pcf['size_max'];
-    $uploader['lang'] = strlen($sl) == 2 ? $sl : $cf['language']['default'];
-    $uploader['chunking'] = empty($pcf['size_chunk']) ? '' : 'chunk_size : \''.$pcf['size_chunk'].'\','."\n";
+    $_SESSION['uploader_max_size'] = $pcf['size_max'];
+    $_SESSION['uploader_lang'] = strlen($sl) == 2 ? $sl : $cf['language']['default'];
+    $_SESSION['uploader_chunking'] = empty($pcf['size_chunk'])
+	    ? '' : 'chunk_size: \''.$pcf['size_chunk'].'\','."\n";
     //$uploader['title'] = $ptx['title_'.UPLOADER_TYPE];
     //$uploader['exts'] = $pcf['ext_'.UPLOADER_TYPE];
     foreach (array_slice($uploader_sizes, 1) as $size) {
 	foreach (array('width', 'height', 'quality') as $attr) {
-	    $uploader['resize'][$size][$attr] = $pcf['resize-'.$size.'_'.$attr];
+	    $_SESSION['uploader_resize'][$size][$attr] = $pcf['resize-'.$size.'_'.$attr];
 	}
     }
 }

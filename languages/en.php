@@ -1,7 +1,5 @@
 <?php
 
-$plugin_tx['uploader']['utf-8-marker']="äöüß";
-
 $plugin_tx['uploader']['menu_main']="Upload";
 
 $plugin_tx['uploader']['title_images']="Image files";
@@ -12,6 +10,13 @@ $plugin_tx['uploader']['title_userfiles']="Userfiles";
 $plugin_tx['uploader']['label_type']="Type";
 $plugin_tx['uploader']['label_subdir']="Sub-Folder";
 $plugin_tx['uploader']['label_resize']="Resize";
+
+$plugin_tx['uploader']['syscheck_title']="System check";
+$plugin_tx['uploader']['syscheck_phpversion']="PHP version ≥ %s";
+$plugin_tx['uploader']['syscheck_extension']="Extension '%s' loaded";
+$plugin_tx['uploader']['syscheck_encoding']="Encoding 'UTF-8' configured";
+$plugin_tx['uploader']['syscheck_magic_quotes']="Magic quotes runtime off";
+$plugin_tx['uploader']['syscheck_writable']="Folder '%s' writable";
 
 $plugin_tx['uploader']['cf_resize-small_width']="The maximum width for small resizing.";
 $plugin_tx['uploader']['cf_resize-small_height']="The maximum height for small resizing.";

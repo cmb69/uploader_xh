@@ -1,6 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
-<!-- utf-8-marker: äöüß -->
 <html>
 
 <head>
@@ -13,11 +12,12 @@
 <body>
 
 <h1>Uploader_XH - a CMSimple_XH Plugin</h1>
+<img src="../uploader.png" width="128" height="128" alt="Plugin Icon" style="display: block; float: left; margin-right: 20px">
 <p>Uploader_XH facilitates the upload of files
 to the images, downloads, userfiles and media folders.
 Contrary to the internal filemanager it allows queued and chunked upload,
-so it is an alternative for FTP, if you want to upload many and/or large files.
-It is not a filemanager, but could easily be used by those.</p>
+so it is an alternative to FTP, if you want to upload many and/or large files.
+It is not a filemanager, but could easily be used by these.</p>
 
 <ul id="nav">
 <li><a href="#notice">Important Notice</a></li>
@@ -59,7 +59,7 @@ CMSimple_XH wiki</a> for further details.</p>
 <li><strong>Backup the data on your server.</strong></li>
 <li>Unzip the distribution on your computer.</li>
 <li>Upload the whole directory uploader/ to your server into the CMSimple_XH plugins directory.</li>
-<li>Set write permissions to the subdirectories config/, css/, languages/ and lib/i18n.</li>
+<li>Set write permissions to the subdirectories config/, css/, languages/ and lib/i18n/.</li>
 <li><strong>Switch to Uploader in the back-end to check if all requirements are fulfilled.</strong></li>
 </ol>
 <div class="toplink"><a href="#">back to top</a></div>
@@ -97,8 +97,7 @@ and the size for JPEG and PNG images.</p>
 <ol>
 <li><h4>Initialization</h4>
 <p>Just include init.php (error checking omitted for brevity):</p>
-<pre>include_once($pth['folder']['plugins'].'uploader/init.php');</pre>
-<p>Note that init.php is licensed under the very liberal MIT-License.</p>
+<pre>include_once $pth['folder']['plugins'].'uploader/init.php';</pre>
 </li>
 <li><h4>Usage</h4>
 <p>Just browse to /plugins/uploader/uploader.php in an IFrame or new window.
@@ -125,18 +124,23 @@ or one of the browser extensions must be installed.
 <a href="http://www.gnu.org/licenses/gpl.html">GPLv3</a>.</p>
 <p>init.php is licensed under
 <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.</p>
-<p>&copy; 2011 Christoph M. Becker</p>
+<p>&copy; 2011-2012 Christoph M. Becker</p>
 <div class="toplink"><a href="#">back to top</a></div>
 
 <h2><a name="credits">Credits</a></h2>
 <p>Uploader_XH uses <a href="http://www.plupload.com">Plupload</a>.
 Many thanks for <a href="http://www.moxiecode.com/">Moxiecode Systems AB</a>
 for releasing it under GPL.</p>
-<!--<p>Many thanks to the community at the <a href="http://www.cmsimpleforum.com">CMSimple forum</a>
-for tips, suggestions and testing.</p>
---><p>And many thanks to Peter Harteg for releasing
-<a href="http://www.cmsimple.org/">CMSimple</a> under GPL,
-and all developers of <a href="http://www.cmsimple-xh.com">
+<p>The plugin icon is designed by <a href="http://schollidesign.deviantart.com/">schollidesign</a>.
+Many thanks for publishing this icon under GPL.</p>
+<p>This plugin uses free applications icons from <a href="http://www.aha-soft.com/">Aha-Soft</a>.
+Many thanks for making these icons freely available.</p>
+<p>Many thanks to the community at the <a href="http://www.cmsimpleforum.com">CMSimple forum</a>
+for tips, suggestions and testing.
+Particularly I want to thank twc, who made me aware of Plupload,
+and wolfgang_58 and Tata for testing and reporting bugs.</p>
+<p>And many thanks to <a href="http://harteg.dk">Peter Harteg</a>,
+the "father" of CMSimple, and all developers of <a href="http://www.cmsimple-xh.com">
 CMSimple_XH</a> without whom this amazing CMS wouldn't exist.</p>
 <div class="toplink"><a href="#">back to top</a></div>
 

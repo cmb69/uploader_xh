@@ -1,5 +1,5 @@
-/* utf-8-marker: äöüß */
-
 #uploader-controls {margin: 16px; margin-bottom:0}
-
 #uploader-controls select {}
+
+img.uploader_plugin_icon {display: block; float: left; margin: -10px 10px 10px 0}
+p.uploader_license {clear: both; text-align: justify}
