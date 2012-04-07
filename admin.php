@@ -12,9 +12,6 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 }
 
 
-define('UPLOADER_VERSION', '1alpha3');
-
-
 /**
  * Returns (x)html plugin version information.
  *
@@ -167,7 +164,7 @@ function uploader_admin_main() {
 	    isset($_GET['resize']) && in_array($_GET['resize'], $uploader_sizes)
 	    ? $_GET['resize'] : '');
     return '<div id="uploader-controls">'.uploader_type_select().uploader_subdir_select().uploader_resize_select().'</div>'."\n"
-	    .'<iframe id="uploader" frameBorder="0" src="'
+	    .'<iframe class="uploader" frameBorder="0" src="'
 		.$pth['folder']['plugins'].'uploader/uploader.php?type='
 		.UPLOADER_TYPE.'&amp;subdir='.UPLOADER_SUBDIR.'&amp;resize='.UPLOADER_RESIZE.'"></iframe>'."\n";
 }

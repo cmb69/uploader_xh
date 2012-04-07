@@ -31,10 +31,6 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 }
 
 
-$uploader_types = array('images', 'downloads', 'media', 'userfiles');
-$uploader_sizes = array('', 'small', 'medium', 'large');
-
-
 /**
  * Initializes the uploader session.
  *
@@ -43,6 +39,8 @@ $uploader_sizes = array('', 'small', 'medium', 'large');
 function uploader_init() {
     global $pth, $sl, $cf, $plugin_cf, $plugin_tx, $uploader_types, $uploader_sizes;
 
+    $uploader_types = array('images', 'downloads', 'media', 'userfiles');
+    $uploader_sizes = array('', 'small', 'medium', 'large');
     $pcf = $plugin_cf['uploader'];
     $ptx = $plugin_tx['uploader'];
     if (!isset($_SESSION)) {session_start();}

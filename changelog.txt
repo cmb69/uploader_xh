@@ -3,8 +3,13 @@ TODO
     translation-hints
     uploader localization from back-end
     update to newest Plupload/jquery
+    document for developers: uploaders config.php and LANG.php has to be loaded before init.php
+    document usage of uploader() (params are not safe!)
 
-Version 1alpha3 - released 2012-02-04
+Version 1alpha4 - internally released 2012-04-07
+cmb	added function that can be called from a CMSimple page
+
+Version 1alpha3 - released 2012-04-02
 cmb	fixed bug: plugin back-end was always displayed, when register_globals is on (reported by Tata)
 cmb	made minor cosmetic changes
 cmb	extended copyright to 2012
