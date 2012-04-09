@@ -11,6 +11,8 @@ $plugin_tx['uploader']['label_type']="Type";
 $plugin_tx['uploader']['label_subdir']="Sub-Folder";
 $plugin_tx['uploader']['label_resize']="Resize";
 
+$plugin_tx['uploader']['message_no_js']="Javascript must be enabled in your browser to be able to upload files!";
+
 $plugin_tx['uploader']['syscheck_title']="System check";
 $plugin_tx['uploader']['syscheck_phpversion']="PHP version ≥ %s";
 $plugin_tx['uploader']['syscheck_extension']="Extension '%s' loaded";

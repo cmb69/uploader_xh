@@ -66,6 +66,7 @@ function uploader_init() {
 	    $_SESSION['uploader_resize'][$size][$attr] = $pcf['resize-'.$size.'_'.$attr];
 	}
     }
+    $_SESSION['uploader_message']['no_js'] = $ptx['message_no_js'];
 }
 
 

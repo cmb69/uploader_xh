@@ -85,7 +85,13 @@ define('RESIZE',
 <body>
     <form method="POST" action="#">
 	<div id="uploader">
-	    <img src="images/loading.gif" alt="loading &hellip;">
+	    <img src="images/loading.gif" alt="loading &hellip;" style="display:none">
+	    <script type="text/javascript">
+		jQuery('#uploader img').show()
+	    </script>
+	    <noscript>
+		<?php echo $_SESSION['uploader_message']['no_js']?>
+	    </noscript>
 	</div>
     </form>
 </body>
