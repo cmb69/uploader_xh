@@ -76,94 +76,14 @@ function uploader_system_check() { // RELEASE-TODO
 }
 
 
-function uploader_select_onchange($param) {
-    global $sn;
-
-    $url = $sn.'?&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text';
-    if ($param != 'type') {$url .= '&amp;type='.UPLOADER_TYPE;}
-    if ($param != 'subdir') {$url .= '&amp;subdir='.UPLOADER_SUBDIR;}
-    if ($param != 'resize') {$url .= '&amp;resize='.UPLOADER_RESIZE;}
-    $url .= '&amp;'.$param.'=';
-    return 'window.location.href=\''.$url.'\'+document.getElementById(encodeURIComponent(\'uploader-'.$param.'\')).value';
-}
-
-
-function uploader_type_select() {
-    global $pth, $sn, $plugin_tx, $uploader_types;
-
-    $o = '<select id="uploader-type" title="'.$plugin_tx['uploader']['label_type'].'"'
-	    .' onchange="'.uploader_select_onchange('type').'">'."\n";
-    foreach ($uploader_types as $type) {
-	if (isset($pth['folder'][$type])) {
-	    $sel = $type == UPLOADER_TYPE ? ' selected="selected"' : '';
-	    $o .= '<option value="'.$type.'"'.$sel.'>'.$type.'</option>'."\n";
-	}
-    }
-    $o .= '</select>'."\n";
-    return $o;
-}
-
-
-function uploader_subdir_select_rec($parent) {
-    global $pth;
-
-    $o = '';
-    $dn = $pth['folder'][UPLOADER_TYPE].$parent;
-    $dh = opendir($dn); // TODO: error handling
-    while (($fn = readdir($dh)) !== FALSE) {
-	if (strpos($fn, '.') !== 0 && is_dir($pth['folder'][UPLOADER_TYPE].$parent.$fn)) {
-	    $dir = $parent.$fn.'/';
-	    $sel = $dir == UPLOADER_SUBDIR ? ' selected="selected"' : '';
-	    $o .= '<option value="'.$dir.'"'.$sel.'>'.$dir.'</option>'."\n";
-	    $o .= uploader_subdir_select_rec($dir);
-	}
-    }
-    closedir($dh);
-    return $o;
-}
-
-
-function uploader_subdir_select() {
-    global $pth, $sn, $plugin_tx;
-
-    return '<select id="uploader-subdir" title="'.$plugin_tx['uploader']['label_subdir'].'"'
-	    .' onchange="'.uploader_select_onchange('subdir').'">'."\n"
-	    .'<option>/</option>'."\n"
-	    .uploader_subdir_select_rec('')
-	    .'</select>'."\n";
-}
-
-
-function uploader_resize_select() {
-    global $plugin_tx, $uploader_sizes;
-
-    $o = '<select id="uploader-resize" title="'.$plugin_tx['uploader']['label_resize'].'"'
-	    .' onchange="'.uploader_select_onchange('resize').'">'."\n";
-    foreach ($uploader_sizes as $size) {
-	$sel = $size == UPLOADER_RESIZE ? ' selected="selected"' : '';
-	$o .= '<option value="'.$size.'"'.$sel.'>'.$size.'</option>'."\n";
-    }
-    $o .= '</select>'."\n";
-    return $o;
-}
-
-
-
 function uploader_admin_main() {
     global $pth, $uploader_types, $uploader_sizes;
 
     include_once $pth['folder']['plugins'].'uploader/init.php';
-    define('UPLOADER_TYPE',
-	    isset($_GET['type']) && in_array($_GET['type'], $uploader_types) && isset($pth['folder'][$_GET['type']])
-	    ? $_GET['type'] : 'images');
-    $subdir = isset($_GET['subdir']) ? preg_replace('/\.\.[\/\\\\]?/', '', stsl($_GET['subdir'])) : '';
-    define('UPLOADER_SUBDIR',
-	    isset($_GET['subdir']) && is_dir($pth['folder'][UPLOADER_TYPE].$subdir)
-	    ? $subdir : '');
-    define('UPLOADER_RESIZE',
-	    isset($_GET['resize']) && in_array($_GET['resize'], $uploader_sizes)
-	    ? $_GET['resize'] : '');
-    return '<div id="uploader-controls">'.uploader_type_select().uploader_subdir_select().uploader_resize_select().'</div>'."\n"
+    return '<div id="uploader-controls">'
+	    .uploader_type_select('&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text')
+	    .uploader_subdir_select('&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text')
+	    .uploader_resize_select('&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text').'</div>'."\n"
 	    .'<iframe class="uploader" frameBorder="0" src="'
 		.$pth['folder']['plugins'].'uploader/uploader.php?type='
 		.UPLOADER_TYPE.'&amp;subdir='.UPLOADER_SUBDIR.'&amp;resize='.UPLOADER_RESIZE.'"></iframe>'."\n";

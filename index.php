@@ -26,11 +26,19 @@ define('UPLOADER_VERSION', '1alpha4');
  * @return string  The (X)HTML.
  */
 function uploader($type = 'images', $subdir = '', $resize = '') {
-    global $pth;
+    global $pth, $su;
 
     include_once $pth['folder']['plugins'].'uploader/init.php';
-    $url = $pth['folder']['plugins'].'uploader/uploader.php?type='.$type.'&amp;subdir='.$subdir.'&amp;resize='.$resize;
-    $o = '<iframe src="'.$url.'" frameBorder="0" class="uploader"></iframe>'."\n";
+    $url = $pth['folder']['plugins'].'uploader/uploader.php?type='
+	    .($type === TRUE ? UPLOADER_TYPE : $type).'&amp;subdir='
+	    .($subdir === TRUE ? UPLOADER_SUBDIR : $subdir).'&amp;resize='
+	    .($resize === TRUE ? UPLOADER_RESIZE : $resize);
+    $o = '<div id="uploader-controls">'
+	    .($type === TRUE ? uploader_type_select($su) : '')
+	    .($subdir === TRUE ? uploader_subdir_select($su) : '')
+	    .($resize === TRUE ? uploader_resize_select($su) : '')
+	    .'</div>'."\n"
+	    .'<iframe src="'.$url.'" frameBorder="0" class="uploader"></iframe>'."\n";
     return $o;
 }
 

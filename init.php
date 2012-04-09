@@ -31,6 +31,78 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 }
 
 
+function uploader_select_onchange($params, $param) {
+    global $sn;
+
+    $url = $sn.'?'.$params;
+    if ($param != 'type') {$url .= '&amp;type='.urlencode(UPLOADER_TYPE);}
+    if ($param != 'subdir') {$url .= '&amp;subdir='.urlencode(UPLOADER_SUBDIR);}
+    if ($param != 'resize') {$url .= '&amp;resize='.urlencode(UPLOADER_RESIZE);}
+    $url .= '&amp;'.$param.'=';
+    return 'window.location.href=\''.$url.'\'+encodeURIComponent(document.getElementById(\'uploader-'.$param.'\').value)';
+}
+
+
+function uploader_type_select($params) {
+    global $pth, $sn, $plugin_tx, $uploader_types;
+
+    $o = '<select id="uploader-type" title="'.$plugin_tx['uploader']['label_type'].'"'
+	    .' onchange="'.uploader_select_onchange($params, 'type').'">'."\n";
+    foreach ($uploader_types as $type) {
+	if (isset($pth['folder'][$type])) {
+	    $sel = $type == UPLOADER_TYPE ? ' selected="selected"' : '';
+	    $o .= '<option value="'.$type.'"'.$sel.'>'.$type.'</option>'."\n";
+	}
+    }
+    $o .= '</select>'."\n";
+    return $o;
+}
+
+
+function uploader_subdir_select_rec($parent) {
+    global $pth;
+
+    $o = '';
+    $dn = $pth['folder'][UPLOADER_TYPE].$parent;
+    $dh = opendir($dn); // TODO: error handling
+    while (($fn = readdir($dh)) !== FALSE) {
+	if (strpos($fn, '.') !== 0 && is_dir($pth['folder'][UPLOADER_TYPE].$parent.$fn)) {
+	    $dir = $parent.$fn.'/';
+	    $sel = $dir == UPLOADER_SUBDIR ? ' selected="selected"' : '';
+	    $o .= '<option value="'.$dir.'"'.$sel.'>'.$dir.'</option>'."\n";
+	    $o .= uploader_subdir_select_rec($dir);
+	}
+    }
+    closedir($dh);
+    return $o;
+}
+
+
+function uploader_subdir_select($params) {
+    global $pth, $sn, $plugin_tx;
+
+    return '<select id="uploader-subdir" title="'.$plugin_tx['uploader']['label_subdir'].'"'
+	    .' onchange="'.uploader_select_onchange($params, 'subdir').'">'."\n"
+	    .'<option>/</option>'."\n"
+	    .uploader_subdir_select_rec('')
+	    .'</select>'."\n";
+}
+
+
+function uploader_resize_select($params) {
+    global $plugin_tx, $uploader_sizes;
+
+    $o = '<select id="uploader-resize" title="'.$plugin_tx['uploader']['label_resize'].'"'
+	    .' onchange="'.uploader_select_onchange($params, 'resize').'">'."\n";
+    foreach ($uploader_sizes as $size) {
+	$sel = $size == UPLOADER_RESIZE ? ' selected="selected"' : '';
+	$o .= '<option value="'.$size.'"'.$sel.'>'.$size.'</option>'."\n";
+    }
+    $o .= '</select>'."\n";
+    return $o;
+}
+
+
 /**
  * Initializes the uploader session.
  *
@@ -41,6 +113,16 @@ function uploader_init() {
 
     $uploader_types = array('images', 'downloads', 'media', 'userfiles');
     $uploader_sizes = array('', 'small', 'medium', 'large');
+    define('UPLOADER_TYPE',
+	    isset($_GET['type']) && in_array($_GET['type'], $uploader_types) && isset($pth['folder'][$_GET['type']])
+	    ? $_GET['type'] : 'images');
+    $subdir = isset($_GET['subdir']) ? preg_replace('/\.\.[\/\\\\]?/', '', stsl($_GET['subdir'])) : '';
+    define('UPLOADER_SUBDIR',
+	    isset($_GET['subdir']) && is_dir($pth['folder'][UPLOADER_TYPE].$subdir)
+	    ? $subdir : '');
+    define('UPLOADER_RESIZE',
+	    isset($_GET['resize']) && in_array($_GET['resize'], $uploader_sizes)
+	    ? $_GET['resize'] : '');
     $pcf = $plugin_cf['uploader'];
     $ptx = $plugin_tx['uploader'];
     if (!isset($_SESSION)) {session_start();}
@@ -59,8 +141,6 @@ function uploader_init() {
     $_SESSION['uploader_lang'] = strlen($sl) == 2 ? $sl : $cf['language']['default'];
     $_SESSION['uploader_chunking'] = empty($pcf['size_chunk'])
 	    ? '' : 'chunk_size: \''.$pcf['size_chunk'].'\','."\n";
-    //$uploader['title'] = $ptx['title_'.UPLOADER_TYPE];
-    //$uploader['exts'] = $pcf['ext_'.UPLOADER_TYPE];
     foreach (array_slice($uploader_sizes, 1) as $size) {
 	foreach (array('width', 'height', 'quality') as $attr) {
 	    $_SESSION['uploader_resize'][$size][$attr] = $pcf['resize-'.$size.'_'.$attr];
