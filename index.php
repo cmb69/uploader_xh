@@ -74,12 +74,12 @@ function uploader($type = 'images', $subdir = '', $resize = '', $collapsed = FAL
 	    .($type === TRUE ? UPLOADER_TYPE : $type).'&amp;subdir='
 	    .($subdir === TRUE ? UPLOADER_SUBDIR : $subdir).'&amp;resize='
 	    .($resize === TRUE ? UPLOADER_RESIZE : $resize);
-    $selparms = $su.'#uploader_container'.$run;
-    $o = '<div id="uploader_container'.$run.'">'."\n"
+    $anchor = 'uploader_container'.$run;
+    $o = '<div id="'.$anchor.'">'."\n"
 	    .'<div class="uploader-controls">'
-	    .($type === TRUE ? uploader_type_select($selparms) : '')
-	    .($subdir === TRUE ? uploader_subdir_select($selparms) : '')
-	    .($resize === TRUE ? uploader_resize_select($selparms) : '')
+	    .($type === TRUE ? uploader_type_select($su, $anchor) : '')
+	    .($subdir === TRUE ? uploader_subdir_select($su, $anchor) : '')
+	    .($resize === TRUE ? uploader_resize_select($su, $anchor) : '')
 	    .'</div>'."\n"
 	    .'<iframe src="'.$url.'" frameBorder="0" class="uploader"></iframe>'."\n"
 	    .'</div>'."\n";

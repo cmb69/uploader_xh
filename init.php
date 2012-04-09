@@ -31,10 +31,9 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 }
 
 
-function uploader_select_onchange($params, $param) {
+function uploader_select_onchange($param, $params, $anchor = NULL) {
     global $sn;
 
-    list($params, $anchor) = explode('#', $params);
     $url = $sn.'?'.$params;
     if ($param != 'type') {$url .= '&amp;type='.urlencode(UPLOADER_TYPE);}
     if ($param != 'subdir') {$url .= '&amp;subdir='.urlencode(UPLOADER_SUBDIR);}
@@ -46,11 +45,11 @@ function uploader_select_onchange($params, $param) {
 }
 
 
-function uploader_type_select($params) {
+function uploader_type_select($params, $anchor = NULL) {
     global $pth, $sn, $plugin_tx, $uploader_types;
 
     $o = '<select id="uploader-type" title="'.$plugin_tx['uploader']['label_type'].'"'
-	    .' onchange="'.uploader_select_onchange($params, 'type').'">'."\n";
+	    .' onchange="'.uploader_select_onchange('type', $params, $anchor).'">'."\n";
     foreach ($uploader_types as $type) {
 	if (isset($pth['folder'][$type])) {
 	    $sel = $type == UPLOADER_TYPE ? ' selected="selected"' : '';
@@ -81,22 +80,22 @@ function uploader_subdir_select_rec($parent) {
 }
 
 
-function uploader_subdir_select($params) {
+function uploader_subdir_select($params, $anchor = NULL) {
     global $pth, $sn, $plugin_tx;
 
     return '<select id="uploader-subdir" title="'.$plugin_tx['uploader']['label_subdir'].'"'
-	    .' onchange="'.uploader_select_onchange($params, 'subdir').'">'."\n"
+	    .' onchange="'.uploader_select_onchange('subdir', $params, $anchor).'">'."\n"
 	    .'<option>/</option>'."\n"
 	    .uploader_subdir_select_rec('')
 	    .'</select>'."\n";
 }
 
 
-function uploader_resize_select($params) {
+function uploader_resize_select($params, $anchor = NULL) {
     global $plugin_tx, $uploader_sizes;
 
     $o = '<select id="uploader-resize" title="'.$plugin_tx['uploader']['label_resize'].'"'
-	    .' onchange="'.uploader_select_onchange($params, 'resize').'">'."\n";
+	    .' onchange="'.uploader_select_onchange('resize', $params, $anchor).'">'."\n";
     foreach ($uploader_sizes as $size) {
 	$sel = $size == UPLOADER_RESIZE ? ' selected="selected"' : '';
 	$o .= '<option value="'.$size.'"'.$sel.'>'.$size.'</option>'."\n";
