@@ -31,7 +31,7 @@ define('RESIZE',
 <head>
     <title>title</title>
     <link rel="stylesheet" type="text/css" href="lib/jquery.plupload.queue/css/jquery.plupload.queue.css">
-    <script type="text/javascript" src="lib/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="lib/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="http://bp.yahooapis.com/2.4.21/browserplus-min.js"></script> <!-- TODO: integrate -->
     <script type="text/javascript" src="lib/plupload.full.js"></script>
 <?php if (file_exists('lib/i18n/'.$_SESSION['uploader_lang'].'.js')) {?>
