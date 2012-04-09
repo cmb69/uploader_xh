@@ -35,10 +35,10 @@ function uploader_select_onchange($param, $params, $anchor = NULL) {
     global $sn;
 
     $url = $sn.'?'.$params;
-    if ($param != 'type') {$url .= '&amp;type='.urlencode(UPLOADER_TYPE);}
-    if ($param != 'subdir') {$url .= '&amp;subdir='.urlencode(UPLOADER_SUBDIR);}
-    if ($param != 'resize') {$url .= '&amp;resize='.urlencode(UPLOADER_RESIZE);}
-    $url .= '&amp;'.$param.'=';
+    if ($param != 'type') {$url .= '&amp;uploader_type='.urlencode(UPLOADER_TYPE);}
+    if ($param != 'subdir') {$url .= '&amp;uploader_subdir='.urlencode(UPLOADER_SUBDIR);}
+    if ($param != 'resize') {$url .= '&amp;uploader_resize='.urlencode(UPLOADER_RESIZE);}
+    $url .= '&amp;uploader_'.$param.'=';
     $js = 'window.location.href=\''.$url.'\'+encodeURIComponent(document.getElementById(\'uploader-'.$param.'\').value)';
     if (isset($anchor)) {$js .= '+\'#'.$anchor.'\'';}
     return $js;
@@ -116,15 +116,15 @@ function uploader_init() {
     $uploader_types = array('images', 'downloads', 'media', 'userfiles');
     $uploader_sizes = array('', 'small', 'medium', 'large');
     define('UPLOADER_TYPE',
-	    isset($_GET['type']) && in_array($_GET['type'], $uploader_types) && isset($pth['folder'][$_GET['type']])
-	    ? $_GET['type'] : 'images');
-    $subdir = isset($_GET['subdir']) ? preg_replace('/\.\.[\/\\\\]?/', '', stsl($_GET['subdir'])) : '';
+	    isset($_GET['uploader_type']) && in_array($_GET['uploader_type'], $uploader_types) && isset($pth['folder'][$_GET['uploader_type']])
+	    ? $_GET['uploader_type'] : 'images');
+    $subdir = isset($_GET['uploader_subdir']) ? preg_replace('/\.\.[\/\\\\]?/', '', stsl($_GET['uploader_subdir'])) : '';
     define('UPLOADER_SUBDIR',
-	    isset($_GET['subdir']) && is_dir($pth['folder'][UPLOADER_TYPE].$subdir)
+	    isset($_GET['uploader_subdir']) && is_dir($pth['folder'][UPLOADER_TYPE].$subdir)
 	    ? $subdir : '');
     define('UPLOADER_RESIZE',
-	    isset($_GET['resize']) && in_array($_GET['resize'], $uploader_sizes)
-	    ? $_GET['resize'] : '');
+	    isset($_GET['uploader_resize']) && in_array($_GET['uploader_resize'], $uploader_sizes)
+	    ? $_GET['uploader_resize'] : '');
     $pcf = $plugin_cf['uploader'];
     $ptx = $plugin_tx['uploader'];
     if (!isset($_SESSION)) {session_start();}

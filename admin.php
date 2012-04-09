@@ -80,13 +80,13 @@ function uploader_admin_main() {
     global $pth, $uploader_types, $uploader_sizes;
 
     include_once $pth['folder']['plugins'].'uploader/init.php';
-    return '<div class="uploader-controls">'
+    return '<div class="uploader_controls">'
 	    .uploader_type_select('&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text')
 	    .uploader_subdir_select('&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text')
 	    .uploader_resize_select('&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text').'</div>'."\n"
 	    .'<iframe class="uploader" frameBorder="0" src="'
-		.$pth['folder']['plugins'].'uploader/uploader.php?type='
-		.UPLOADER_TYPE.'&amp;subdir='.UPLOADER_SUBDIR.'&amp;resize='.UPLOADER_RESIZE.'"></iframe>'."\n";
+		.$pth['folder']['plugins'].'uploader/uploader.php?uploader_type='
+		.UPLOADER_TYPE.'&amp;uploader_subdir='.UPLOADER_SUBDIR.'&amp;uploader_resize='.UPLOADER_RESIZE.'"></iframe>'."\n";
 }
 
 
