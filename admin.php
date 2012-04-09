@@ -80,7 +80,7 @@ function uploader_admin_main() {
     global $pth, $uploader_types, $uploader_sizes;
 
     include_once $pth['folder']['plugins'].'uploader/init.php';
-    return '<div id="uploader-controls">'
+    return '<div class="uploader-controls">'
 	    .uploader_type_select('&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text')
 	    .uploader_subdir_select('&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text')
 	    .uploader_resize_select('&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text').'</div>'."\n"

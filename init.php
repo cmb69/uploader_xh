@@ -34,12 +34,15 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 function uploader_select_onchange($params, $param) {
     global $sn;
 
+    list($params, $anchor) = explode('#', $params);
     $url = $sn.'?'.$params;
     if ($param != 'type') {$url .= '&amp;type='.urlencode(UPLOADER_TYPE);}
     if ($param != 'subdir') {$url .= '&amp;subdir='.urlencode(UPLOADER_SUBDIR);}
     if ($param != 'resize') {$url .= '&amp;resize='.urlencode(UPLOADER_RESIZE);}
     $url .= '&amp;'.$param.'=';
-    return 'window.location.href=\''.$url.'\'+encodeURIComponent(document.getElementById(\'uploader-'.$param.'\').value)';
+    $js = 'window.location.href=\''.$url.'\'+encodeURIComponent(document.getElementById(\'uploader-'.$param.'\').value)';
+    if (isset($anchor)) {$js .= '+\'#'.$anchor.'\'';}
+    return $js;
 }
 
 
