@@ -6,11 +6,9 @@ TODO
     document for developers: uploaders config.php and LANG.php has to be loaded before init.php
     document usage of uploader() (params are not safe!)
     no config of exts from back-end
-    more error messages
-
     license
 
-Version 1alpha5 - released TODO
+Version 1alpha5 - intenally released 2012-04-10
 cmb	updated to Plupload 1.5.3
 cmb	updated to jQuery 1.7.2
 cmb	added error message, if JS is disabled
