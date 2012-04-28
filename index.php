@@ -13,7 +13,7 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 }
 
 
-define('UPLOADER_VERSION', '1alpha6');
+define('UPLOADER_VERSION', '1alpha7');
 
 
 /**

@@ -4,6 +4,10 @@ TODO
     uploader localization from back-end???
     styling of uploader widget from back-end???
 
+    remove "no support otherwise" clause
+
+Version 1alpha7 - released TODO
+
 Version 1alpha6 - released 2012-04-28
 cmb	updated to Plupload 1.5.4
 cmb	added danish translation (contributed by maeg)
