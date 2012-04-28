@@ -10,6 +10,7 @@ cmb	added danish translation (contributed by maeg)
 cmb	added including of config and language file from init.php
 cmb	adjusted system check to current requirements
 cmb	added custom resize parameters for use by other plugins (suggested by Holger)
+cmb	made several uploaders independent
 cmb	made minor improvements
 cmb	updated manual
 

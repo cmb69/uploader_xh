@@ -28,7 +28,7 @@ header("Pragma: no-cache");
 
 // Settings
 //$targetDir = ini_get("upload_tmp_dir") . DIRECTORY_SEPARATOR . "plupload";
-$targetDir = $_SESSION['uploader_folder'][$_SESSION['uploader_type']].$_SESSION['uploader_subdir'];
+$targetDir = $_SESSION['uploader_folder'][$_GET['type']].$_GET['subdir'];
 
 //$cleanupTargetDir = false; // Remove old files
 //$maxFileAge = 60 * 60; // Temp file age in seconds

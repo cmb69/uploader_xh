@@ -14,12 +14,12 @@ if (!isset($_SESSION['uploader_runtimes'])) {
 }
 
 
-$_SESSION['uploader_type'] = isset($_GET['uploader_type']) && isset($_SESSION['uploader_folder'][$_GET['uploader_type']])
-	? $_GET['uploader_type'] : 'images';
+define('TYPE', isset($_GET['uploader_type']) && isset($_SESSION['uploader_folder'][$_GET['uploader_type']])
+	? $_GET['uploader_type'] : 'images');
 $subdir = !isset($_GET['uploader_subdir']) ? ''
 	: preg_replace('/\.\.[\/\\\\]?/', '', get_magic_quotes_gpc() ? stripslashes($_GET['uploader_subdir']) : $_GET['uploader_subdir']);
-$_SESSION['uploader_subdir'] = is_dir($_SESSION['uploader_folder'][$_SESSION['uploader_type']].$subdir)
-	? $subdir : '';
+define('SUBDIR', is_dir($_SESSION['uploader_folder'][TYPE].$subdir)
+	? $subdir : '');
 define('RESIZE',
 	isset($_GET['uploader_resize']) && in_array($_GET['uploader_resize'], array('small', 'medium', 'large', 'custom'))
 	? $_GET['uploader_resize'] : '');
@@ -48,7 +48,7 @@ foreach (array('width', 'height', 'quality') as $name) {
     jQuery(function() {
 	jQuery("#uploader").pluploadQueue({
 	    runtimes : '<?php echo $_SESSION['uploader_runtimes']?>',
-	    url : 'lib/upload.php',
+	    url : 'lib/upload.php?type=<?php echo TYPE?>&subdir=<?php echo SUBDIR?>',
 	    max_file_size : '<?php echo $_SESSION['uploader_max_size']?>',
 	    <?php echo $_SESSION['uploader_chunking']?>
 <?php if (defined('WIDTH') && defined('HEIGHT') && defined('QUALITY')) {?>
@@ -65,8 +65,8 @@ foreach (array('width', 'height', 'quality') as $name) {
 	    },
 <?php }?>
 	    filters : [{
-		title : '<?php echo $_SESSION['uploader_title'][$_SESSION['uploader_type']]?>',
-		extensions : '<?php echo $_SESSION['uploader_exts'][$_SESSION['uploader_type']]?>'
+		title : '<?php echo $_SESSION['uploader_title'][TYPE]?>',
+		extensions : '<?php echo $_SESSION['uploader_exts'][TYPE]?>'
 	    }],
 	    flash_swf_url : 'lib/plupload.flash.swf',
 	    silverlight_xap_url : 'lib/plupload.silverlight.xap',
