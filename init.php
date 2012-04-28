@@ -66,16 +66,19 @@ function uploader_subdir_select_rec($parent) {
 
     $o = '';
     $dn = $pth['folder'][UPLOADER_TYPE].$parent;
-    $dh = opendir($dn); // TODO: error handling
-    while (($fn = readdir($dh)) !== FALSE) {
-	if (strpos($fn, '.') !== 0 && is_dir($pth['folder'][UPLOADER_TYPE].$parent.$fn)) {
-	    $dir = $parent.$fn.'/';
-	    $sel = $dir == UPLOADER_SUBDIR ? ' selected="selected"' : '';
-	    $o .= '<option value="'.$dir.'"'.$sel.'>'.$dir.'</option>'."\n";
-	    $o .= uploader_subdir_select_rec($dir);
+    if (($dh = opendir($dn)) !== FALSE) {
+	while (($fn = readdir($dh)) !== FALSE) {
+	    if (strpos($fn, '.') !== 0 && is_dir($pth['folder'][UPLOADER_TYPE].$parent.$fn)) {
+		$dir = $parent.$fn.'/';
+		$sel = $dir == UPLOADER_SUBDIR ? ' selected="selected"' : '';
+		$o .= '<option value="'.$dir.'"'.$sel.'>'.$dir.'</option>'."\n";
+		$o .= uploader_subdir_select_rec($dir);
+	    }
 	}
+	closedir($dh);
+    } else {
+	e('cntopen', 'folder', $dn);
     }
-    closedir($dh);
     return $o;
 }
 
