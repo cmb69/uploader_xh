@@ -9,10 +9,6 @@
 
 $plugin_tx['uploader']['utf-8-marker']="äöüßľščťžýáíéňôß";
 $plugin_tx['uploader']['menu_main']="Upload";
-$plugin_tx['uploader']['title_images']="Obrázky";
-$plugin_tx['uploader']['title_downloads']="Súbory na stiahnutie";
-$plugin_tx['uploader']['title_media']="Mediálne súbory";
-$plugin_tx['uploader']['title_userfiles']="Užívateľské súbory";
 $plugin_tx['uploader']['label_type']="Typ";
 $plugin_tx['uploader']['label_subdir']="Podadresáre";
 $plugin_tx['uploader']['label_resize']="Zmeniť veľkosť";

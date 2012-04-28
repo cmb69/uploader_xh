@@ -8,10 +8,6 @@
  */
 
 $plugin_tx['uploader']['menu_main']="Upload";
-$plugin_tx['uploader']['title_images']="Billed filer";
-$plugin_tx['uploader']['title_downloads']="Downloadmulige filer";
-$plugin_tx['uploader']['title_media']="Medie filer";
-$plugin_tx['uploader']['title_userfiles']="Bruger filer";
 $plugin_tx['uploader']['label_type']="Type";
 $plugin_tx['uploader']['label_subdir']="Undermappe";
 $plugin_tx['uploader']['label_resize']="Resize";

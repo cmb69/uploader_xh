@@ -111,7 +111,7 @@ function uploader_resize_select($params, $anchor = NULL) {
  * @return void
  */
 function uploader_init() {
-    global $pth, $sl, $cf, $plugin_cf, $plugin_tx, $uploader_types, $uploader_sizes;
+    global $pth, $sl, $cf, $tx, $plugin_cf, $plugin_tx, $uploader_types, $uploader_sizes;
 
     $uploader_types = array('images', 'downloads', 'media', 'userfiles');
     $uploader_sizes = array('', 'small', 'medium', 'large');
@@ -132,7 +132,7 @@ function uploader_init() {
     foreach ($uploader_types as $type) {
 	if (isset($pth['folder'][$type])) {
 	    $_SESSION['uploader_folder'][$type] = dirname($_SERVER['SCRIPT_FILENAME']).'/'.$pth['folder'][$type];
-	    $_SESSION['uploader_title'][$type] = $ptx['title_'.$type];
+	    $_SESSION['uploader_title'][$type] = $tx['title'][$type];
 	    $_SESSION['uploader_exts'][$type] = $pcf['ext_'.$type];
 	} else {
 	    unset($_SESSION['uploader_folder'][$type], $_SESSION['uploader_title'][$type],
