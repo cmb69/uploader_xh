@@ -57,7 +57,7 @@ SCRIPT;
  * @param string $type  The upload type ('images', 'downloads', 'media' or 'userfiles'). Use '*' to display a selectbox to the user.
  * @param string $subdir  The subfolder of the configured folder of the type. Use '*' to display a selectbox to the user.
  * @param string $resize  The resize mode ('', 'small', 'medium' or 'large'). Use '*' to display a selectbox to the user.
- * @param bool $collapsed  Wether the uploader widget should be collapsed.
+ * @param bool $collapsed  Whether the uploader widget should be collapsed.
  * @return string  The (X)HTML.
  */
 function uploader($type = 'images', $subdir = '', $resize = '', $collapsed = FALSE) {
