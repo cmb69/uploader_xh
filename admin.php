@@ -58,16 +58,18 @@ function uploader_system_check() { // RELEASE-TODO
     $o = '<h4>'.$ptx['syscheck_title'].'</h4>'
 	    .(version_compare(PHP_VERSION, UPLOADER_PHP_VERSION) >= 0 ? $ok : $fail)
 	    .'&nbsp;&nbsp;'.sprintf($ptx['syscheck_phpversion'], UPLOADER_PHP_VERSION)
-	    .tag('br').tag('br')."\n";
+	    .tag('br')."\n";
     foreach (array('date', 'pcre', 'session') as $ext) {
 	$o .= (extension_loaded($ext) ? $ok : $fail)
 		.'&nbsp;&nbsp;'.sprintf($ptx['syscheck_extension'], $ext).tag('br')."\n";
     }
-    $o .= tag('br').(!get_magic_quotes_runtime() ? $ok : $fail)
-	    .'&nbsp;&nbsp;'.$ptx['syscheck_magic_quotes'].tag('br')."\n";
+    $o .= (!get_magic_quotes_runtime() ? $ok : $fail)
+	    .'&nbsp;&nbsp;'.$ptx['syscheck_magic_quotes'].tag('br').tag('br')."\n";
     $o .= (strtoupper($tx['meta']['codepage']) == 'UTF-8' ? $ok : $warn)
-	    .'&nbsp;&nbsp;'.$ptx['syscheck_encoding'].tag('br').tag('br')."\n";
-    foreach (array('config/', 'css/', 'languages/', 'lib/i18n/') as $folder) {
+	    .'&nbsp;&nbsp;'.$ptx['syscheck_encoding'].tag('br')."\n";
+    $o .= (file_exists($pth['folder']['plugins'].'jquery/jquery.inc.php') ? $ok : $fail)
+	    .'&nbsp;&nbsp;'.$ptx['syscheck_jquery'].tag('br').tag('br')."\n";
+    foreach (array('config/', 'css/', 'languages/') as $folder) {
 	$folder = $pth['folder']['plugins'].'uploader/'.$folder;
 	$o .= (is_writable($folder) ? $ok : $warn)
 		.'&nbsp;&nbsp;'.sprintf($ptx['syscheck_writable'], $folder).tag('br')."\n";

@@ -4,12 +4,13 @@ TODO
     uploader localization from back-end???
 
     document usage of uploader() (params are not safe!)
-    no config of exts from back-end?
     license
 
 Version 1alpha6 - released TODO
 cmb	updated to Plupload 1.5.4
 cmb	added danish translation (contributed by maeg)
+cmb	added including of config and language file from init.php
+cmb	adjusted system check to current requirements
 
 Version 1alpha5 - intenally released 2012-04-10
 cmb	updated to Plupload 1.5.3

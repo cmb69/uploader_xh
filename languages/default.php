@@ -14,8 +14,9 @@ $plugin_tx['uploader']['label_resize']="Resize";
 $plugin_tx['uploader']['syscheck_title']="System check";
 $plugin_tx['uploader']['syscheck_phpversion']="PHP version ≥ %s";
 $plugin_tx['uploader']['syscheck_extension']="Extension '%s' loaded";
-$plugin_tx['uploader']['syscheck_encoding']="Encoding 'UTF-8' configured";
 $plugin_tx['uploader']['syscheck_magic_quotes']="Magic quotes runtime off";
+$plugin_tx['uploader']['syscheck_encoding']="Encoding 'UTF-8' configured";
+$plugin_tx['uploader']['syscheck_jquery']="<a href=\"http://www.cmsimple-xh.com/wiki/doku.php/plugins:jquery4cmsimple\">jQuery4CMSimple plugin</a> installed";
 $plugin_tx['uploader']['syscheck_writable']="Folder '%s' writable";
 
 $plugin_tx['uploader']['cf_resize-small_width']="The maximum width for small resizing.";
