@@ -1,9 +1,8 @@
 TODO
     defaultconfig.php?
     translation-hints
-    uploader localization from back-end
+    uploader localization from back-end???
 
-    document for developers: uploaders config.php and LANG.php has to be loaded before init.php
     document usage of uploader() (params are not safe!)
     no config of exts from back-end?
     license

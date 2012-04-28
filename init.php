@@ -152,6 +152,20 @@ function uploader_init() {
 }
 
 
+/**
+ * Include config and language file, if not already done.
+ */
+if (!isset($plugin_cf['uploader'])) {
+    include $pth['folder']['plugins'].'config/config.php';
+}
+if (!isset($plugin_tx['uploader'])) {
+    include $pth['folder']['plugins'].'languages/'.$sl.'.php';
+}
+
+
+/**
+ * Initialize the uploader.
+ */
 uploader_init();
 
 ?>
