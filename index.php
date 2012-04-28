@@ -65,21 +65,21 @@ function uploader($type = 'images', $subdir = '', $resize = '', $collapsed = FAL
     static $run = 0;
 
     if ($collapsed) {
-	uploader_toggle($run, !($type === TRUE && isset($_GET['uploader_type'])
-		|| $subdir === TRUE && isset($_GET['uploader_subdir'])
-		|| $resize === TRUE && isset($_GET['uploader_resize'])));
+	uploader_toggle($run, !($type == '*' && isset($_GET['uploader_type'])
+		|| $subdir == '*' && isset($_GET['uploader_subdir'])
+		|| $resize == '*' && isset($_GET['uploader_resize'])));
     }
     include_once $pth['folder']['plugins'].'uploader/init.php';
     $url = $pth['folder']['plugins'].'uploader/uploader.php?uploader_type='
-	    .($type === TRUE ? UPLOADER_TYPE : $type).'&amp;uploader_subdir='
-	    .($subdir === TRUE ? UPLOADER_SUBDIR : $subdir).'&amp;uploader_resize='
-	    .($resize === TRUE ? UPLOADER_RESIZE : $resize);
+	    .($type == '*' ? UPLOADER_TYPE : $type).'&amp;uploader_subdir='
+	    .($subdir == '*' ? UPLOADER_SUBDIR : $subdir).'&amp;uploader_resize='
+	    .($resize == '*' ? UPLOADER_RESIZE : $resize);
     $anchor = 'uploader_container'.$run;
     $o = '<div id="'.$anchor.'">'."\n"
 	    .'<div class="uploader_controls">'
-	    .($type === TRUE ? uploader_type_select($su, $anchor) : '')
-	    .($subdir === TRUE ? uploader_subdir_select($su, $anchor) : '')
-	    .($resize === TRUE ? uploader_resize_select($su, $anchor) : '')
+	    .($type == '*' ? uploader_type_select($su, $anchor) : '')
+	    .($subdir == '*' ? uploader_subdir_select($su, $anchor) : '')
+	    .($resize == '*' ? uploader_resize_select($su, $anchor) : '')
 	    .'</div>'."\n"
 	    .'<iframe src="'.$url.'" frameBorder="0" class="uploader"></iframe>'."\n"
 	    .'</div>'."\n";
