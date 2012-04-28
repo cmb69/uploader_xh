@@ -127,7 +127,7 @@ function uploader_init() {
 	    ? $_GET['uploader_resize'] : '');
     $pcf = $plugin_cf['uploader'];
     $ptx = $plugin_tx['uploader'];
-    if (!isset($_SESSION)) {session_start();}
+    if (session_id() == '') {session_start();}
     $_SESSION['uploader_runtimes'] = $pcf['runtimes'];
     foreach ($uploader_types as $type) {
 	if (isset($pth['folder'][$type])) {

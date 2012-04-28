@@ -116,7 +116,7 @@ as soon he's given access to the upload widget, if he calls the appropriate URL 
 '*' will display a selectbox to the user. Defaults to 'images'.</dd>
 </dl>
 <dt>%SUBDIR%</dt>
-<dd>The subfolder relative to the type's folder (set in CMSimple's configuration)
+<dd>The subfolder (terminated by /) relative to the type's folder (set in CMSimple's configuration)
 where the files should be uploaded to. Note that the subfolder has to exist.
 '*' will display a selectbox to the user. Defaults to ''.</dd>
 <dt>%RESIZE%</dt>
@@ -158,14 +158,17 @@ The exact sizes can be set in Uploader_XH's configuration.</dd>
 </li>
 <li><h4>Usage</h4>
 <p>Just browse to /plugins/uploader/uploader.php in an IFrame or new window.
-The uploader script processes three query parameters:</p>
+The uploader script processes several query parameters:</p>
 <dl>
-<dt>type</dt>
+<dt>uploader_type</dt>
 <dd>"images", "downloads", "userfiles" or "media".</dd>
-<dt>subdir</dt>
+<dt>uploader_subdir</dt>
 <dd>The sub-folder of the type's folder terminated by a "/".</dd>
-<dt>resize</dt>
-<dd>"", "small", "medium" or "large".</dd>
+<dt>uploader_resize</dt>
+<dd>"", "small", "medium", "large" or "custom".</dd>
+<dt>uploader_width, uploader_height and uploader_quality</dt>
+<dd>Only used when uploader_resize=custom.
+The width, height and quality (integer values) for the resize operation.</dd>
 </dl>
 </li>
 </ol>
@@ -196,7 +199,8 @@ Many thanks for making these icons freely available.</p>
 <p>Many thanks to the community at the <a href="http://www.cmsimpleforum.com">CMSimple forum</a>
 for tips, suggestions and testing.
 Particularly I want to thank twc, who made me aware of Plupload,
-and wolfgang_58 and Tata for testing and reporting bugs.</p>
+and wolfgang_58 and Tata for testing and reporting bugs.
+And many thanks to Holger, who tested the API and helped improving it.</p>
 <p>And many thanks to <a href="http://harteg.dk">Peter Harteg</a>,
 the "father" of CMSimple, and all developers of <a href="http://www.cmsimple-xh.com">
 CMSimple_XH</a> without whom this amazing CMS wouldn't exist.</p>

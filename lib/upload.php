@@ -11,7 +11,7 @@
  */
 
 
-if (!isset($_SESSION)) {session_start();}
+session_start();
 
 if (!isset($_SESSION['uploader_runtimes'])) {
     header('HTTP/1.0 403 Forbidden');
