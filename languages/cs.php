@@ -1,10 +1,19 @@
 <?php
 
-$plugin_tx['uploader']['utf-8-marker']="äöüßě";
 $plugin_tx['uploader']['menu_main']="Upload";
 $plugin_tx['uploader']['label_type']="Typ";
 $plugin_tx['uploader']['label_subdir']="Podadresáře";
 $plugin_tx['uploader']['label_resize']="Změnit velikost";
+$plugin_tx['uploader']['label_expand']="Upload";
+$plugin_tx['uploader']['label_collapse']="Zavřít";
+$plugin_tx['uploader']['message_no_js']="Pro upload misí být povolen ve vašem prohlížeči Javascript!";
+$plugin_tx['uploader']['syscheck_title']="Kontrola systému";
+$plugin_tx['uploader']['syscheck_phpversion']="PHP verze &ge; %s";
+$plugin_tx['uploader']['syscheck_extension']="Rozšíření '%s' načteno";
+$plugin_tx['uploader']['syscheck_magic_quotes']="Magic quotes runtime off";
+$plugin_tx['uploader']['syscheck_encoding']="Kodovaní 'UTF-8' nastaveno";
+$plugin_tx['uploader']['syscheck_jquery']="<a href=\"http://www.cmsimple-xh.com/wiki/doku.php/plugins:jquery4cmsimple\">jQuery4CMSimple plugin</a> instalováno";
+$plugin_tx['uploader']['syscheck_writable']="Adresář '%s' umožňuje zápis";
 $plugin_tx['uploader']['cf_resize-small_width']="Maximální šířka pro změnu malých.";
 $plugin_tx['uploader']['cf_resize-small_height']="Maximální výška pro změnu malých";
 $plugin_tx['uploader']['cf_resize-small_quality']="Kvalita pro změnu malých.";
@@ -21,6 +30,5 @@ $plugin_tx['uploader']['cf_ext_downloads']="Uveďte čárkou oddělený seznam p
 $plugin_tx['uploader']['cf_ext_media']="Uveďte čárkou oddělený seznam přípon souború, které budou uploadovány do adresáře média. (CMSimple_XH 1.5 a novější).";
 $plugin_tx['uploader']['cf_ext_userfiles']="Uveďte čárkou oddělený seznam přípon souborů, které budou uploadovany do adresáře s uživatelskými soubory.";
 $plugin_tx['uploader']['cf_runtimes']="Uveďte čárkou oddělený seznam runtin, které se mají spustit při inicializaci uploaderu. Ten se pokusí inicializovat každou rutinu, aby v případě, že některá selže, mohl pokračovat s další rutinou.";
-$plugin_tx['uploader']['cf_utf-8-marker']="Pouze pro interní použití. <strong>NEMĚNIT</strong>";
 
 ?>
