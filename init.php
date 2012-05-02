@@ -116,6 +116,8 @@ function uploader_resize_select($params, $anchor = NULL) {
 function uploader_init() {
     global $pth, $sl, $cf, $tx, $plugin_cf, $plugin_tx, $uploader_types, $uploader_sizes;
 
+    $pcf = $plugin_cf['uploader'];
+    $ptx = $plugin_tx['uploader'];
     $uploader_types = array('images', 'downloads', 'media', 'userfiles');
     $uploader_sizes = array('', 'small', 'medium', 'large');
     define('UPLOADER_TYPE',
@@ -127,9 +129,7 @@ function uploader_init() {
 	    ? $subdir : '');
     define('UPLOADER_RESIZE',
 	    isset($_GET['uploader_resize']) && in_array($_GET['uploader_resize'], $uploader_sizes)
-	    ? $_GET['uploader_resize'] : '');
-    $pcf = $plugin_cf['uploader'];
-    $ptx = $plugin_tx['uploader'];
+	    ? $_GET['uploader_resize'] : $pcf['resize_default']);
     if (session_id() == '') {session_start();}
     $_SESSION['uploader_runtimes'] = $pcf['runtimes'];
     foreach ($uploader_types as $type) {

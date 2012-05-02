@@ -1,5 +1,6 @@
 <?php
 
+$plugin_cf['uploader']['resize_default']="";
 $plugin_cf['uploader']['resize-small_width']="200";
 $plugin_cf['uploader']['resize-small_height']="200";
 $plugin_cf['uploader']['resize-small_quality']="85";

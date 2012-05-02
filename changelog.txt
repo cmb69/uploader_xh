@@ -7,6 +7,7 @@ TODO
 Version 1alpha7 - released TODO
 cmb	updated czech translation (contributed by oldnema)
 cmb	fixed bug: language and config were not properly included in init.php
+cmb	added config option "resize default" (suggested by oldnema)
 cmb	made minor improvements
 
 Version 1alpha6 - released 2012-04-28
