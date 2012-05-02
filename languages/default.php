@@ -18,6 +18,7 @@ $plugin_tx['uploader']['syscheck_encoding']="Encoding 'UTF-8' configured";
 $plugin_tx['uploader']['syscheck_jquery']="<a href=\"http://www.cmsimple-xh.com/wiki/doku.php/plugins:jquery4cmsimple\">jQuery4CMSimple plugin</a> installed";
 $plugin_tx['uploader']['syscheck_writable']="Folder '%s' writable";
 
+$plugin_tx['uploader']['cf_resize_default']="The default resize mode for images: \"\" (no resize), \"small\", \"medium\" or \"large\".";
 $plugin_tx['uploader']['cf_resize-small_width']="The maximum width (in pixels) for small resizing.";
 $plugin_tx['uploader']['cf_resize-small_height']="The maximum height (in pixels) for small resizing.";
 $plugin_tx['uploader']['cf_resize-small_quality']="The quality (in percent) for small resizing.";
