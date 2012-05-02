@@ -158,11 +158,13 @@ function uploader_init() {
 /**
  * Include config and language file, if not already done.
  */
+global $sl, $pth, $plugin_cf;
+
 if (!isset($plugin_cf['uploader'])) {
-    include $pth['folder']['plugins'].'config/config.php';
+    include $pth['folder']['plugins'].'uploader/config/config.php';
 }
 if (!isset($plugin_tx['uploader'])) {
-    include $pth['folder']['plugins'].'languages/'.$sl.'.php';
+    include $pth['folder']['plugins'].'uploader/languages/'.$sl.'.php';
 }
 
 
