@@ -3,7 +3,11 @@ TODO
     translation-hints
     uploader localization from back-end???
     styling of uploader widget from back-end???
+    check: cleaning of upload file name vs. upload to base directory
 
+Version 1alpha8 - released TODO
+cmb	added: front-end upload to non-existent subdirectory creates this directory (suggested by Marco Hahn)
+    
 Version 1alpha7 - released 2012-05-02
 cmb	updated czech translation (contributed by oldnema)
 cmb	fixed bug: language and config were not properly included in init.php
@@ -20,7 +24,7 @@ cmb	made several uploaders independent
 cmb	made minor improvements
 cmb	updated manual
 
-Version 1alpha5 - intenally released 2012-04-10
+Version 1alpha5 - internally released 2012-04-10
 cmb	updated to Plupload 1.5.3
 cmb	updated to jQuery 1.7.2
 cmb	added error message, if JS is disabled

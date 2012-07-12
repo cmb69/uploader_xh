@@ -13,7 +13,7 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 }
 
 
-define('UPLOADER_VERSION', '1alpha7');
+define('UPLOADER_VERSION', '1alpha8');
 
 
 /**
@@ -64,6 +64,9 @@ function uploader($type = 'images', $subdir = '', $resize = '', $collapsed = FAL
     global $pth, $su;
     static $run = 0;
 
+    if (!file_exists($pth['folder']['images'] . $subdir)) {
+	mkdir($pth['folder']['images'] . $subdir, 0777, true); // TODO: $recursive parameter only since PHP 5
+    }
     if ($collapsed) {
 	uploader_toggle($run, !($type == '*' && isset($_GET['uploader_type'])
 		|| $subdir == '*' && isset($_GET['uploader_subdir'])
