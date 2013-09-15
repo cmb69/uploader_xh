@@ -26,6 +26,99 @@
 class Uploader_Controller
 {
     /**
+     * Returns the localization of a string.
+     *
+     * @param string $key The key of the string.
+     *
+     * @return string
+     *
+     * @global array The localization of the plugins.
+     *
+     * @access protected
+     */
+    function l10n($key)
+    {
+        global $plugin_tx;
+
+        return $plugin_tx['uploader'][$key];
+    }
+    /**
+     * Returns the path of the plugin logo.
+     *
+     * @return string
+     *
+     * @global array The paths of system files and folders.
+     *
+     * @access protected
+     */
+    function logoPath()
+    {
+        global $pth;
+
+        return $pth['folder']['plugins'] . 'uploader/uploader.png';
+    }
+
+    /**
+     * Returns the path of a system check state icon.
+     *
+     * @param string $state A system check state.
+     *
+     * @return string
+     *
+     * @global array The paths of system files and folders.
+     *
+     * @access protected
+     */
+    function stateIconPath($state)
+    {
+        global $pth;
+
+        return $pth['folder']['plugins'] . 'uploader/images/' . $state . '.png';
+    }
+
+    /**
+     * Returns the system checks.
+     *
+     * @return array
+     *
+     * @global array The paths of system files and folders.
+     * @global array The localization of the core.
+     * @global array The localization of the plugins.
+     *
+     * @access protected
+     */
+    function systemChecks()
+    {
+        global $pth, $tx, $plugin_tx;
+
+        $ptx = $plugin_tx['uploader'];
+        $phpVersion = '4.0.7';
+        $checks = array();
+        $checks[sprintf($ptx['syscheck_phpversion'], $phpVersion)]
+            = version_compare(PHP_VERSION, $phpVersion) >= 0 ? 'ok' : 'fail';
+        foreach (array('ctype', 'pcre', 'session') as $ext) {
+            $checks[sprintf($ptx['syscheck_extension'], $ext)]
+                = extension_loaded($ext) ? 'ok' : 'fail';
+        }
+        $checks[$ptx['syscheck_magic_quotes']]
+            = !get_magic_quotes_runtime() ? 'ok' : 'fail';
+        $checks[$ptx['syscheck_encoding']]
+            = strtoupper($tx['meta']['codepage']) == 'UTF-8' ? 'ok' : 'warn';
+        $checks[$ptx['syscheck_jquery']]
+            = file_exists($pth['folder']['plugins'] . 'jquery/jquery.inc.php')
+            ? 'ok' : 'fail';
+        $folders = array();
+        foreach (array('config/', 'css/', 'languages/') as $folder) {
+            $folders[] = $pth['folder']['plugins'] . 'uploader/' . $folder;
+        }
+        foreach ($folders as $folder) {
+            $checks[sprintf($ptx['syscheck_writable'], $folder)]
+                = is_writable($folder) ? 'ok' : 'warn';
+        }
+        return $checks;
+    }
+
+    /**
      * Renders a view template.
      *
      * @param string $template The name of the template.
@@ -71,7 +164,7 @@ class Uploader_Controller
         $o .= print_plugin_admin('off');
         switch ($admin) {
         case '':
-            $o .= uploader_version().tag('hr').uploader_system_check();
+            $o .= $this->render('info');
             break;
 	case 'plugin_main':
 	    $o .= uploader_admin_main();
