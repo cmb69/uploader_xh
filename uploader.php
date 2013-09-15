@@ -48,7 +48,7 @@ foreach (array('width', 'height', 'quality') as $name) {
     jQuery(function() {
 	jQuery("#uploader").pluploadQueue({
 	    runtimes : '<?php echo $_SESSION['uploader_runtimes']?>',
-	    url : 'lib/upload.php?type=<?php echo TYPE?>&subdir=<?php echo urlencode(SUBDIR)?>',
+	    url : '../../?function=uploader_upload&type=<?php echo TYPE?>&subdir=<?php echo urlencode(SUBDIR)?>',
 	    max_file_size : '<?php echo $_SESSION['uploader_max_size']?>',
 	    <?php echo $_SESSION['uploader_chunking']?>
 <?php if (defined('WIDTH') && defined('HEIGHT') && defined('QUALITY')) {?>

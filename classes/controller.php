@@ -161,7 +161,7 @@ class Uploader_Controller
     {
         global $admin, $action, $plugin, $o;
 
-        $o .= print_plugin_admin('off');
+        $o .= print_plugin_admin('on');
         switch ($admin) {
         case '':
             $o .= $this->render('info');
@@ -172,6 +172,43 @@ class Uploader_Controller
         default:
             $o .= plugin_admin_common($action, $admin, $plugin);
         }
+    }
+
+    /**
+     * Handles a file upload.
+     *
+     * @return void
+     *
+     * @global array The paths of system files and folders.
+     *
+     * @access protected
+     */
+    function handleUpload()
+    {
+        global $pth;
+
+        include_once $pth['folder']['plugins'] . 'uploader/classes/receiver.php';
+        $dir = $_SESSION['uploader_folder'][$_GET['type']] . $_GET['subdir'];
+        $filename = isset($_POST['name']) ? $_POST['name'] : '';
+        $chunks = isset($_REQUEST['chunks']) ? $_REQUEST['chunks'] : 0;
+        $chunk = isset($_REQUEST['chunk']) ? $_REQUEST['chunk'] : 0;
+        $contentType = isset($_SERVER["CONTENT_TYPE"])
+            ? $_SERVER["CONTENT_TYPE"]
+            : $_SERVER["HTTP_CONTENT_TYPE"];
+        $receiver = new Uploader_Receiver($dir, $filename, $chunks, $chunk);
+        $receiver->emitHeaders();
+        if (strpos($contentType, 'multipart') !== false) {
+            if (isset($_FILES['file']['tmp_name'])
+                && is_uploaded_file($_FILES['file']['tmp_name'])
+            ) {
+                echo $receiver->handleUpload($_FILES['file']['tmp_name']);
+            } else {
+                echo '{"jsonrpc": "2.0", "error": {"code": 103, "message": "Failed to move uploaded file."}, "id" : "id"}';
+            }
+        } else {
+            echo $receiver->handleUpload('php://input');
+        }
+        exit();
     }
 
     /**
@@ -186,10 +223,12 @@ class Uploader_Controller
      */
     function dispatch()
     {
-        global $adm, $uploader;
+        global $adm, $function, $uploader;
 
         if ($adm && isset($uploader) && $uploader == 'true') {
             $this->handleAdministration();
+        } elseif ($function == 'uploader_upload') {
+            $this->handleUpload();
         }
     }
 
