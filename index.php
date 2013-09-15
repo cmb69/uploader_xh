@@ -120,4 +120,8 @@ function uploader_admin_main() {
 }
 
 
+require_once $pth['folder']['plugin_classes'] . 'controller.php';
+$_Uploader = new Uploader_Controller();
+$_Uploader->dispatch();
+
 ?>
