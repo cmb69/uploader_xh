@@ -28,37 +28,29 @@ class Uploader_Receiver
      * The path of the destination folder.
      *
      * @var string
-     *
-     * @access protected
      */
-    var $dir;
+    protected $dir;
 
     /**
      * The name of the destination file.
      *
      * @var string
-     *
-     * @access protected
      */
-    var $filename;
+    protected $filename;
 
     /**
      * The number of chunks of the upload.
      *
      * @var int
-     *
-     * @access protected
      */
-    var $chunks;
+    protected $chunks;
 
     /**
      * The number of the currently uploaded chunk.
      *
      * @var int
-     *
-     * @access protected
      */
-    var $chunk;
+    protected $chunk;
 
     /**
      * Initialize a new object.
@@ -67,12 +59,8 @@ class Uploader_Receiver
      * @param string $filename Name of the destination file.
      * @param int    $chunks   The number of chunks of the upload.
      * @param int    $chunk    The number of the currently uploaded chunk.
-     *
-     * @return void
-     *
-     * @access public
      */
-    function Uploader_Receiver($dir, $filename, $chunks, $chunk)
+    public function __construct($dir, $filename, $chunks, $chunk)
     {
         $this->dir = $dir;
         $this->filename = $filename;
@@ -85,10 +73,8 @@ class Uploader_Receiver
      * Cleans the filename and makes it unique.
      *
      * @return void
-     *
-     * @access protected
      */
-    function cleanFilename()
+    protected function cleanFilename()
     {
         $this->filename = preg_replace('/[^\w\._]+/', '', $this->filename);
         if ($this->chunks < 2 && file_exists($this->dir . $this->filename)) {
@@ -109,10 +95,8 @@ class Uploader_Receiver
      * Emit HTTP headers.
      *
      * @return void
-     *
-     * @access public
      */
-    function emitHeaders()
+    public function emitHeaders()
     {
         header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
         header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
@@ -127,10 +111,8 @@ class Uploader_Receiver
      * @param string $filename Name of the input file.
      *
      * @return string JSON response.
-     *
-     * @access public
      */
-    function handleUpload($filename)
+    public function handleUpload($filename)
     {
         $out = fopen(
             $this->dir . '/' . $this->filename,
