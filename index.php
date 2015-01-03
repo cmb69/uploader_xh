@@ -3,7 +3,7 @@
 
 /**
  * Front-end functionality of Uploader_XH.
- * Copyright (c) 2011-2012 Christoph M. Becker (see license.txt)
+ * Copyright (c) 2011-2015 Christoph M. Becker (see license.txt)
  */
 
 

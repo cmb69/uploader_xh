@@ -3,7 +3,7 @@
 /**
  * Initialization of Uploader_XH.
  *
- * Copyright (c) by 2011-2012 Christoph M. Becker
+ * Copyright (c) by 2011-2015 Christoph M. Becker
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal

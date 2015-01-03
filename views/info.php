@@ -13,7 +13,7 @@
 <img src="<?php echo $this->logoPath();?>" width="128" height="128" alt="plugin
 logo" style="float: left; margin: 10px 10px 10px 0"/>
 <p>Version: <?php echo UPLOADER_VERSION;?></p>
-<p>Copyright &copy; 2011-2013 <a href="http://3-magi.net/">Christoph M. Becker</a></p>
+<p>Copyright &copy; 2011-2015 <a href="http://3-magi.net/">Christoph M. Becker</a></p>
 <p>Uploader_XH is powered by <a href="http://www.plupload.com/">Plupload</a>.</p>
 <p style="text-align: justify">This program is free software: you can
 redistribute it and/or modify it under the terms of the GNU General Public
