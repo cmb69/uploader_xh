@@ -1,16 +1,16 @@
 <!-- Uploader_XH: info -->
-<h4><?php echo $this->l10n('syscheck_title');?></h4>
+<h4><?php echo self::l10n('syscheck_title');?></h4>
 <ul style="list-style: none">
-<?php foreach ($this->systemChecks() as $check => $state):?>
+<?php foreach (self::systemChecks() as $check => $state):?>
     <li>
-        <img src="<?php echo $this->stateIconPath($state);?>" alt="<?php echo $state;?>"
+        <img src="<?php echo self::stateIconPath($state);?>" alt="<?php echo $state;?>"
              style="margin: 0; height: 1em; padding-right: 1em"/>
         <span><?php echo $check;?></span>
     </li>
 <?php endforeach;?>
 </ul>
-<h4><?php echo $this->l10n('about');?></h4>
-<img src="<?php echo $this->logoPath();?>" width="128" height="128" alt="plugin
+<h4><?php echo self::l10n('about');?></h4>
+<img src="<?php echo self::logoPath();?>" width="128" height="128" alt="plugin
 logo" style="float: left; margin: 10px 10px 10px 0"/>
 <p>Version: <?php echo UPLOADER_VERSION;?></p>
 <p>Copyright &copy; 2011-2015 <a href="http://3-magi.net/">Christoph M. Becker</a></p>

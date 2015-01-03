@@ -14,7 +14,7 @@
  */
 
 /**
- * The controller class.
+ * The controller.
  *
  * @category CMSimple_XH
  * @package  Uploader
@@ -35,7 +35,7 @@ class Uploader_Controller
      *
      * @access protected
      */
-    function l10n($key)
+    protected static function l10n($key)
     {
         global $plugin_tx;
 
@@ -50,7 +50,7 @@ class Uploader_Controller
      *
      * @access protected
      */
-    function logoPath()
+    protected static function logoPath()
     {
         global $pth;
 
@@ -68,7 +68,7 @@ class Uploader_Controller
      *
      * @access protected
      */
-    function stateIconPath($state)
+    protected static function stateIconPath($state)
     {
         global $pth;
 
@@ -86,7 +86,7 @@ class Uploader_Controller
      *
      * @access protected
      */
-    function systemChecks()
+    protected static function systemChecks()
     {
         global $pth, $tx, $plugin_tx;
 
@@ -129,7 +129,7 @@ class Uploader_Controller
      *
      * @access protected
      */
-    function render($template)
+    protected static function render($template)
     {
         global $pth, $cf;
 
@@ -156,14 +156,14 @@ class Uploader_Controller
      *
      * @access protected
      */
-    function handleAdministration()
+    protected static function handleAdministration()
     {
         global $admin, $action, $plugin, $o;
 
         $o .= print_plugin_admin('on');
         switch ($admin) {
         case '':
-            $o .= $this->render('info');
+            $o .= self::render('info');
             break;
         case 'plugin_main':
             $o .= Uploader_adminMain();
@@ -182,7 +182,7 @@ class Uploader_Controller
      *
      * @access protected
      */
-    function handleUpload()
+    protected static function handleUpload()
     {
         global $pth;
 
@@ -220,16 +220,16 @@ class Uploader_Controller
      *
      * @access public
      */
-    function dispatch()
+    public static function dispatch()
     {
         global $adm, $function, $uploader;
 
         if ($adm && isset($uploader) && $uploader == 'true') {
-            $this->handleAdministration();
+            self::handleAdministration();
         } elseif ($function == 'uploader_upload') {
-            $this->handleUpload();
+            self::handleUpload();
         }
     }
-
-
 }
+
+?>

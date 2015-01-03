@@ -176,7 +176,6 @@ function Uploader_adminMain()
         . '&amp;uploader_resize=' . UPLOADER_RESIZE . '"></iframe>' . "\n";
 }
 
-$_Uploader = new Uploader_Controller();
-$_Uploader->dispatch();
+Uploader_Controller::dispatch();
 
 ?>
