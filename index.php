@@ -176,7 +176,6 @@ function Uploader_adminMain()
         . '&amp;uploader_resize=' . UPLOADER_RESIZE . '"></iframe>' . "\n";
 }
 
-require_once $pth['folder']['plugin_classes'] . 'controller.php';
 $_Uploader = new Uploader_Controller();
 $_Uploader->dispatch();
 

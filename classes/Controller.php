@@ -186,7 +186,6 @@ class Uploader_Controller
     {
         global $pth;
 
-        include_once $pth['folder']['plugins'] . 'uploader/classes/receiver.php';
         $dir = $_SESSION['uploader_folder'][$_GET['type']] . $_GET['subdir'];
         $filename = isset($_POST['name']) ? $_POST['name'] : '';
         $chunks = isset($_REQUEST['chunks']) ? $_REQUEST['chunks'] : 0;
