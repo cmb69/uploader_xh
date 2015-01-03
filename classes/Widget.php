@@ -81,9 +81,16 @@ class Uploader_Widget
     protected $imageFolder;
 
     /**
+     * The language filepath.
+     *
+     * @var string
+     */
+    protected $languageFile;
+
+    /**
      * Initializes a new instance.
      *
-     * @global array The paths of system files and folders.
+     * @global array  The paths of system files and folders.
      */
     public function __construct()
     {
@@ -122,6 +129,8 @@ class Uploader_Widget
         }
         $this->libFolder = $pth['folder']['plugins'] . 'uploader/lib/';
         $this->imageFolder = $pth['folder']['plugins'] . 'uploader/images/';
+        $this->languageFile = $this->libFolder . 'i18n/'
+            . $_SESSION['uploader_lang'] . '.js';
     }
 
     /**

@@ -7,8 +7,8 @@
     <script type="text/javascript" src="<?php echo $this->libFolder?>jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="http://bp.yahooapis.com/2.4.21/browserplus-min.js"></script>
     <script type="text/javascript" src="<?php echo $this->libFolder?>plupload.full.js"></script>
-<?php if (file_exists($this->libFolder . 'i18n/' . $_SESSION['uploader_lang'] . '.js')):?>
-    <script type="text/javascript" src="<?php echo $this->libFolder?>i18n/<?php echo $_SESSION['uploader_lang']?>.js"></script>
+<?php if (file_exists($this->languageFile)):?>
+    <script type="text/javascript" src="<?php echo $this->languageFile?>"></script>
 <?php endif?>
     <script type="text/javascript" src="<?php echo $this->libFolder?>jquery.plupload.queue/jquery.plupload.queue.js"></script>
     <script type="text/javascript">
@@ -19,7 +19,7 @@
 	    url: '?function=uploader_upload&type=<?php echo $this->type?>&subdir=<?php echo urlencode($this->subdir)?>',
 	    max_file_size: '<?php echo $_SESSION['uploader_max_size']?>',
 	    <?php echo $_SESSION['uploader_chunking']?>
-<?php if (isset($this->width) && isset($this->height) && isset($this->quality)):?>
+<?php if (isset($this->width, $this->height, $this->quality)):?>
 	    resize: {
 		width: <?php echo $this->width?>,
 		height: <?php echo $this->height?>,
