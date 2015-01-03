@@ -3,14 +3,13 @@
 /**
  * Controller of Uploader_XH.
  *
- * PHP versions 4 and 5
+ * PHP version 5
  *
  * @category  CMSimple_XH
  * @package   Uploader
  * @author    Christoph M. Becker <cmbecker69@gmx.de>
  * @copyright 2011-2015 Christoph M. Becker <http://3-magi.net/>
  * @license   http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @version   SVN: $Id$
  * @link      http://3-magi.net/?CMSimple_XH/Uploader_XH
  */
 
@@ -166,8 +165,8 @@ class Uploader_Controller
         case '':
             $o .= $this->render('info');
             break;
-	case 'plugin_main':
-	    $o .= uploader_admin_main();
+        case 'plugin_main':
+            $o .= Uploader_adminMain();
             break;
         default:
             $o .= plugin_admin_common($action, $admin, $plugin);
@@ -203,7 +202,8 @@ class Uploader_Controller
             ) {
                 echo $receiver->handleUpload($_FILES['file']['tmp_name']);
             } else {
-                echo '{"jsonrpc": "2.0", "error": {"code": 103, "message": "Failed to move uploaded file."}, "id" : "id"}';
+                echo '{"jsonrpc": "2.0", "error": {"code": 103, "message":',
+                    '"Failed to move uploaded file."}, "id" : "id"}';
             }
         } else {
             echo $receiver->handleUpload('php://input');

@@ -3,14 +3,13 @@
 /**
  * Receiver of Uploader_XH.
  *
- * PHP versions 4 and 5
+ * PHP version 5
  *
  * @category  CMSimple_XH
  * @package   Uploader
  * @author    Christoph M. Becker <cmbecker69@gmx.de>
  * @copyright 2011-2015 Christoph M. Becker <http://3-magi.net/>
  * @license   http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @version   SVN: $Id$
  * @link      http://3-magi.net/?CMSimple_XH/Uploader_XH
  */
 
@@ -66,6 +65,10 @@ class Uploader_Receiver
      *
      * @param string $dir      Path of the destination folder.
      * @param string $filename Name of the destination file.
+     * @param int    $chunks   The number of chunks of the upload.
+     * @param int    $chunk    The number of the currently uploaded chunk.
+     *
+     * @return void
      *
      * @access public
      */
@@ -121,7 +124,7 @@ class Uploader_Receiver
     /**
      * Handles the file upload.
      *
-     * @param string $file Name of the input file.
+     * @param string $filename Name of the input file.
      *
      * @return string JSON response.
      *
@@ -129,11 +132,11 @@ class Uploader_Receiver
      */
     function handleUpload($filename)
     {
-	$out = fopen(
+        $out = fopen(
             $this->dir . '/' . $this->filename,
             $this->chunk == 0 ? 'wb' : 'ab'
         );
-	if ($out) {
+        if ($out) {
             $in = fopen($filename, 'rb');
             if ($in) {
                 while ($buff = fread($in, 4096)) {
@@ -146,10 +149,10 @@ class Uploader_Receiver
             }
             fclose($in);
             fclose($out);
-	} else {
-	    return '{"jsonrpc": "2.0", "error": {"code": 102, "message":'
+        } else {
+            return '{"jsonrpc": "2.0", "error": {"code": 102, "message":'
                 . ' "Failed to open output stream."}, "id" : "id"}';
-	}
+        }
     }
 }
 
