@@ -32,8 +32,6 @@ class Uploader_Controller
      * @return string
      *
      * @global array The localization of the plugins.
-     *
-     * @access protected
      */
     protected static function l10n($key)
     {
@@ -47,8 +45,6 @@ class Uploader_Controller
      * @return string
      *
      * @global array The paths of system files and folders.
-     *
-     * @access protected
      */
     protected static function logoPath()
     {
@@ -65,8 +61,6 @@ class Uploader_Controller
      * @return string
      *
      * @global array The paths of system files and folders.
-     *
-     * @access protected
      */
     protected static function stateIconPath($state)
     {
@@ -83,8 +77,6 @@ class Uploader_Controller
      * @global array The paths of system files and folders.
      * @global array The localization of the core.
      * @global array The localization of the plugins.
-     *
-     * @access protected
      */
     protected static function systemChecks()
     {
@@ -126,8 +118,6 @@ class Uploader_Controller
      *
      * @global array The paths of system files and folders.
      * @global array The configuration of the core.
-     *
-     * @access protected
      */
     protected static function render($template)
     {
@@ -153,8 +143,6 @@ class Uploader_Controller
      * @global string The value of the "action" GET or POST parameter.
      * @global string The name of the plugin.
      * @global string The (X)HTML to be placed in the contents area.
-     *
-     * @access protected
      */
     protected static function handleAdministration()
     {
@@ -179,8 +167,6 @@ class Uploader_Controller
      * @return void
      *
      * @global array The paths of system files and folders.
-     *
-     * @access protected
      */
     protected static function handleUpload()
     {
@@ -217,8 +203,6 @@ class Uploader_Controller
      *
      * @global bool   Whether the user is logged in as admin.
      * @global string Whether the plugin administration is requested.
-     *
-     * @access public
      */
     public static function dispatch()
     {
@@ -226,6 +210,10 @@ class Uploader_Controller
 
         if ($adm && isset($uploader) && $uploader == 'true') {
             self::handleAdministration();
+        } elseif ($function == 'uploader_widget') {
+            $widget = new Uploader_Widget();
+            echo $widget->render();
+            exit;
         } elseif ($function == 'uploader_upload') {
             self::handleUpload();
         }

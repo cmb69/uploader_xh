@@ -5,7 +5,6 @@
     <fileset id="php-sources" dir=".">
         <include name="index.php"/>
         <include name="init.php"/>
-        <include name="uploader.php"/>
         <include name="classes/*.php"/>
     </fileset>
 

@@ -106,7 +106,7 @@ function uploader($type = 'images', $subdir = '', $resize = '', $collapsed = fal
         );
     }
     include_once $pth['folder']['plugins'] . 'uploader/init.php';
-    $url = $pth['folder']['plugins'] . 'uploader/uploader.php?uploader_type='
+    $url = '?function=uploader_widget&amp;uploader_type='
         . ($type == '*' ? UPLOADER_TYPE : $type) . '&amp;uploader_subdir='
         . ($subdir == '*' ? UPLOADER_SUBDIR : $subdir) . '&amp;uploader_resize='
         . ($resize == '*' ? UPLOADER_RESIZE : $resize);
@@ -171,7 +171,7 @@ function Uploader_adminMain()
         )
         . '</div>' . "\n"
         . '<iframe class="uploader" frameBorder="0" src="'
-        . $pth['folder']['plugins'] . 'uploader/uploader.php?uploader_type='
+        . '?function=uploader_widget&amp;uploader_type='
         . UPLOADER_TYPE . '&amp;uploader_subdir=' . UPLOADER_SUBDIR
         . '&amp;uploader_resize=' . UPLOADER_RESIZE . '"></iframe>' . "\n";
 }

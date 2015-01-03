@@ -10,7 +10,6 @@
             <directory suffix=".php">classes</directory>
             <file>index.php</file>
             <file>init.php</file>
-            <file>uploader.php</file>
         </whitelist>
     </filter>
     <logging>
