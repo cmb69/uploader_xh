@@ -214,7 +214,7 @@ class Uploader_Controller
             $widget = new Uploader_Widget();
             echo $widget->render();
             exit;
-        } elseif ($function == 'uploader_upload') {
+        } elseif ($adm && $function == 'uploader_upload') {
             self::handleUpload();
         }
     }
