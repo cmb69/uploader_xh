@@ -15,10 +15,12 @@
     /* <![CDATA[ */
     jQuery(function() {
 	jQuery("#uploader").pluploadQueue({
-	    runtimes: '<?php echo $_SESSION['uploader_runtimes']?>',
+	    runtimes: '<?php echo $this->config['runtimes']?>',
 	    url: '?function=uploader_upload&type=<?php echo $this->type?>&subdir=<?php echo urlencode($this->subdir)?>',
-	    max_file_size: '<?php echo $_SESSION['uploader_max_size']?>',
-	    <?php echo $_SESSION['uploader_chunking']?>
+	    max_file_size: '<?php echo $this->config['size_max']?>',
+<?php if (!empty($this->config['size_chunk'])):?>
+	    chunk_size: '<?php echo $this->config['size_chunk']?>',
+<?php endif?>
 <?php if (isset($this->width, $this->height, $this->quality)):?>
 	    resize: {
 		width: <?php echo $this->width?>,
@@ -27,14 +29,14 @@
 	    },
 <?php elseif ($this->resize != ''):?>
 	    resize: {
-		width: <?php echo $_SESSION['uploader_resize'][$this->resize]['width']?>,
-		height: <?php echo $_SESSION['uploader_resize'][$this->resize]['height']?>,
-		quality: <?php echo $_SESSION['uploader_resize'][$this->resize]['quality'], "\n"?>
+		width: <?php echo $this->config['resize-' . $this->resize . '_width']?>,
+		height: <?php echo $this->config['resize-' . $this->resize . '_height']?>,
+		quality: <?php echo $this->config['resize-' . $this->resize . '_quality'], "\n"?>
 	    },
 <?php endif?>
 	    filters: [{
-		title: '<?php echo $_SESSION['uploader_title'][$this->type]?>',
-		extensions: '<?php echo $_SESSION['uploader_exts'][$this->type]?>'
+		title: '<?php echo $this->l10n['title_' . $this->type]?>',
+		extensions: '<?php echo $this->config['ext_' . $this->type]?>'
 	    }],
 	    flash_swf_url: '<?php echo $this->libFolder?>plupload.flash.swf',
 	    silverlight_xap_url: '<?php echo $this->libFolder?>plupload.silverlight.xap',
@@ -68,7 +70,7 @@
 	    <script type="text/javascript">
 		jQuery('#uploader img').show()
 	    </script>
-	    <noscript><?php echo $_SESSION['uploader_message']['no_js']?></noscript>
+	    <noscript><?php echo $this->l10n['message_no_js']?></noscript>
 	</div>
     </form>
 </body>

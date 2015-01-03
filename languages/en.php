@@ -8,6 +8,11 @@ $plugin_tx['uploader']['label_resize']="Resize";
 $plugin_tx['uploader']['label_expand']="Upload";
 $plugin_tx['uploader']['label_collapse']="Close";
 
+$plugin_tx['uploader']['title_downloads']="Downloads";
+$plugin_tx['uploader']['title_images']="Images";
+$plugin_tx['uploader']['title_media']="Mediafiles";
+$plugin_tx['uploader']['title_userfiles']="Userfiles";
+
 $plugin_tx['uploader']['message_no_js']="Javascript must be enabled in your browser to be able to upload files!";
 
 $plugin_tx['uploader']['syscheck_title']="System check";

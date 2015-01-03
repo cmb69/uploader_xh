@@ -219,38 +219,6 @@ function Uploader_init()
         ? $_GET['uploader_resize']
         : $pcf['resize_default']
     );
-    if (session_id() == '') {
-        session_start();
-    }
-    $_SESSION['uploader_runtimes'] = $pcf['runtimes'];
-    foreach ($uploader_types as $type) {
-        if (isset($pth['folder'][$type])) {
-            $_SESSION['uploader_folder'][$type]
-                = dirname($_SERVER['SCRIPT_FILENAME']) . '/' . $pth['folder'][$type];
-            $_SESSION['uploader_title'][$type] = $tx['title'][$type];
-            $_SESSION['uploader_exts'][$type] = $pcf['ext_' . $type];
-        } else {
-            unset(
-                $_SESSION['uploader_folder'][$type],
-                $_SESSION['uploader_title'][$type],
-                $_SESSION['uploader_exts'][$type]
-            );
-        }
-    }
-    $_SESSION['uploader_max_size'] = $pcf['size_max'];
-    $_SESSION['uploader_lang'] = strlen($sl) == 2
-        ? $sl
-        : $cf['language']['default'];
-    $_SESSION['uploader_chunking'] = empty($pcf['size_chunk'])
-            ? ''
-            : 'chunk_size: \'' . $pcf['size_chunk'] . '\',' . "\n";
-    foreach (array_slice($uploader_sizes, 1) as $size) {
-        foreach (array('width', 'height', 'quality') as $attr) {
-            $_SESSION['uploader_resize'][$size][$attr]
-                = $pcf['resize-' . $size . '_' . $attr];
-        }
-    }
-    $_SESSION['uploader_message']['no_js'] = $ptx['message_no_js'];
 }
 
 /**

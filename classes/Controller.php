@@ -172,7 +172,7 @@ class Uploader_Controller
     {
         global $pth;
 
-        $dir = $_SESSION['uploader_folder'][$_GET['type']] . $_GET['subdir'];
+        $dir = $pth['folder'][$_GET['type']] . $_GET['subdir'];
         $filename = isset($_POST['name']) ? $_POST['name'] : '';
         $chunks = isset($_REQUEST['chunks']) ? $_REQUEST['chunks'] : 0;
         $chunk = isset($_REQUEST['chunk']) ? $_REQUEST['chunk'] : 0;
@@ -210,7 +210,7 @@ class Uploader_Controller
 
         if ($adm && isset($uploader) && $uploader == 'true') {
             self::handleAdministration();
-        } elseif ($function == 'uploader_widget') {
+        } elseif ($adm && $function == 'uploader_widget') {
             $widget = new Uploader_Widget();
             echo $widget->render();
             exit;

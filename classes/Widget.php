@@ -88,31 +88,40 @@ class Uploader_Widget
     protected $languageFile;
 
     /**
+     * The configuration of the plugin.
+     *
+     * @var array
+     */
+    protected $config;
+
+    /**
+     * The localization of the plugin.
+     *
+     * @var array
+     */
+    protected $l10n;
+
+    /**
      * Initializes a new instance.
      *
      * @global array  The paths of system files and folders.
+     * @global string The selected language.
+     * @global array  The configuration of the core.
+     * @global array  The configuration of the plugins.
+     * @global array  The localization of the plugins.
      */
     public function __construct()
     {
-        global $pth;
-
-        if (session_id() != "") {
-            session_start();
-        }
-
-        if (!isset($_SESSION['uploader_runtimes'])) {
-            header('HTTP/1.0 403 Forbidden');
-            exit;
-        }
+        global $pth, $sl, $cf, $plugin_cf, $plugin_tx;
 
         $this->type = isset($_GET['uploader_type'])
-            && isset($_SESSION['uploader_folder'][$_GET['uploader_type']])
+            && isset($pth['folder'][$_GET['uploader_type']])
             ? $_GET['uploader_type']
             : 'images';
         $subdir = !isset($_GET['uploader_subdir'])
             ? ''
             : preg_replace('/\.\.[\/\\\\]?/', '', stsl($_GET['uploader_subdir']));
-        $this->subdir = is_dir($_SESSION['uploader_folder'][$this->type] . $subdir)
+        $this->subdir = is_dir($pth['folder'][$this->type] . $subdir)
             ? $subdir
             : '';
         $allowedSizes = array('small', 'medium', 'large', 'custom');
@@ -129,8 +138,10 @@ class Uploader_Widget
         }
         $this->libFolder = $pth['folder']['plugins'] . 'uploader/lib/';
         $this->imageFolder = $pth['folder']['plugins'] . 'uploader/images/';
-        $this->languageFile = $this->libFolder . 'i18n/'
-            . $_SESSION['uploader_lang'] . '.js';
+        $language = (strlen($sl) == 2) ? $sl : $cf['language']['default'];
+        $this->languageFile = $this->libFolder . 'i18n/' . $language . '.js';
+        $this->config = $plugin_cf['uploader'];
+        $this->l10n = $plugin_tx['uploader'];
     }
 
     /**
