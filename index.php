@@ -21,7 +21,7 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 /**
  * The plugin version.
  */
-define('UPLOADER_VERSION', '1alpha8');
+define('UPLOADER_VERSION', '@UPLOADER_VERSION@');
 
 /**
  * Hides the element with the given $id, and allows to toggle its visibility.
