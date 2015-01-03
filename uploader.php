@@ -13,8 +13,6 @@
  * @link      http://3-magi.net/?CMSimple_XH/Uploader_XH
  */
 
-// @codingStandardsIgnoreStart
-
 session_start();
 
 if (!isset($_SESSION['uploader_runtimes'])) {
@@ -22,22 +20,35 @@ if (!isset($_SESSION['uploader_runtimes'])) {
     exit;
 }
 
-
-define('TYPE', isset($_GET['uploader_type']) && isset($_SESSION['uploader_folder'][$_GET['uploader_type']])
-	? $_GET['uploader_type'] : 'images');
-$subdir = !isset($_GET['uploader_subdir']) ? ''
-	: preg_replace('/\.\.[\/\\\\]?/', '', get_magic_quotes_gpc() ? stripslashes($_GET['uploader_subdir']) : $_GET['uploader_subdir']);
-define('SUBDIR', is_dir($_SESSION['uploader_folder'][TYPE].$subdir)
-	? $subdir : '');
-define('RESIZE',
-	isset($_GET['uploader_resize']) && in_array($_GET['uploader_resize'], array('small', 'medium', 'large', 'custom'))
-	? $_GET['uploader_resize'] : '');
+$type = isset($_GET['uploader_type'])
+    && isset($_SESSION['uploader_folder'][$_GET['uploader_type']])
+    ? $_GET['uploader_type']
+    : 'images';
+$subdir = !isset($_GET['uploader_subdir'])
+    ? ''
+    : preg_replace(
+        '/\.\.[\/\\\\]?/', '',
+        get_magic_quotes_gpc()
+        ? stripslashes($_GET['uploader_subdir'])
+        : $_GET['uploader_subdir']
+    );
+$subdir = is_dir($_SESSION['uploader_folder'][$type] . $subdir)
+    ? $subdir
+    : '';
+$allowedSizes = array('small', 'medium', 'large', 'custom');
+$resize = isset($_GET['uploader_resize'])
+    && in_array($_GET['uploader_resize'], $allowedSizes)
+    ? $_GET['uploader_resize']
+    : '';
 foreach (array('width', 'height', 'quality') as $name) {
-    if (RESIZE == 'custom' && !empty($_GET['uploader_'.$name]) && ctype_digit($_GET['uploader_'.$name])) {
-        define(strtoupper($name), $_GET['uploader_'.$name]);
+    if ($resize == 'custom' && !empty($_GET['uploader_' . $name])
+        && ctype_digit($_GET['uploader_' . $name])
+    ) {
+        $$name = $_GET['uploader_' . $name];
     }
 }
 
+// @codingStandardsIgnoreStart
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 	"http://www.w3.org/TR/html4/loose.dtd">
@@ -57,25 +68,25 @@ foreach (array('width', 'height', 'quality') as $name) {
     jQuery(function() {
 	jQuery("#uploader").pluploadQueue({
 	    runtimes : '<?php echo $_SESSION['uploader_runtimes']?>',
-	    url : '../../?function=uploader_upload&type=<?php echo TYPE?>&subdir=<?php echo urlencode(SUBDIR)?>',
+	    url : '../../?function=uploader_upload&type=<?php echo $type?>&subdir=<?php echo urlencode($subdir)?>',
 	    max_file_size : '<?php echo $_SESSION['uploader_max_size']?>',
 	    <?php echo $_SESSION['uploader_chunking']?>
-<?php if (defined('WIDTH') && defined('HEIGHT') && defined('QUALITY')) {?>
+<?php if (isset($width) && isset($height) && isset($quality)) {?>
 	    resize : {
-		width : <?php echo WIDTH?>,
-		height: <?php echo HEIGHT?>,
-		quality: <?php echo QUALITY, "\n"?>
+		width : <?php echo $width?>,
+		height: <?php echo $height?>,
+		quality: <?php echo $quality, "\n"?>
 	    },
-<?php } elseif (RESIZE != '') {?>
+<?php } elseif ($resize != '') {?>
 	    resize : {
-		width : <?php echo $_SESSION['uploader_resize'][RESIZE]['width']?>,
-		height : <?php echo $_SESSION['uploader_resize'][RESIZE]['height']?>,
-		quality : <?php echo $_SESSION['uploader_resize'][RESIZE]['quality'], "\n"?>
+		width : <?php echo $_SESSION['uploader_resize'][$resize]['width']?>,
+		height : <?php echo $_SESSION['uploader_resize'][$resize]['height']?>,
+		quality : <?php echo $_SESSION['uploader_resize'][$resize]['quality'], "\n"?>
 	    },
 <?php }?>
 	    filters : [{
-		title : '<?php echo $_SESSION['uploader_title'][TYPE]?>',
-		extensions : '<?php echo $_SESSION['uploader_exts'][TYPE]?>'
+		title : '<?php echo $_SESSION['uploader_title'][$type]?>',
+		extensions : '<?php echo $_SESSION['uploader_exts'][$type]?>'
 	    }],
 	    flash_swf_url : 'lib/plupload.flash.swf',
 	    silverlight_xap_url : 'lib/plupload.silverlight.xap',
@@ -118,7 +129,5 @@ foreach (array('width', 'height', 'quality') as $name) {
 </html>
 
 <?
-
 // @codingStandardsIgnoreEnd
-
 ?>
