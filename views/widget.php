@@ -4,7 +4,7 @@
 <head>
     <title>title</title>
     <link rel="stylesheet" type="text/css" href="<?php echo $this->libFolder?>jquery.plupload.queue/css/jquery.plupload.queue.css">
-    <script type="text/javascript" src="<?php echo $this->libFolder?>jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="<?php echo $this->libFolder?>jquery.min.js"></script>
     <script type="text/javascript" src="http://bp.yahooapis.com/2.4.21/browserplus-min.js"></script>
     <script type="text/javascript" src="<?php echo $this->libFolder?>plupload.full.js"></script>
 <?php if (file_exists($this->languageFile)):?>
