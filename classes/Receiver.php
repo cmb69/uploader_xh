@@ -126,12 +126,14 @@ class Uploader_Receiver
                 }
                 return '{"jsonrpc" : "2.0", "result" : null, "id" : "id"}';
             } else {
+                header('HTTP/1.1 500 Internal Server Error');
                 return '{"jsonrpc": "2.0", "error": {"code": 101, "message":'
                     . ' "Failed to open input stream."}, "id" : "id"}';
             }
             fclose($in);
             fclose($out);
         } else {
+            header('HTTP/1.1 500 Internal Server Error');
             return '{"jsonrpc": "2.0", "error": {"code": 102, "message":'
                 . ' "Failed to open output stream."}, "id" : "id"}';
         }

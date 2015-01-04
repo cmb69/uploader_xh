@@ -348,6 +348,7 @@ class Uploader_Controller
         ) {
             echo $receiver->handleUpload($_FILES['uploader_file']['tmp_name']);
         } else {
+            header('HTTP/1.1 400 Bad Request');
             echo '{"jsonrpc": "2.0", "error": {"code": 103, "message":',
                 '"Failed to move uploaded file."}, "id" : "id"}';
         }
