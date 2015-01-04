@@ -25,6 +25,142 @@
 class Uploader_Controller
 {
     /**
+     * Returns the uploader widget.
+     *
+     * @param string $type      The upload type ('images', 'downloads', 'media' or
+     *                          'userfiles'). '*' displays a selectbox.
+     * @param string $subdir    The subfolder of the configured folder of the type.
+     *                          '*' displays a selectbox.
+     * @param string $resize    The resize mode ('', 'small', 'medium' or 'large').
+     *                          '*' displays a selectbox.
+     * @param bool   $collapsed Whether the uploader widget should be collapsed.
+     *
+     * @return string (X)HTML.
+     *
+     * @global array  The paths of system files and folders.
+     * @global string The current page URL.
+     *
+     * @staticvar int $run The running number.
+     */
+    public static function main($type, $subdir, $resize, $collapsed)
+    {
+        global $pth, $su;
+        static $run = 0;
+
+        if (!file_exists($pth['folder']['images'] . $subdir)) {
+            mkdir($pth['folder']['images'] . $subdir, 0777, true);
+        }
+        if ($collapsed) {
+            self::toggle(
+                $run,
+                !($type == '*' && isset($_GET['uploader_type'])
+                || $subdir == '*' && isset($_GET['uploader_subdir'])
+                || $resize == '*' && isset($_GET['uploader_resize']))
+            );
+        }
+        include_once $pth['folder']['plugins'] . 'uploader/init.php';
+        $url = '?function=uploader_widget&amp;uploader_type='
+            . ($type == '*' ? self::getType() : $type) . '&amp;uploader_subdir='
+            . ($subdir == '*' ? self::getSubfolder() : $subdir)
+            . '&amp;uploader_resize='
+            . ($resize == '*' ? self::getResizeMode() : $resize);
+        $anchor = 'uploader_container' . $run;
+        $o = '<div id="' . $anchor . '">' . "\n"
+            . '<div class="uploader_controls">'
+            . ($type == '*' ? self::renderTypeSelect($su, $anchor) : '')
+            . ($subdir == '*' ? self::renderSubdirSelect($su, $anchor) : '')
+            . ($resize == '*' ? self::renderResizeSelect($su, $anchor) : '')
+            . '</div>' . "\n"
+            . '<iframe src="' . $url . '" frameBorder="0" class="uploader"></iframe>'
+            . "\n"
+            . '</div>' . "\n";
+        $run++;
+        return $o;
+    }
+
+    /**
+     * Returns the requested upload type.
+     *
+     * @return string
+     */
+    protected static function getType()
+    {
+        global $pth;
+
+        if (isset($_GET['uploader_type'])
+            && in_array($_GET['uploader_type'], self::getTypes())
+            && isset($pth['folder'][$_GET['uploader_type']])
+        ) {
+            return $_GET['uploader_type'];
+        } else {
+            return 'images';
+        }
+    }
+
+    /**
+     * Returns the upload types.
+     *
+     * @return array
+     */
+    protected static function getTypes()
+    {
+        return array('images', 'downloads', 'media', 'userfiles');
+    }
+
+    /**
+     * Returns the requested subfolder.
+     *
+     * @return string
+     *
+     * @global array The paths of system files and folders.
+     */
+    protected static function getSubfolder()
+    {
+        global $pth;
+
+        $subdir = isset($_GET['uploader_subdir'])
+            ? preg_replace('/\.\.[\/\\\\]?/', '', stsl($_GET['uploader_subdir']))
+            : '';
+        if (isset($_GET['uploader_subdir'])
+            && is_dir($pth['folder'][self::getType()] . $subdir)
+        ) {
+            return $subdir;
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * Returns the requested resize mode.
+     *
+     * @return string
+     *
+     * @global array The configuration of the plugins.
+     */
+    protected static function getResizeMode()
+    {
+        global $plugin_cf;
+
+        if (isset($_GET['uploader_resize'])
+            && in_array($_GET['uploader_resize'], self::getSizes())
+        ) {
+            return $_GET['uploader_resize'];
+        } else {
+            return $plugin_cf['uploader']['resize_default'];
+        }
+    }
+
+    /**
+     * Returns the upload sizes.
+     *
+     * @return array
+     */
+    protected static function getSizes()
+    {
+        return array('', 'small', 'medium', 'large');
+    }
+
+    /**
      * Returns the localization of a string.
      *
      * @param string $key The key of the string.
@@ -154,11 +290,40 @@ class Uploader_Controller
             $o .= self::render('info');
             break;
         case 'plugin_main':
-            $o .= Uploader_adminMain();
+            $o .= self::handleMainAdministration();
             break;
         default:
             $o .= plugin_admin_common($action, $admin, $plugin);
         }
+    }
+
+    /**
+     * Handles the main administration.
+     *
+     * @return string (X)HTML.
+     *
+     * @global array The paths of system files and folders.
+     */
+    protected static function handleMainAdministration()
+    {
+        global $pth;
+
+        include_once $pth['folder']['plugins'] . 'uploader/init.php';
+        return '<div class="uploader_controls">'
+            . self::renderTypeSelect(
+                '&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text'
+            )
+            . self::renderSubdirSelect(
+                '&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text'
+            )
+            . self::renderResizeSelect(
+                '&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text'
+            )
+            . '</div>' . "\n"
+            . '<iframe class="uploader" frameBorder="0" src="'
+            . '?function=uploader_widget&amp;uploader_type='
+            . self::getType() . '&amp;uploader_subdir=' . self::getSubfolder()
+            . '&amp;uploader_resize=' . self::getResizeMode() . '"></iframe>' . "\n";
     }
 
     /**
@@ -217,6 +382,206 @@ class Uploader_Controller
         } elseif ($adm && $function == 'uploader_upload') {
             self::handleUpload();
         }
+    }
+
+    /**
+     * Hides the element with the given $id, and allows to toggle its visibility.
+     *
+     * @param int  $run       A running number.
+     * @param bool $collapsed Whether the element is initially collapsed.
+     *
+     * @return void
+     *
+     * @global array  The paths of system files and folders.
+     * @global string The (X)HTML fragment to insert into the head element.
+     * @global array  The localization of the plugins.
+     */
+    protected static function toggle($run, $collapsed)
+    {
+        global $pth, $hjs, $plugin_tx;
+
+        $ptx = $plugin_tx['uploader'];
+        include_once $pth['folder']['plugins'] . 'jquery/jquery.inc.php';
+        include_jquery();
+        $hide = $collapsed ? '.hide()' : '';
+        $hidetxt = $collapsed ? $ptx['label_expand'] : $ptx['label_collapse'];
+        $hjs .= <<<SCRIPT
+<script type="text/javascript">
+/* <![CDATA[ */
+function uploader_toggle$run() {
+    elt = jQuery('#uploader_container$run');
+    elt.toggle();
+    elt.prev().children('a').html(
+        elt.is(':visible') ? '{$ptx['label_collapse']}' : '{$ptx['label_expand']}'
+    );
+}
+
+jQuery(function() {
+    setTimeout(function() {
+        jQuery('#uploader_container$run').before(
+            '<div class="uploader_toggle">' +
+            '<a href="javascript:uploader_toggle$run()">$hidetxt</a></div>'
+        )$hide;
+    }, 100)
+})
+/* ]]> */
+</script>
+
+SCRIPT;
+    }
+
+    /**
+     * Renders a type select element.
+     *
+     * @param string $params A query string.
+     * @param string $anchor A fragment identifier.
+     *
+     * @return string (X)HTML.
+     *
+     * @global array  The paths of system files and folders.
+     * @global string The script name.
+     * @global array  The localization of the plugins.
+     */
+    protected static function renderTypeSelect($params, $anchor = null)
+    {
+        global $pth, $sn, $plugin_tx;
+
+        $o = '<select id="uploader-type" title="'
+            . $plugin_tx['uploader']['label_type'] . '" onchange="'
+            . self::renderSelectOnchange('type', $params, $anchor) . '">'
+            . "\n";
+        foreach (self::getTypes() as $type) {
+            if (isset($pth['folder'][$type])) {
+                $sel = $type == self::getType() ? ' selected="selected"' : '';
+                $o .= '<option value="' . $type . '"' . $sel . '>' . $type
+                    . '</option>' . "\n";
+            }
+        }
+        $o .= '</select>' . "\n";
+        return $o;
+    }
+
+    /**
+     * Renders the subfolder select element.
+     *
+     * @param string $params A query string.
+     * @param string $anchor A fragment identifier.
+     *
+     * @return string (X)HTML.
+     *
+     * @global array  The paths of system files and folders.
+     * @global string The script name.
+     * @global array  The localization of the plugins.
+     */
+    protected static function renderSubdirSelect($params, $anchor = null)
+    {
+        global $pth, $sn, $plugin_tx;
+
+        return '<select id="uploader-subdir" title="'
+            . $plugin_tx['uploader']['label_subdir'] . '"'
+            . ' onchange="' . self::renderSelectOnchange('subdir', $params, $anchor)
+            . '">' . "\n"
+            . '<option>/</option>' . "\n"
+            . self::renderSubdirSelectRec('')
+            . '</select>' . "\n";
+    }
+
+    /**
+     * Renders a level of a subfolder select element.
+     *
+     * @param string $parent A parent folder.
+     *
+     * @return string (X)HTML.
+     *
+     * @global array The paths of system files and folders.
+     */
+    protected static function renderSubdirSelectRec($parent)
+    {
+        global $pth;
+
+        $o = '';
+        $dn = $pth['folder'][self::getType()] . $parent;
+        if (($dh = opendir($dn)) !== false) {
+            while (($fn = readdir($dh)) !== false) {
+                if (strpos($fn, '.') !== 0
+                    && is_dir($pth['folder'][self::getType()] . $parent . $fn)
+                ) {
+                    $dir = $parent . $fn . '/';
+                    $sel = ($dir == self::getSubfolder())
+                        ? ' selected="selected"'
+                        : '';
+                    $o .= '<option value="' . $dir . '"' . $sel . '>' . $dir
+                        . '</option>' . "\n";
+                    $o .= self::renderSubdirSelectRec($dir);
+                }
+            }
+            closedir($dh);
+        } else {
+            e('cntopen', 'folder', $dn);
+        }
+        return $o;
+    }
+
+    /**
+     * Renders the resize select element.
+     *
+     * @param string $params A query string.
+     * @param string $anchor A fragment identifier.
+     *
+     * @return string (X)HTML.
+     *
+     * @global array The localization of the plugins.
+     */
+    protected static function renderResizeSelect($params, $anchor = null)
+    {
+        global $plugin_tx;
+
+        $o = '<select id="uploader-resize" title="'
+            . $plugin_tx['uploader']['label_resize'] . '"'
+            . ' onchange="' . self::renderSelectOnchange('resize', $params, $anchor)
+            . '">' . "\n";
+        foreach (self::getSizes() as $size) {
+            $sel = $size == self::getResizeMode() ? ' selected="selected"' : '';
+            $o .= '<option value="' . $size . '"' . $sel . '>' . $size . '</option>'
+                . "\n";
+        }
+        $o .= '</select>' . "\n";
+        return $o;
+    }
+
+    /**
+     * Renders the value of an onchange attribute.
+     *
+     * @param string $param  A kind.
+     * @param string $params A query string.
+     * @param string $anchor A fragment identifier.
+     *
+     * @return string
+     *
+     * @global string The script name.
+     */
+    protected static function renderSelectOnchange($param, $params, $anchor = null)
+    {
+        global $sn;
+
+        $url = $sn . '?' . $params;
+        if ($param != 'type') {
+            $url .= '&amp;uploader_type=' . urlencode(self::getType());
+        }
+        if ($param != 'subdir') {
+            $url .= '&amp;uploader_subdir=' . urlencode(self::getSubfolder());
+        }
+        if ($param != 'resize') {
+            $url .= '&amp;uploader_resize=' . urlencode(self::getResizeMode());
+        }
+        $url .= '&amp;uploader_' . $param . '=';
+        $js = 'window.location.href=\''  .$url
+            . '\'+encodeURIComponent(document.getElementById(\'uploader-' . $param
+            . '\').value)';
+        if (isset($anchor)) {
+            $js .= '+\'#'.$anchor.'\'';
+        }
+        return $js;
     }
 }
 
