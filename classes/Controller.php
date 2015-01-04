@@ -337,20 +337,20 @@ class Uploader_Controller
     {
         global $pth;
 
-        $dir = $pth['folder'][$_GET['type']] . $_GET['subdir'];
+        $dir = $pth['folder'][self::getType()] . self::getSubfolder();
         $filename = isset($_POST['name']) ? $_POST['name'] : '';
-        $chunks = isset($_REQUEST['chunks']) ? $_REQUEST['chunks'] : 0;
-        $chunk = isset($_REQUEST['chunk']) ? $_REQUEST['chunk'] : 0;
+        $chunks = isset($_POST['chunks']) ? $_POST['chunks'] : 0;
+        $chunk = isset($_POST['chunk']) ? $_POST['chunk'] : 0;
         $contentType = isset($_SERVER["CONTENT_TYPE"])
             ? $_SERVER["CONTENT_TYPE"]
             : $_SERVER["HTTP_CONTENT_TYPE"];
         $receiver = new Uploader_Receiver($dir, $filename, $chunks, $chunk);
         $receiver->emitHeaders();
         if (strpos($contentType, 'multipart') !== false) {
-            if (isset($_FILES['file']['tmp_name'])
-                && is_uploaded_file($_FILES['file']['tmp_name'])
+            if (isset($_FILES['uploader_file']['tmp_name'])
+                && is_uploaded_file($_FILES['uploader_file']['tmp_name'])
             ) {
-                echo $receiver->handleUpload($_FILES['file']['tmp_name']);
+                echo $receiver->handleUpload($_FILES['uploader_file']['tmp_name']);
             } else {
                 echo '{"jsonrpc": "2.0", "error": {"code": 103, "message":',
                     '"Failed to move uploaded file."}, "id" : "id"}';

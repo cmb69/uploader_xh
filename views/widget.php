@@ -15,7 +15,7 @@
     jQuery(function() {
 	jQuery("#uploader").pluploadQueue({
 	    runtimes: '<?php echo $this->config['runtimes']?>',
-	    url: '<?php echo CMSIMPLE_ROOT?>?function=uploader_upload&type=<?php echo $this->type?>&subdir=<?php echo urlencode($this->subdir)?>',
+	    url: '<?php echo CMSIMPLE_ROOT?>?function=uploader_upload&uploader_type=<?php echo $this->type?>&uploader_subdir=<?php echo urlencode($this->subdir)?>',
 	    max_file_size: '<?php echo $this->config['size_max']?>',
 <?php if (!empty($this->config['size_chunk'])):?>
 	    chunk_size: '<?php echo $this->config['size_chunk']?>',
@@ -41,7 +41,8 @@
 	    silverlight_xap_url: '<?php echo $this->libFolder?>Moxie.xap',
 	    rename: true,
 	    multiple_queues: true,
-	    dragdrop: true
+	    dragdrop: true,
+	    file_data_name: "uploader_file"
 	});
     });
     /* ]]> */
