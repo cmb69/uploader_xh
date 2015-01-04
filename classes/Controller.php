@@ -373,6 +373,9 @@ class Uploader_Controller
         global $adm, $function;
 
         if ($adm) {
+            if (function_exists('XH_registerStandardPluginMenuItems')) {
+                XH_registerStandardPluginMenuItems(true);
+            }
             if (self::isAdministrationRequested()) {
                 self::handleAdministration();
             } elseif ($function == 'uploader_widget') {
