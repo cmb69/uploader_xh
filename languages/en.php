@@ -43,6 +43,5 @@ $plugin_tx['uploader']['cf_ext_downloads']="A comma separated list of file exten
 $plugin_tx['uploader']['cf_ext_media']="A comma separated list of file extensions you can upload to the media folder (CMSimple_XH 1.5 and up).";
 $plugin_tx['uploader']['cf_ext_userfiles']="A comma separated list of file extensions you can upload to the userfiles folder (CMSimple_XH 1.4 and up).";
 
-$plugin_tx['uploader']['cf_runtimes']="A comma separated list of runtimes that you want to initialize the uploader instance with. It will try to initialize each runtime in order; if one fails it will move on to the next one.";
 
 ?>

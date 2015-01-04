@@ -29,6 +29,5 @@ $plugin_tx['uploader']['cf_ext_images']="Uveďte čárkou oddělený seznam př�
 $plugin_tx['uploader']['cf_ext_downloads']="Uveďte čárkou oddělený seznam přípon souború, které budou uploadovany do adresáře downloads..";
 $plugin_tx['uploader']['cf_ext_media']="Uveďte čárkou oddělený seznam přípon souború, které budou uploadovány do adresáře média. (CMSimple_XH 1.5 a novější).";
 $plugin_tx['uploader']['cf_ext_userfiles']="Uveďte čárkou oddělený seznam přípon souborů, které budou uploadovany do adresáře s uživatelskými soubory.";
-$plugin_tx['uploader']['cf_runtimes']="Uveďte čárkou oddělený seznam runtin, které se mají spustit při inicializaci uploaderu. Ten se pokusí inicializovat každou rutinu, aby v případě, že některá selže, mohl pokračovat s další rutinou.";
 
 ?>

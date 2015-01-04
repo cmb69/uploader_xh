@@ -32,7 +32,6 @@ $plugin_tx['uploader']['cf_ext_images']="En kommasepareret liste over filtypenav
 $plugin_tx['uploader']['cf_ext_downloads']="En kommasepareret liste over filtypenavne du kan uploade til mappen Downloads";
 $plugin_tx['uploader']['cf_ext_media']="En kommasepareret liste over filtypenavne du kan uploade til medierne mappe (CMSimple_XH 1,5 og op).";
 $plugin_tx['uploader']['cf_ext_userfiles']="En kommasepareret liste over filtypenavne, du kan uploade til brugerfiler mappen.";
-$plugin_tx['uploader']['cf_runtimes']="En kommasepareret liste over runtime, du ønsker at initialisere uploader eksempel med. Det vil forsøge at initialisere hvert runtime i orden, hvis en mislykkes vil gå videre til den næste.";
 $plugin_tx['uploader']['cf_utf-8-marker']="Intern brug. <strong>Lav ingen ændring</strong>";
 
 ?>

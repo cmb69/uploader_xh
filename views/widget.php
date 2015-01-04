@@ -14,7 +14,7 @@
     /* <![CDATA[ */
     jQuery(function() {
 	jQuery("#uploader").pluploadQueue({
-	    runtimes: '<?php echo $this->config['runtimes']?>',
+	    runtimes: 'html5,silverlight,html4',
 	    url: '<?php echo CMSIMPLE_ROOT?>?function=uploader_upload&uploader_type=<?php echo $this->type?>&uploader_subdir=<?php echo urlencode($this->subdir)?>',
 	    max_file_size: '<?php echo $this->config['size_max']?>',
 <?php if (!empty($this->config['size_chunk'])):?>
