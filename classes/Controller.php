@@ -367,21 +367,38 @@ class Uploader_Controller
      * @return void
      *
      * @global bool   Whether the user is logged in as admin.
-     * @global string Whether the plugin administration is requested.
      */
     public static function dispatch()
     {
-        global $adm, $function, $uploader;
+        global $adm, $function;
 
-        if ($adm && isset($uploader) && $uploader == 'true') {
-            self::handleAdministration();
-        } elseif ($adm && $function == 'uploader_widget') {
-            $widget = new Uploader_Widget();
-            echo $widget->render();
-            exit;
-        } elseif ($adm && $function == 'uploader_upload') {
-            self::handleUpload();
+        if ($adm) {
+            if (self::isAdministrationRequested()) {
+                self::handleAdministration();
+            } elseif ($function == 'uploader_widget') {
+                $widget = new Uploader_Widget();
+                echo $widget->render();
+                exit;
+            } elseif ($function == 'uploader_upload') {
+                self::handleUpload();
+            }
         }
+    }
+
+    /**
+     * Returns whether the administration is requested.
+     *
+     * @return bool
+     *
+     * @global string Whether the plugin administration is requested.
+     */
+    protected static function isAdministrationRequested()
+    {
+        global $uploader;
+
+        return function_exists('XH_wantsPluginAdministration')
+            && XH_wantsPluginAdministration('uploader')
+            || isset($uploader) && $uploader == 'true';
     }
 
     /**
