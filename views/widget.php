@@ -5,8 +5,7 @@
     <title>title</title>
     <link rel="stylesheet" type="text/css" href="<?php echo $this->libFolder?>jquery.plupload.queue/css/jquery.plupload.queue.css">
     <script type="text/javascript" src="<?php echo $this->libFolder?>jquery.min.js"></script>
-    <script type="text/javascript" src="http://bp.yahooapis.com/2.4.21/browserplus-min.js"></script>
-    <script type="text/javascript" src="<?php echo $this->libFolder?>plupload.full.js"></script>
+    <script type="text/javascript" src="<?php echo $this->libFolder?>plupload.full.min.js"></script>
 <?php if (file_exists($this->languageFile)):?>
     <script type="text/javascript" src="<?php echo $this->languageFile?>"></script>
 <?php endif?>
@@ -16,7 +15,7 @@
     jQuery(function() {
 	jQuery("#uploader").pluploadQueue({
 	    runtimes: '<?php echo $this->config['runtimes']?>',
-	    url: '?function=uploader_upload&type=<?php echo $this->type?>&subdir=<?php echo urlencode($this->subdir)?>',
+	    url: '<?php echo CMSIMPLE_ROOT?>?function=uploader_upload&type=<?php echo $this->type?>&subdir=<?php echo urlencode($this->subdir)?>',
 	    max_file_size: '<?php echo $this->config['size_max']?>',
 <?php if (!empty($this->config['size_chunk'])):?>
 	    chunk_size: '<?php echo $this->config['size_chunk']?>',
@@ -38,26 +37,11 @@
 		title: '<?php echo $this->l10n['title_' . $this->type]?>',
 		extensions: '<?php echo $this->config['ext_' . $this->type]?>'
 	    }],
-	    flash_swf_url: '<?php echo $this->libFolder?>plupload.flash.swf',
-	    silverlight_xap_url: '<?php echo $this->libFolder?>plupload.silverlight.xap',
+	    flash_swf_url: '<?php echo $this->libFolder?>Moxie.swf',
+	    silverlight_xap_url: '<?php echo $this->libFolder?>Moxie.xap',
 	    rename: true,
 	    multiple_queues: true,
 	    dragdrop: true
-	});
-
-	jQuery('form').submit(function(e) {
-	    var uploader = jQuery('#uploader').pluploadQueue();
-	    if (uploader.files.length > 0) {
-		uploader.bind('StateChanged', function() {
-		    if (uploader.files.length === (uploader.total.uploaded + uploader.total.failed)) {
-			jQuery('form')[0].submit();
-		    }
-		});
-		uploader.start();
-	    } else {
-		alert('You must queue at least one file.');
-	    }
-	    return false;
 	});
     });
     /* ]]> */
