@@ -64,9 +64,9 @@ class Uploader_Receiver
     {
         $this->dir = $dir;
         $this->filename = $filename;
-        $this->cleanFilename();
         $this->chunks = $chunks;
         $this->chunk = $chunk;
+        $this->cleanFilename();
     }
 
     /**
