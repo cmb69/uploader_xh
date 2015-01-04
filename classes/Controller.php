@@ -219,11 +219,11 @@ class Uploader_Controller
         global $pth, $tx, $plugin_tx;
 
         $ptx = $plugin_tx['uploader'];
-        $phpVersion = '4.0.7';
+        $phpVersion = '5.1.2';
         $checks = array();
         $checks[sprintf($ptx['syscheck_phpversion'], $phpVersion)]
             = version_compare(PHP_VERSION, $phpVersion) >= 0 ? 'ok' : 'fail';
-        foreach (array('ctype', 'pcre', 'session') as $ext) {
+        foreach (array('ctype', 'pcre', 'spl') as $ext) {
             $checks[sprintf($ptx['syscheck_extension'], $ext)]
                 = extension_loaded($ext) ? 'ok' : 'fail';
         }
