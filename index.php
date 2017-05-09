@@ -38,32 +38,12 @@ define('UPLOADER_VERSION', '@UPLOADER_VERSION@');
  *                          '*' displays a selectbox.
  * @param string $resize    The resize mode ('', 'small', 'medium' or 'large').
  *                          '*' displays a selectbox.
- * @param bool   $collapsed Whether the uploader widget should be collapsed.
  *
  * @return string (X)HTML.
  */
-function uploader($type = 'images', $subdir = '', $resize = '', $collapsed = false)
+function uploader($type = 'images', $subdir = '', $resize = '')
 {
-    return Uploader\Controller::main($type, $subdir, $resize, $collapsed);
-}
-
-/**
- * Returns the collapsed uploader widget. This is a convenience function.
- *
- * @param string $type   The upload type ('images', 'downloads', 'media' or
- *                       'userfiles'). Use '*' to display a selectbox to the user.
- * @param string $subdir The subfolder of the configured folder of the type.
- *                       Use '*' to display a selectbox to the user.
- * @param string $resize The resize mode ('', 'small', 'medium' or 'large').
- *                       Use '*' to display a selectbox to the user.
- *
- * @return string (X)HTML.
- *
- * @access public
- */
-function uploader_collapsed($type = 'images', $subdir = '', $resize = '')
-{
-    return Uploader\Controller::main($type, $subdir, $resize, true);
+    return Uploader\Controller::main($type, $subdir, $resize);
 }
 
 Uploader\Controller::dispatch();

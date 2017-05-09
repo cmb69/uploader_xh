@@ -32,25 +32,16 @@ class Controller
      *                          '*' displays a selectbox.
      * @param string $resize    The resize mode ('', 'small', 'medium' or 'large').
      *                          '*' displays a selectbox.
-     * @param bool   $collapsed Whether the uploader widget should be collapsed.
      *
      * @return string (X)HTML.
      */
-    public static function main($type, $subdir, $resize, $collapsed)
+    public static function main($type, $subdir, $resize)
     {
         global $bjs, $pth, $su;
         static $run = 0;
 
         if (!file_exists($pth['folder']['images'] . $subdir)) {
             mkdir($pth['folder']['images'] . $subdir, 0777, true);
-        }
-        if ($collapsed) {
-            self::toggle(
-                $run,
-                !($type == '*' && isset($_GET['uploader_type'])
-                || $subdir == '*' && isset($_GET['uploader_subdir'])
-                || $resize == '*' && isset($_GET['uploader_resize']))
-            );
         }
         include_once $pth['folder']['plugins'] . 'uploader/init.php';
         $url = '?function=uploader_widget&uploader_type='
@@ -271,46 +262,6 @@ class Controller
         return function_exists('XH_wantsPluginAdministration')
             && XH_wantsPluginAdministration('uploader')
             || isset($uploader) && $uploader == 'true';
-    }
-
-    /**
-     * Hides the element with the given $id, and allows to toggle its visibility.
-     *
-     * @param int  $run       A running number.
-     * @param bool $collapsed Whether the element is initially collapsed.
-     */
-    private static function toggle($run, $collapsed)
-    {
-        global $pth, $hjs, $plugin_tx;
-
-        $ptx = $plugin_tx['uploader'];
-        include_once $pth['folder']['plugins'] . 'jquery/jquery.inc.php';
-        include_jquery();
-        $hide = $collapsed ? '.hide()' : '';
-        $hidetxt = $collapsed ? $ptx['label_expand'] : $ptx['label_collapse'];
-        $hjs .= <<<SCRIPT
-<script type="text/javascript">
-/* <![CDATA[ */
-function uploader_toggle$run() {
-    elt = jQuery('#uploader_container$run');
-    elt.toggle();
-    elt.prev().children('a').html(
-        elt.is(':visible') ? '{$ptx['label_collapse']}' : '{$ptx['label_expand']}'
-    );
-}
-
-jQuery(function() {
-    setTimeout(function() {
-        jQuery('#uploader_container$run').before(
-            '<div class="uploader_toggle">' +
-            '<a href="javascript:uploader_toggle$run()">$hidetxt</a></div>'
-        )$hide;
-    }, 100)
-})
-/* ]]> */
-</script>
-
-SCRIPT;
     }
 
     /**
