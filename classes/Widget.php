@@ -28,77 +28,77 @@ class Widget
      *
      * @var string
      */
-    protected $type;
+    private $type;
 
     /**
      * The subfolder of the configured folder of the type.
      *
      * @var string
      */
-    protected $subdir;
+    private $subdir;
 
     /**
      * The resize mode ('', 'small', 'medium' or 'large').
      *
      * @var string
      */
-    protected $resize;
+    private $resize;
 
     /**
      * The resize width.
      *
      * @var int
      */
-    protected $width;
+    private $width;
 
     /**
      * The resize height.
      *
      * @var int
      */
-    protected $height;
+    private $height;
 
     /**
      * The resize quality.
      *
      * @var int
      */
-    protected $quality;
+    private $quality;
 
     /**
      * The lib folder path.
      *
      * @var string
      */
-    protected $libFolder;
+    private $libFolder;
 
     /**
      * The image folder path.
      *
      * @var string
      */
-    protected $imageFolder;
+    private $imageFolder;
 
     /**
      * The language filepath.
      *
      * @var string
      */
-    protected $languageFile;
+    private $languageFile;
 
     /**
      * The configuration of the plugin.
      *
      * @var array
      */
-    protected $config;
+    private $config;
 
     /**
      * The localization of the plugin.
      *
      * @var array
      */
-    protected $l10n;
+    private $l10n;
 
     public function __construct()
     {

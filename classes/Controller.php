@@ -75,7 +75,7 @@ class Controller
     /**
      * @return string
      */
-    protected static function getType()
+    private static function getType()
     {
         global $pth;
 
@@ -92,7 +92,7 @@ class Controller
     /**
      * @return array
      */
-    protected static function getTypes()
+    private static function getTypes()
     {
         return array('images', 'downloads', 'media', 'userfiles');
     }
@@ -100,7 +100,7 @@ class Controller
     /**
      * @return string
      */
-    protected static function getSubfolder()
+    private static function getSubfolder()
     {
         global $pth;
 
@@ -119,7 +119,7 @@ class Controller
     /**
      * @return string
      */
-    protected static function getResizeMode()
+    private static function getResizeMode()
     {
         global $plugin_cf;
 
@@ -135,7 +135,7 @@ class Controller
     /**
      * @return array
      */
-    protected static function getSizes()
+    private static function getSizes()
     {
         return array('', 'small', 'medium', 'large');
     }
@@ -143,7 +143,7 @@ class Controller
     /**
      * @return array
      */
-    protected static function systemChecks()
+    private static function systemChecks()
     {
         global $pth, $tx, $plugin_tx;
 
@@ -176,7 +176,7 @@ class Controller
      * @param string $template
      * @return string
      */
-    protected static function render($template)
+    private static function render($template)
     {
         global $pth, $cf;
 
@@ -191,7 +191,7 @@ class Controller
         return $o;
     }
 
-    protected static function handleAdministration()
+    private static function handleAdministration()
     {
         global $admin, $action, $plugin, $o, $pth;
 
@@ -216,7 +216,7 @@ class Controller
     /**
      * @return string
      */
-    protected static function handleMainAdministration()
+    private static function handleMainAdministration()
     {
         global $pth;
 
@@ -238,7 +238,7 @@ class Controller
             . '&amp;uploader_resize=' . self::getResizeMode() . '"></iframe>' . "\n";
     }
 
-    protected static function handleUpload()
+    private static function handleUpload()
     {
         global $pth;
 
@@ -283,7 +283,7 @@ class Controller
     /**
      * @return bool
      */
-    protected static function isAdministrationRequested()
+    private static function isAdministrationRequested()
     {
         global $uploader;
 
@@ -298,7 +298,7 @@ class Controller
      * @param int  $run       A running number.
      * @param bool $collapsed Whether the element is initially collapsed.
      */
-    protected static function toggle($run, $collapsed)
+    private static function toggle($run, $collapsed)
     {
         global $pth, $hjs, $plugin_tx;
 
@@ -337,7 +337,7 @@ SCRIPT;
      * @param string $anchor A fragment identifier.
      * @return string (X)HTML.
      */
-    protected static function renderTypeSelect($params, $anchor = null)
+    private static function renderTypeSelect($params, $anchor = null)
     {
         global $pth, $sn, $plugin_tx;
 
@@ -361,7 +361,7 @@ SCRIPT;
      * @param string $anchor A fragment identifier.
      * @return string (X)HTML.
      */
-    protected static function renderSubdirSelect($params, $anchor = null)
+    private static function renderSubdirSelect($params, $anchor = null)
     {
         global $pth, $sn, $plugin_tx;
 
@@ -378,7 +378,7 @@ SCRIPT;
      * @param string $parent A parent folder.
      * @return string (X)HTML.
      */
-    protected static function renderSubdirSelectRec($parent)
+    private static function renderSubdirSelectRec($parent)
     {
         global $pth;
 
@@ -410,7 +410,7 @@ SCRIPT;
      * @param string $anchor A fragment identifier.
      * @return string (X)HTML.
      */
-    protected static function renderResizeSelect($params, $anchor = null)
+    private static function renderResizeSelect($params, $anchor = null)
     {
         global $plugin_tx;
 
@@ -433,7 +433,7 @@ SCRIPT;
      * @param string $anchor A fragment identifier.
      * @return string
      */
-    protected static function renderSelectOnchange($param, $params, $anchor = null)
+    private static function renderSelectOnchange($param, $params, $anchor = null)
     {
         global $sn;
 

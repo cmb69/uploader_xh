@@ -28,28 +28,28 @@ class Receiver
      *
      * @var string
      */
-    protected $dir;
+    private $dir;
 
     /**
      * The name of the destination file.
      *
      * @var string
      */
-    protected $filename;
+    private $filename;
 
     /**
      * The number of chunks of the upload.
      *
      * @var int
      */
-    protected $chunks;
+    private $chunks;
 
     /**
      * The number of the currently uploaded chunk.
      *
      * @var int
      */
-    protected $chunk;
+    private $chunk;
 
     /**
      * @param string $dir      Path of the destination folder.
@@ -66,7 +66,7 @@ class Receiver
         $this->cleanFilename();
     }
 
-    protected function cleanFilename()
+    private function cleanFilename()
     {
         $this->filename = preg_replace('/[^\w\._]+/', '', $this->filename);
         if ($this->chunks < 2 && file_exists($this->dir . $this->filename)) {
