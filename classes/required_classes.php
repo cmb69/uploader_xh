@@ -13,26 +13,16 @@
  * @link      http://3-magi.net/?CMSimple_XH/Uploader_XH
  */
 
-/**
- * Autoloads the plugin classes.
- *
- * @param string $class A class name.
- *
- * @return void
- *
- * @global array The paths of system files and folders.
- */
-function Uploader_autoload($class)
-{
-    global $pth;
-
-    $parts = explode('\\', $class, 2);
-    if ($parts[0] == 'Uploader') {
-        include_once $pth['folder']['plugins'] . 'uploader/classes/'
-            . $parts[1] . '.php';
+spl_autoload_register(
+    function ($class) {
+        global $pth;
+    
+        $parts = explode('\\', $class, 2);
+        if ($parts[0] == 'Uploader') {
+            include_once $pth['folder']['plugins'] . 'uploader/classes/'
+                . $parts[1] . '.php';
+        }
     }
-}
-
-spl_autoload_register('Uploader_autoload');
+);
 
 ?>
