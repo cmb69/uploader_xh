@@ -37,31 +37,9 @@ class Controller
      */
     public static function main($type, $subdir, $resize)
     {
-        global $bjs, $pth, $su;
-        static $run = 0;
-
-        if (!file_exists($pth['folder']['images'] . $subdir)) {
-            mkdir($pth['folder']['images'] . $subdir, 0777, true);
-        }
-        include_once $pth['folder']['plugins'] . 'uploader/init.php';
-        $url = '?function=uploader_widget&uploader_type='
-            . ($type == '*' ? self::getType() : $type) . '&uploader_subdir='
-            . ($subdir == '*' ? self::getSubfolder() : $subdir)
-            . '&uploader_resize='
-            . ($resize == '*' ? self::getResizeMode() : $resize);
-        if (!$run) {
-            $bjs .= '<script type="text/javascript" src="' . "{$pth['folder']['plugins']}uploader/uploader.min.js"
-                . '"></script>';
-        }
-        $anchor = 'uploader_container' . $run;
-        $view = new View('container');
-        $view->anchor = $anchor;
-        $view->iframeSrc = $url;
-        $view->typeSelect = new HtmlString($type == '*' ? self::renderTypeSelect($su) : '');
-        $view->subdirSelect = new HtmlString($subdir == '*' ? self::renderSubdirSelect($su) : '');
-        $view->resizeSelect = new HtmlString($resize == '*' ? self::renderResizeSelect($su) : '');
-        $run++;
-        return (string) $view;
+        ob_start();
+        (new MainController($type, $subdir, $resize))->defaultAction();
+        return ob_get_clean();
     }
 
     /**
@@ -106,30 +84,6 @@ class Controller
         } else {
             return '';
         }
-    }
-
-    /**
-     * @return string
-     */
-    private static function getResizeMode()
-    {
-        global $plugin_cf;
-
-        if (isset($_GET['uploader_resize'])
-            && in_array($_GET['uploader_resize'], self::getSizes())
-        ) {
-            return $_GET['uploader_resize'];
-        } else {
-            return $plugin_cf['uploader']['resize_default'];
-        }
-    }
-
-    /**
-     * @return array
-     */
-    private static function getSizes()
-    {
-        return array('', 'small', 'medium', 'large');
     }
 
     /**
@@ -191,23 +145,9 @@ class Controller
      */
     private static function handleMainAdministration()
     {
-        global $bjs, $pth;
-
-        $bjs .= '<script type="text/javascript" src="' . "{$pth['folder']['plugins']}uploader/uploader.min.js"
-            . '"></script>';
-        $view = new View('admin-container');
-        $view->typeSelect = new HtmlString(
-            self::renderTypeSelect('&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text')
-        );
-        $view->subdirSelect = new HtmlString(
-            self::renderSubdirSelect('&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text')
-        );
-        $view->resizeSelect = new HtmlString(
-            self::renderResizeSelect('&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text')
-        );
-        $view->iframeSrc = '?function=uploader_widget&uploader_type=' . self::getType()
-            . '&uploader_subdir=' . self::getSubfolder() . '&uploader_resize=' . self::getResizeMode();
-        return (string) $view;
+        ob_start();
+        (new MainAdminController)->defaultAction();
+        return ob_get_clean();
     }
 
     private static function handleUpload()
@@ -262,115 +202,5 @@ class Controller
         return function_exists('XH_wantsPluginAdministration')
             && XH_wantsPluginAdministration('uploader')
             || isset($uploader) && $uploader == 'true';
-    }
-
-    /**
-     * @param string $params A query string.
-     * @param string $anchor A fragment identifier.
-     * @return string (X)HTML.
-     */
-    private static function renderTypeSelect($params)
-    {
-        global $pth, $plugin_tx;
-
-        $o = '<select id="uploader-type" title="'
-            . $plugin_tx['uploader']['label_type'] . '" data-url="' . self::getSelectOnchangeUrl('type', $params) . '">'
-            . "\n";
-        foreach (self::getTypes() as $type) {
-            if (isset($pth['folder'][$type])) {
-                $sel = $type == self::getType() ? ' selected="selected"' : '';
-                $o .= '<option value="' . $type . '"' . $sel . '>' . $type
-                    . '</option>' . "\n";
-            }
-        }
-        $o .= '</select>' . "\n";
-        return $o;
-    }
-
-    /**
-     * @param string $params A query string.
-     * @param string $anchor A fragment identifier.
-     * @return string (X)HTML.
-     */
-    private static function renderSubdirSelect($params)
-    {
-        global $plugin_tx;
-
-        return '<select id="uploader-subdir" title="'
-            . $plugin_tx['uploader']['label_subdir'] . '"'
-            . ' data-url="' . self::getSelectOnchangeUrl('subdir', $params) . '">' . "\n"
-            . '<option>/</option>' . "\n"
-            . self::renderSubdirSelectRec('')
-            . '</select>' . "\n";
-    }
-
-    /**
-     * @param string $parent A parent folder.
-     * @return string (X)HTML.
-     */
-    private static function renderSubdirSelectRec($parent)
-    {
-        global $pth;
-
-        $o = '';
-        $dn = $pth['folder'][self::getType()] . $parent;
-        if (($dh = opendir($dn)) !== false) {
-            while (($fn = readdir($dh)) !== false) {
-                if (strpos($fn, '.') !== 0
-                    && is_dir($pth['folder'][self::getType()] . $parent . $fn)
-                ) {
-                    $dir = $parent . $fn . '/';
-                    $sel = ($dir == self::getSubfolder())
-                        ? ' selected="selected"'
-                        : '';
-                    $o .= '<option value="' . $dir . '"' . $sel . '>' . $dir
-                        . '</option>' . "\n";
-                    $o .= self::renderSubdirSelectRec($dir);
-                }
-            }
-            closedir($dh);
-        } else {
-            e('cntopen', 'folder', $dn);
-        }
-        return $o;
-    }
-
-    /**
-     * @param string $params A query string.
-     * @param string $anchor A fragment identifier.
-     * @return string (X)HTML.
-     */
-    private static function renderResizeSelect($params)
-    {
-        global $plugin_tx;
-
-        $o = '<select id="uploader-resize" title="'
-            . $plugin_tx['uploader']['label_resize'] . '"'
-            . ' data-url="' . self::getSelectOnchangeUrl('resize', $params) . '">' . "\n";
-        foreach (self::getSizes() as $size) {
-            $sel = $size == self::getResizeMode() ? ' selected="selected"' : '';
-            $o .= '<option value="' . $size . '"' . $sel . '>' . $size . '</option>'
-                . "\n";
-        }
-        $o .= '</select>' . "\n";
-        return $o;
-    }
-
-    private static function getSelectOnchangeUrl($param, $params)
-    {
-        global $sn;
-
-        $url = $sn . '?' . $params;
-        if ($param != 'type') {
-            $url .= '&amp;uploader_type=' . urlencode(self::getType());
-        }
-        if ($param != 'subdir') {
-            $url .= '&amp;uploader_subdir=' . urlencode(self::getSubfolder());
-        }
-        if ($param != 'resize') {
-            $url .= '&amp;uploader_resize=' . urlencode(self::getResizeMode());
-        }
-        $url .= '&amp;uploader_' . $param . '=';
-        return $url;
     }
 }
