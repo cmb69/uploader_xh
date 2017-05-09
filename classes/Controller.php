@@ -141,37 +141,6 @@ class Controller
     }
 
     /**
-     * @param string $key
-     * @return string
-     */
-    protected static function l10n($key)
-    {
-        global $plugin_tx;
-
-        return $plugin_tx['uploader'][$key];
-    }
-    /**
-     * @return string
-     */
-    protected static function logoPath()
-    {
-        global $pth;
-
-        return $pth['folder']['plugins'] . 'uploader/uploader.png';
-    }
-
-    /**
-     * @param string $state
-     * @return string
-     */
-    protected static function stateIconPath($state)
-    {
-        global $pth;
-
-        return $pth['folder']['plugins'] . 'uploader/images/' . $state . '.png';
-    }
-
-    /**
      * @return array
      */
     protected static function systemChecks()
@@ -179,7 +148,7 @@ class Controller
         global $pth, $tx, $plugin_tx;
 
         $ptx = $plugin_tx['uploader'];
-        $phpVersion = '5.3.0';
+        $phpVersion = '5.4.0';
         $checks = array();
         $checks[sprintf($ptx['syscheck_phpversion'], $phpVersion)]
             = version_compare(PHP_VERSION, $phpVersion) >= 0 ? 'ok' : 'fail';
@@ -226,12 +195,17 @@ class Controller
 
     protected static function handleAdministration()
     {
-        global $admin, $action, $plugin, $o;
+        global $admin, $action, $plugin, $o, $pth;
 
         $o .= print_plugin_admin('on');
         switch ($admin) {
             case '':
-                $o .= self::render('info');
+                $view = new View('info');
+                $view->logo = "{$pth['folder']['plugins']}uploader/uploader.png";
+                $view->version = UPLOADER_VERSION;
+                $view->checks = self::systemChecks();
+                $view->iconFolder = "{$pth['folder']['plugins']}uploader/images/";
+                $o .= (string) $view;
                 break;
             case 'plugin_main':
                 $o .= self::handleMainAdministration();
