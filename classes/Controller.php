@@ -172,25 +172,6 @@ class Controller
         return $checks;
     }
 
-    /**
-     * @param string $template
-     * @return string
-     */
-    private static function render($template)
-    {
-        global $pth, $cf;
-
-        $template = $pth['folder']['plugins'] . 'uploader/views/'
-            . $template . '.php';
-        ob_start();
-        include $template;
-        $o = ob_get_clean();
-        if (!$cf['xhtml']['endtags']) {
-            $o = str_replace('/>', '>', $o);
-        }
-        return $o;
-    }
-
     private static function handleAdministration()
     {
         global $admin, $action, $plugin, $o, $pth;
@@ -339,7 +320,7 @@ SCRIPT;
      */
     private static function renderTypeSelect($params, $anchor = null)
     {
-        global $pth, $sn, $plugin_tx;
+        global $pth, $plugin_tx;
 
         $o = '<select id="uploader-type" title="'
             . $plugin_tx['uploader']['label_type'] . '" onchange="'
@@ -363,7 +344,7 @@ SCRIPT;
      */
     private static function renderSubdirSelect($params, $anchor = null)
     {
-        global $pth, $sn, $plugin_tx;
+        global $plugin_tx;
 
         return '<select id="uploader-subdir" title="'
             . $plugin_tx['uploader']['label_subdir'] . '"'
