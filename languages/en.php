@@ -19,7 +19,6 @@ $plugin_tx['uploader']['message_no_js']="Javascript must be enabled in your brow
 $plugin_tx['uploader']['syscheck_title']="System check";
 $plugin_tx['uploader']['syscheck_phpversion']="PHP version &ge; %s";
 $plugin_tx['uploader']['syscheck_extension']="Extension '%s' loaded";
-$plugin_tx['uploader']['syscheck_magic_quotes']="Magic quotes runtime off";
 $plugin_tx['uploader']['syscheck_encoding']="Encoding 'UTF-8' configured";
 $plugin_tx['uploader']['syscheck_jquery']="<a href=\"http://www.cmsimple-xh.org/wiki/doku.php/extend:jquery4cmsimple\">jQuery4CMSimple plugin</a> installed";
 $plugin_tx['uploader']['syscheck_writable']="Folder '%s' writable";

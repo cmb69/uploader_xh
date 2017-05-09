@@ -10,7 +10,6 @@ $plugin_tx['uploader']['message_no_js']="Pro upload misí být povolen ve vašem
 $plugin_tx['uploader']['syscheck_title']="Kontrola systému";
 $plugin_tx['uploader']['syscheck_phpversion']="PHP verze &ge; %s";
 $plugin_tx['uploader']['syscheck_extension']="Rozšíření '%s' načteno";
-$plugin_tx['uploader']['syscheck_magic_quotes']="Magic quotes runtime off";
 $plugin_tx['uploader']['syscheck_encoding']="Kodovaní 'UTF-8' nastaveno";
 $plugin_tx['uploader']['syscheck_jquery']="<a href=\"http://www.cmsimple-xh.org/wiki/doku.php/extend:jquery4cmsimple\">jQuery4CMSimple plugin</a> instalováno";
 $plugin_tx['uploader']['syscheck_writable']="Adresář '%s' umožňuje zápis";

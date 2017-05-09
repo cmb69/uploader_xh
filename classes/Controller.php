@@ -152,12 +152,10 @@ class Controller
         $checks = array();
         $checks[sprintf($ptx['syscheck_phpversion'], $phpVersion)]
             = version_compare(PHP_VERSION, $phpVersion) >= 0 ? 'ok' : 'fail';
-        foreach (array('ctype', 'pcre', 'spl') as $ext) {
+        foreach (array('ctype') as $ext) {
             $checks[sprintf($ptx['syscheck_extension'], $ext)]
                 = extension_loaded($ext) ? 'ok' : 'fail';
         }
-        $checks[$ptx['syscheck_magic_quotes']]
-            = !get_magic_quotes_runtime() ? 'ok' : 'fail';
         $checks[$ptx['syscheck_encoding']]
             = strtoupper($tx['meta']['codepage']) == 'UTF-8' ? 'ok' : 'warn';
         $checks[$ptx['syscheck_jquery']]

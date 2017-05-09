@@ -19,7 +19,6 @@ $plugin_tx['uploader']['message_no_js']="JavaScript muss in Ihrem Browser aktivi
 $plugin_tx['uploader']['syscheck_title']="Systemprüfung";
 $plugin_tx['uploader']['syscheck_phpversion']="PHP Version &ge; %s";
 $plugin_tx['uploader']['syscheck_extension']="Erweiterung '%s' geladen";
-$plugin_tx['uploader']['syscheck_magic_quotes']="magic_quotes_runtime off";
 $plugin_tx['uploader']['syscheck_encoding']="UTF-8 Kodierung eingestellt";
 $plugin_tx['uploader']['syscheck_jquery']="<a href=\"http://www.cmsimple-xh.org/wiki/doku.php/extend:jquery4cmsimple\">jQuery4CMSimple plugin</a> installed";
 $plugin_tx['uploader']['syscheck_writable']="Ordner '%s' beschreibbar";

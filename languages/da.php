@@ -15,7 +15,6 @@ $plugin_tx['uploader']['syscheck_title']="System check";
 $plugin_tx['uploader']['syscheck_phpversion']="PHP version ≥ %s";
 $plugin_tx['uploader']['syscheck_extension']="Extension '%s' loaded";
 $plugin_tx['uploader']['syscheck_encoding']="Tegnkoding 'UTF-8' konfiguration";
-$plugin_tx['uploader']['syscheck_magic_quotes']="Magic quotes runtime off";
 $plugin_tx['uploader']['syscheck_writable']="Mappen '%s' skrivebar";
 $plugin_tx['uploader']['cf_resize-small_width']="Den maksimale bredde for små resizing.";
 $plugin_tx['uploader']['cf_resize-small_height']="Den maksimale højde for små resizing.";
