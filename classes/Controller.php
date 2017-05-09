@@ -38,7 +38,7 @@ class Controller
      */
     public static function main($type, $subdir, $resize, $collapsed)
     {
-        global $pth, $su;
+        global $bjs, $pth, $su;
         static $run = 0;
 
         if (!file_exists($pth['folder']['images'] . $subdir)) {
@@ -58,13 +58,17 @@ class Controller
             . ($subdir == '*' ? self::getSubfolder() : $subdir)
             . '&uploader_resize='
             . ($resize == '*' ? self::getResizeMode() : $resize);
+        if (!$run) {
+            $bjs .= '<script type="text/javascript" src="' . "{$pth['folder']['plugins']}uploader/uploader.min.js"
+                . '"></script>';
+        }
         $anchor = 'uploader_container' . $run;
         $view = new View('container');
         $view->anchor = $anchor;
         $view->iframeSrc = $url;
-        $view->typeSelect = new HtmlString($type == '*' ? self::renderTypeSelect($su, $anchor) : '');
-        $view->subdirSelect = new HtmlString($subdir == '*' ? self::renderSubdirSelect($su, $anchor) : '');
-        $view->resizeSelect = new HtmlString($resize == '*' ? self::renderResizeSelect($su, $anchor) : '');
+        $view->typeSelect = new HtmlString($type == '*' ? self::renderTypeSelect($su) : '');
+        $view->subdirSelect = new HtmlString($subdir == '*' ? self::renderSubdirSelect($su) : '');
+        $view->resizeSelect = new HtmlString($resize == '*' ? self::renderResizeSelect($su) : '');
         $run++;
         return (string) $view;
     }
@@ -196,6 +200,10 @@ class Controller
      */
     private static function handleMainAdministration()
     {
+        global $bjs, $pth;
+
+        $bjs .= '<script type="text/javascript" src="' . "{$pth['folder']['plugins']}uploader/uploader.min.js"
+            . '"></script>';
         $view = new View('admin-container');
         $view->typeSelect = new HtmlString(
             self::renderTypeSelect('&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text')
@@ -310,13 +318,12 @@ SCRIPT;
      * @param string $anchor A fragment identifier.
      * @return string (X)HTML.
      */
-    private static function renderTypeSelect($params, $anchor = null)
+    private static function renderTypeSelect($params)
     {
         global $pth, $plugin_tx;
 
         $o = '<select id="uploader-type" title="'
-            . $plugin_tx['uploader']['label_type'] . '" onchange="'
-            . self::renderSelectOnchange('type', $params, $anchor) . '">'
+            . $plugin_tx['uploader']['label_type'] . '" data-url="' . self::getSelectOnchangeUrl('type', $params) . '">'
             . "\n";
         foreach (self::getTypes() as $type) {
             if (isset($pth['folder'][$type])) {
@@ -334,14 +341,13 @@ SCRIPT;
      * @param string $anchor A fragment identifier.
      * @return string (X)HTML.
      */
-    private static function renderSubdirSelect($params, $anchor = null)
+    private static function renderSubdirSelect($params)
     {
         global $plugin_tx;
 
         return '<select id="uploader-subdir" title="'
             . $plugin_tx['uploader']['label_subdir'] . '"'
-            . ' onchange="' . self::renderSelectOnchange('subdir', $params, $anchor)
-            . '">' . "\n"
+            . ' data-url="' . self::getSelectOnchangeUrl('subdir', $params) . '">' . "\n"
             . '<option>/</option>' . "\n"
             . self::renderSubdirSelectRec('')
             . '</select>' . "\n";
@@ -383,14 +389,13 @@ SCRIPT;
      * @param string $anchor A fragment identifier.
      * @return string (X)HTML.
      */
-    private static function renderResizeSelect($params, $anchor = null)
+    private static function renderResizeSelect($params)
     {
         global $plugin_tx;
 
         $o = '<select id="uploader-resize" title="'
             . $plugin_tx['uploader']['label_resize'] . '"'
-            . ' onchange="' . self::renderSelectOnchange('resize', $params, $anchor)
-            . '">' . "\n";
+            . ' data-url="' . self::getSelectOnchangeUrl('resize', $params) . '">' . "\n";
         foreach (self::getSizes() as $size) {
             $sel = $size == self::getResizeMode() ? ' selected="selected"' : '';
             $o .= '<option value="' . $size . '"' . $sel . '>' . $size . '</option>'
@@ -400,13 +405,7 @@ SCRIPT;
         return $o;
     }
 
-    /**
-     * @param string $param  A kind.
-     * @param string $params A query string.
-     * @param string $anchor A fragment identifier.
-     * @return string
-     */
-    private static function renderSelectOnchange($param, $params, $anchor = null)
+    private static function getSelectOnchangeUrl($param, $params)
     {
         global $sn;
 
@@ -421,12 +420,6 @@ SCRIPT;
             $url .= '&amp;uploader_resize=' . urlencode(self::getResizeMode());
         }
         $url .= '&amp;uploader_' . $param . '=';
-        $js = 'window.location.href=\''  .$url
-            . '\'+encodeURIComponent(document.getElementById(\'uploader-' . $param
-            . '\').value)';
-        if (isset($anchor)) {
-            $js .= '+\'#'.$anchor.'\'';
-        }
-        return $js;
+        return $url;
     }
 }
