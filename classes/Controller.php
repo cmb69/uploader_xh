@@ -53,23 +53,20 @@ class Controller
             );
         }
         include_once $pth['folder']['plugins'] . 'uploader/init.php';
-        $url = '?function=uploader_widget&amp;uploader_type='
-            . ($type == '*' ? self::getType() : $type) . '&amp;uploader_subdir='
+        $url = '?function=uploader_widget&uploader_type='
+            . ($type == '*' ? self::getType() : $type) . '&uploader_subdir='
             . ($subdir == '*' ? self::getSubfolder() : $subdir)
-            . '&amp;uploader_resize='
+            . '&uploader_resize='
             . ($resize == '*' ? self::getResizeMode() : $resize);
         $anchor = 'uploader_container' . $run;
-        $o = '<div id="' . $anchor . '">' . "\n"
-            . '<div class="uploader_controls">'
-            . ($type == '*' ? self::renderTypeSelect($su, $anchor) : '')
-            . ($subdir == '*' ? self::renderSubdirSelect($su, $anchor) : '')
-            . ($resize == '*' ? self::renderResizeSelect($su, $anchor) : '')
-            . '</div>' . "\n"
-            . '<iframe src="' . $url . '" frameBorder="0" class="uploader"></iframe>'
-            . "\n"
-            . '</div>' . "\n";
+        $view = new View('container');
+        $view->anchor = $anchor;
+        $view->iframeSrc = $url;
+        $view->typeSelect = new HtmlString($type == '*' ? self::renderTypeSelect($su, $anchor) : '');
+        $view->subdirSelect = new HtmlString($subdir == '*' ? self::renderSubdirSelect($su, $anchor) : '');
+        $view->resizeSelect = new HtmlString($resize == '*' ? self::renderResizeSelect($su, $anchor) : '');
         $run++;
-        return $o;
+        return (string) $view;
     }
 
     /**
@@ -199,24 +196,19 @@ class Controller
      */
     private static function handleMainAdministration()
     {
-        global $pth;
-
-        include_once $pth['folder']['plugins'] . 'uploader/init.php';
-        return '<div class="uploader_controls">'
-            . self::renderTypeSelect(
-                '&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text'
-            )
-            . self::renderSubdirSelect(
-                '&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text'
-            )
-            . self::renderResizeSelect(
-                '&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text'
-            )
-            . '</div>' . "\n"
-            . '<iframe class="uploader" frameBorder="0" src="'
-            . '?function=uploader_widget&amp;uploader_type='
-            . self::getType() . '&amp;uploader_subdir=' . self::getSubfolder()
-            . '&amp;uploader_resize=' . self::getResizeMode() . '"></iframe>' . "\n";
+        $view = new View('admin-container');
+        $view->typeSelect = new HtmlString(
+            self::renderTypeSelect('&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text')
+        );
+        $view->subdirSelect = new HtmlString(
+            self::renderSubdirSelect('&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text')
+        );
+        $view->resizeSelect = new HtmlString(
+            self::renderResizeSelect('&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text')
+        );
+        $view->iframeSrc = '?function=uploader_widget&uploader_type=' . self::getType()
+            . '&uploader_subdir=' . self::getSubfolder() . '&uploader_resize=' . self::getResizeMode();
+        return (string) $view;
     }
 
     private static function handleUpload()
