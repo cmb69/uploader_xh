@@ -117,6 +117,43 @@ class Widget
         $this->l10n = $plugin_tx['uploader'];
     }
 
+    private function getJsonConfig()
+    {
+        $url = CMSIMPLE_ROOT . '?function=uploader_upload&uploader_type=' . urlencode($this->type)
+            . '&uploader_subdir=' . urlencode($this->subdir);
+        $config = array(
+            'runtimes' => 'html5,silverlight,html4',
+            'browse_button' => 'pickfiles',
+            'container' => 'container',
+            'url' => $url,
+            'max_file_size' => $this->config['size_max'],
+            'filters' => [[
+                'title' => $this->l10n['title_' . $this->type],
+                'extensions' => $this->config['ext_' . $this->type]
+            ]],
+            'flash_swf_url' => "{$this->libFolder}Moxie.swf",
+            'silverlight_xap_url' => "{$this->libFolder}Moxie.xap",
+            'file_data_name' => 'uploader_file'
+        );
+        if ($this->config['size_chunk'] !== '') {
+            $config['chunk_size'] = $this->config['size_chunk'];
+        }
+        if (isset($this->width, $this->height, $this->quality)) {
+            $config['resize'] = array(
+                'width' => $this->width,
+                'height' => $this->height,
+                'quality' => $this->quality
+            );
+        } elseif ($this->resize != '') {
+            $config['resize'] = array(
+                'width' => $this->config['resize-' . $this->resize . '_width'],
+                'height' => $this->config['resize-' . $this->resize . '_height'],
+                'quality' => $this->config['resize-' . $this->resize . '_quality']
+            );
+        }
+        return json_encode($config);
+    }
+
     /**
      * @return string
      */
