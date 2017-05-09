@@ -1,29 +1,26 @@
 <?php
 
 /**
- * Receiver of Uploader_XH.
+ * Copyright 2011-2017 Christoph M. Becker
  *
- * PHP version 5
+ * This file is part of Uploader_XH.
  *
- * @category  CMSimple_XH
- * @package   Uploader
- * @author    Christoph M. Becker <cmbecker69@gmx.de>
- * @copyright 2011-2017 Christoph M. Becker <http://3-magi.net/>
- * @license   http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @link      http://3-magi.net/?CMSimple_XH/Uploader_XH
+ * Uploader_XH is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Uploader_XH is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Uploader_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 namespace Uploader;
 
-/**
- * The receiver class.
- *
- * @category CMSimple_XH
- * @package  Uploader
- * @author   Christoph M. Becker <cmbecker69@gmx.de>
- * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @link     http://3-magi.net/?CMSimple_XH/Uploader_XH
- */
 class Receiver
 {
     /**
@@ -55,8 +52,6 @@ class Receiver
     protected $chunk;
 
     /**
-     * Initialize a new object.
-     *
      * @param string $dir      Path of the destination folder.
      * @param string $filename Name of the destination file.
      * @param int    $chunks   The number of chunks of the upload.
@@ -71,11 +66,6 @@ class Receiver
         $this->cleanFilename();
     }
 
-    /**
-     * Cleans the filename and makes it unique.
-     *
-     * @return void
-     */
     protected function cleanFilename()
     {
         $this->filename = preg_replace('/[^\w\._]+/', '', $this->filename);
@@ -93,11 +83,6 @@ class Receiver
         }
     }
 
-    /**
-     * Emit HTTP headers.
-     *
-     * @return void
-     */
     public function emitHeaders()
     {
         header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
@@ -108,10 +93,7 @@ class Receiver
     }
 
     /**
-     * Handles the file upload.
-     *
      * @param string $filename Name of the input file.
-     *
      * @return string JSON response.
      */
     public function handleUpload($filename)
@@ -141,5 +123,3 @@ class Receiver
         }
     }
 }
-
-?>

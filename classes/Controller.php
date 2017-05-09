@@ -1,29 +1,26 @@
 <?php
 
 /**
- * Controller of Uploader_XH.
+ * Copyright 2011-2017 Christoph M. Becker
  *
- * PHP version 5
+ * This file is part of Uploader_XH.
  *
- * @category  CMSimple_XH
- * @package   Uploader
- * @author    Christoph M. Becker <cmbecker69@gmx.de>
- * @copyright 2011-2017 Christoph M. Becker <http://3-magi.net/>
- * @license   http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @link      http://3-magi.net/?CMSimple_XH/Uploader_XH
+ * Uploader_XH is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Uploader_XH is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Uploader_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 namespace Uploader;
 
-/**
- * The controller.
- *
- * @category CMSimple_XH
- * @package  Uploader
- * @author   Christoph M. Becker <cmbecker69@gmx.de>
- * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @link     http://3-magi.net/?CMSimple_XH/Uploader_XH
- */
 class Controller
 {
     /**
@@ -38,11 +35,6 @@ class Controller
      * @param bool   $collapsed Whether the uploader widget should be collapsed.
      *
      * @return string (X)HTML.
-     *
-     * @global array  The paths of system files and folders.
-     * @global string The current page URL.
-     *
-     * @staticvar int $run The running number.
      */
     public static function main($type, $subdir, $resize, $collapsed)
     {
@@ -81,8 +73,6 @@ class Controller
     }
 
     /**
-     * Returns the requested upload type.
-     *
      * @return string
      */
     protected static function getType()
@@ -100,8 +90,6 @@ class Controller
     }
 
     /**
-     * Returns the upload types.
-     *
      * @return array
      */
     protected static function getTypes()
@@ -110,11 +98,7 @@ class Controller
     }
 
     /**
-     * Returns the requested subfolder.
-     *
      * @return string
-     *
-     * @global array The paths of system files and folders.
      */
     protected static function getSubfolder()
     {
@@ -133,11 +117,7 @@ class Controller
     }
 
     /**
-     * Returns the requested resize mode.
-     *
      * @return string
-     *
-     * @global array The configuration of the plugins.
      */
     protected static function getResizeMode()
     {
@@ -153,8 +133,6 @@ class Controller
     }
 
     /**
-     * Returns the upload sizes.
-     *
      * @return array
      */
     protected static function getSizes()
@@ -163,13 +141,8 @@ class Controller
     }
 
     /**
-     * Returns the localization of a string.
-     *
-     * @param string $key The key of the string.
-     *
+     * @param string $key
      * @return string
-     *
-     * @global array The localization of the plugins.
      */
     protected static function l10n($key)
     {
@@ -178,11 +151,7 @@ class Controller
         return $plugin_tx['uploader'][$key];
     }
     /**
-     * Returns the path of the plugin logo.
-     *
      * @return string
-     *
-     * @global array The paths of system files and folders.
      */
     protected static function logoPath()
     {
@@ -192,13 +161,8 @@ class Controller
     }
 
     /**
-     * Returns the path of a system check state icon.
-     *
-     * @param string $state A system check state.
-     *
+     * @param string $state
      * @return string
-     *
-     * @global array The paths of system files and folders.
      */
     protected static function stateIconPath($state)
     {
@@ -208,13 +172,7 @@ class Controller
     }
 
     /**
-     * Returns the system checks.
-     *
      * @return array
-     *
-     * @global array The paths of system files and folders.
-     * @global array The localization of the core.
-     * @global array The localization of the plugins.
      */
     protected static function systemChecks()
     {
@@ -248,14 +206,8 @@ class Controller
     }
 
     /**
-     * Renders a view template.
-     *
-     * @param string $template The name of the template.
-     *
+     * @param string $template
      * @return string
-     *
-     * @global array The paths of system files and folders.
-     * @global array The configuration of the core.
      */
     protected static function render($template)
     {
@@ -272,39 +224,25 @@ class Controller
         return $o;
     }
 
-    /**
-     * Handles the plugin administration.
-     *
-     * @return void
-     *
-     * @global string The value of the "admin" GET or POST parameter.
-     * @global string The value of the "action" GET or POST parameter.
-     * @global string The name of the plugin.
-     * @global string The (X)HTML to be placed in the contents area.
-     */
     protected static function handleAdministration()
     {
         global $admin, $action, $plugin, $o;
 
         $o .= print_plugin_admin('on');
         switch ($admin) {
-        case '':
-            $o .= self::render('info');
-            break;
-        case 'plugin_main':
-            $o .= self::handleMainAdministration();
-            break;
-        default:
-            $o .= plugin_admin_common($action, $admin, $plugin);
+            case '':
+                $o .= self::render('info');
+                break;
+            case 'plugin_main':
+                $o .= self::handleMainAdministration();
+                break;
+            default:
+                $o .= plugin_admin_common($action, $admin, $plugin);
         }
     }
 
     /**
-     * Handles the main administration.
-     *
-     * @return string (X)HTML.
-     *
-     * @global array The paths of system files and folders.
+     * @return string
      */
     protected static function handleMainAdministration()
     {
@@ -328,13 +266,6 @@ class Controller
             . '&amp;uploader_resize=' . self::getResizeMode() . '"></iframe>' . "\n";
     }
 
-    /**
-     * Handles a file upload.
-     *
-     * @return void
-     *
-     * @global array The paths of system files and folders.
-     */
     protected static function handleUpload()
     {
         global $pth;
@@ -357,13 +288,6 @@ class Controller
         exit();
     }
 
-    /**
-     * Dispatches on Uploader related requests.
-     *
-     * @return void
-     *
-     * @global bool   Whether the user is logged in as admin.
-     */
     public static function dispatch()
     {
         global $adm, $function;
@@ -385,11 +309,7 @@ class Controller
     }
 
     /**
-     * Returns whether the administration is requested.
-     *
      * @return bool
-     *
-     * @global string Whether the plugin administration is requested.
      */
     protected static function isAdministrationRequested()
     {
@@ -405,12 +325,6 @@ class Controller
      *
      * @param int  $run       A running number.
      * @param bool $collapsed Whether the element is initially collapsed.
-     *
-     * @return void
-     *
-     * @global array  The paths of system files and folders.
-     * @global string The (X)HTML fragment to insert into the head element.
-     * @global array  The localization of the plugins.
      */
     protected static function toggle($run, $collapsed)
     {
@@ -447,16 +361,9 @@ SCRIPT;
     }
 
     /**
-     * Renders a type select element.
-     *
      * @param string $params A query string.
      * @param string $anchor A fragment identifier.
-     *
      * @return string (X)HTML.
-     *
-     * @global array  The paths of system files and folders.
-     * @global string The script name.
-     * @global array  The localization of the plugins.
      */
     protected static function renderTypeSelect($params, $anchor = null)
     {
@@ -478,16 +385,9 @@ SCRIPT;
     }
 
     /**
-     * Renders the subfolder select element.
-     *
      * @param string $params A query string.
      * @param string $anchor A fragment identifier.
-     *
      * @return string (X)HTML.
-     *
-     * @global array  The paths of system files and folders.
-     * @global string The script name.
-     * @global array  The localization of the plugins.
      */
     protected static function renderSubdirSelect($params, $anchor = null)
     {
@@ -503,13 +403,8 @@ SCRIPT;
     }
 
     /**
-     * Renders a level of a subfolder select element.
-     *
      * @param string $parent A parent folder.
-     *
      * @return string (X)HTML.
-     *
-     * @global array The paths of system files and folders.
      */
     protected static function renderSubdirSelectRec($parent)
     {
@@ -539,14 +434,9 @@ SCRIPT;
     }
 
     /**
-     * Renders the resize select element.
-     *
      * @param string $params A query string.
      * @param string $anchor A fragment identifier.
-     *
      * @return string (X)HTML.
-     *
-     * @global array The localization of the plugins.
      */
     protected static function renderResizeSelect($params, $anchor = null)
     {
@@ -566,15 +456,10 @@ SCRIPT;
     }
 
     /**
-     * Renders the value of an onchange attribute.
-     *
      * @param string $param  A kind.
      * @param string $params A query string.
      * @param string $anchor A fragment identifier.
-     *
      * @return string
-     *
-     * @global string The script name.
      */
     protected static function renderSelectOnchange($param, $params, $anchor = null)
     {
@@ -600,5 +485,3 @@ SCRIPT;
         return $js;
     }
 }
-
-?>
