@@ -38,7 +38,7 @@ define('UPLOADER_VERSION', '@UPLOADER_VERSION@');
  */
 function uploader($type = 'images', $subdir = '', $resize = '', $collapsed = false)
 {
-    return Uploader_Controller::main($type, $subdir, $resize, $collapsed);
+    return Uploader\Controller::main($type, $subdir, $resize, $collapsed);
 }
 
 /**
@@ -59,9 +59,9 @@ function uploader($type = 'images', $subdir = '', $resize = '', $collapsed = fal
 function uploader_collapsed($type = 'images', $subdir = '', $resize = '')
 {
 // @codingStandardsIgnoreEnd
-    return Uploader_Controller::main($type, $subdir, $resize, true);
+    return Uploader\Controller::main($type, $subdir, $resize, true);
 }
 
-Uploader_Controller::dispatch();
+Uploader\Controller::dispatch();
 
 ?>

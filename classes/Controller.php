@@ -13,6 +13,8 @@
  * @link      http://3-magi.net/?CMSimple_XH/Uploader_XH
  */
 
+namespace Uploader;
+
 /**
  * The controller.
  *
@@ -22,7 +24,7 @@
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link     http://3-magi.net/?CMSimple_XH/Uploader_XH
  */
-class Uploader_Controller
+class Controller
 {
     /**
      * Returns the uploader widget.
@@ -219,7 +221,7 @@ class Uploader_Controller
         global $pth, $tx, $plugin_tx;
 
         $ptx = $plugin_tx['uploader'];
-        $phpVersion = '5.1.2';
+        $phpVersion = '5.3.0';
         $checks = array();
         $checks[sprintf($ptx['syscheck_phpversion'], $phpVersion)]
             = version_compare(PHP_VERSION, $phpVersion) >= 0 ? 'ok' : 'fail';
@@ -341,7 +343,7 @@ class Uploader_Controller
         $filename = isset($_POST['name']) ? $_POST['name'] : '';
         $chunks = isset($_POST['chunks']) ? $_POST['chunks'] : 0;
         $chunk = isset($_POST['chunk']) ? $_POST['chunk'] : 0;
-        $receiver = new Uploader_Receiver($dir, $filename, $chunks, $chunk);
+        $receiver = new Receiver($dir, $filename, $chunks, $chunk);
         $receiver->emitHeaders();
         if (isset($_FILES['uploader_file']['tmp_name'])
             && is_uploaded_file($_FILES['uploader_file']['tmp_name'])
@@ -373,7 +375,7 @@ class Uploader_Controller
             if (self::isAdministrationRequested()) {
                 self::handleAdministration();
             } elseif ($function == 'uploader_widget') {
-                $widget = new Uploader_Widget();
+                $widget = new Widget();
                 echo $widget->render();
                 exit;
             } elseif ($function == 'uploader_upload') {

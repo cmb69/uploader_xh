@@ -13,6 +13,8 @@
  * @link      http://3-magi.net/?CMSimple_XH/Uploader_XH
  */
 
+namespace Uploader;
+
 /**
  * The uploader widget.
  *
@@ -22,7 +24,7 @@
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link     http://3-magi.net/?CMSimple_XH/Uploader_XH
  */
-class Uploader_Widget
+class Widget
 {
     /**
      * The upload type ('images', 'downloads', 'media' or 'userfiles').

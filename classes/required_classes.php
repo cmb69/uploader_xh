@@ -26,7 +26,7 @@ function Uploader_autoload($class)
 {
     global $pth;
 
-    $parts = explode('_', $class, 2);
+    $parts = explode('\\', $class, 2);
     if ($parts[0] == 'Uploader') {
         include_once $pth['folder']['plugins'] . 'uploader/classes/'
             . $parts[1] . '.php';
