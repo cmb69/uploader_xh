@@ -73,20 +73,6 @@ class Widget
     private $libFolder;
 
     /**
-     * The image folder path.
-     *
-     * @var string
-     */
-    private $imageFolder;
-
-    /**
-     * The language filepath.
-     *
-     * @var string
-     */
-    private $languageFile;
-
-    /**
      * The configuration of the plugin.
      *
      * @var array
@@ -102,7 +88,7 @@ class Widget
 
     public function __construct()
     {
-        global $pth, $sl, $cf, $plugin_cf, $plugin_tx;
+        global $pth, $plugin_cf, $plugin_tx;
 
         $this->type = isset($_GET['uploader_type'])
             && isset($pth['folder'][$_GET['uploader_type']])
@@ -127,9 +113,6 @@ class Widget
             }
         }
         $this->libFolder = $pth['folder']['plugins'] . 'uploader/lib/';
-        $this->imageFolder = $pth['folder']['plugins'] . 'uploader/images/';
-        $language = (strlen($sl) == 2) ? $sl : $cf['language']['default'];
-        $this->languageFile = $this->libFolder . 'i18n/' . $language . '.js';
         $this->config = $plugin_cf['uploader'];
         $this->l10n = $plugin_tx['uploader'];
     }

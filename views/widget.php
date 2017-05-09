@@ -3,18 +3,21 @@
 <html>
 <head>
     <title>title</title>
-    <link rel="stylesheet" type="text/css" href="<?php echo $this->libFolder?>jquery.plupload.queue/css/jquery.plupload.queue.css">
-    <script type="text/javascript" src="<?php echo $this->libFolder?>jquery.min.js"></script>
     <script type="text/javascript" src="<?php echo $this->libFolder?>plupload.full.min.js"></script>
-<?php if (file_exists($this->languageFile)):?>
-    <script type="text/javascript" src="<?php echo $this->languageFile?>"></script>
-<?php endif?>
-    <script type="text/javascript" src="<?php echo $this->libFolder?>jquery.plupload.queue/jquery.plupload.queue.js"></script>
+</head>
+<body>
+	<div id="filelist">Your browser doesn't have Flash, Silverlight or HTML5 support.</div>
+	<div id="container">
+		<button id="pickfiles">Select files</button>
+		<button id="uploadfiles">Upload files</button>
+	</div>
+	<pre id="console"></pre>
+
     <script type="text/javascript">
-    /* <![CDATA[ */
-    jQuery(function() {
-	jQuery("#uploader").pluploadQueue({
+    var uploader = new plupload.Uploader({
 	    runtimes: 'html5,silverlight,html4',
+		browse_button: "pickfiles",
+		container: "container",
 	    url: '<?php echo CMSIMPLE_ROOT?>?function=uploader_upload&uploader_type=<?php echo $this->type?>&uploader_subdir=<?php echo urlencode($this->subdir)?>',
 	    max_file_size: '<?php echo $this->config['size_max']?>',
 <?php if (!empty($this->config['size_chunk'])):?>
@@ -39,24 +42,31 @@
 	    }],
 	    flash_swf_url: '<?php echo $this->libFolder?>Moxie.swf',
 	    silverlight_xap_url: '<?php echo $this->libFolder?>Moxie.xap',
-	    rename: true,
-	    multiple_queues: true,
-	    dragdrop: true,
-	    file_data_name: "uploader_file"
+	    file_data_name: "uploader_file",
+		init: {
+			PostInit: function() {
+				document.getElementById('filelist').innerHTML = '';
+	 
+				document.getElementById('uploadfiles').onclick = function() {
+					uploader.start();
+					return false;
+				};
+			},
+			FilesAdded: function(up, files) {
+				plupload.each(files, function(file) {
+					document.getElementById('filelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></div>';
+				});
+			},
+			UploadProgress: function(up, file) {
+				document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+			},
+	 
+			Error: function(up, err) {
+				document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
+			}
+		}
 	});
-    });
-    /* ]]> */
+	uploader.init();
     </script>
-</head>
-<body>
-    <form method="POST" action="#">
-	<div id="uploader">
-	    <img src="<?php echo $this->imageFolder?>loading.gif" alt="loading &hellip;" style="display:none">
-	    <script type="text/javascript">
-		jQuery('#uploader img').show()
-	    </script>
-	    <noscript><?php echo $this->l10n['message_no_js']?></noscript>
-	</div>
-    </form>
 </body>
 </html>
