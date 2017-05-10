@@ -5,7 +5,7 @@
 		<?=$this->resizeSelect()?>
 	</div>
 	<div class="uploader_filelist"><?=$this->text('message_no_support')?></div>
-	<div class="uploader_container">
+	<div class="uploader_buttons">
 		<button class="uploader_pickfiles"><?=$this->text('label_select_files')?></button>
 		<button class="uploader_uploadfiles"><?=$this->text('label_upload_files')?></button>
 	</div>
