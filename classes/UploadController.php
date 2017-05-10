@@ -229,6 +229,8 @@ class UploadController
 
     protected function getJsonConfig()
     {
+        global $sn;
+
         $type = $this->getType();
         $subdir = $this->getSubfolder();
         $allowedSizes = array('small', 'medium', 'large', 'custom');
@@ -242,13 +244,13 @@ class UploadController
                 ${$name} = $_GET['uploader_' . $name];
             }
         }
-        $url = CMSIMPLE_ROOT . '?function=uploader_upload&uploader_type=' . urlencode($type)
-            . '&uploader_subdir=' . urlencode($subdir);
+        $url = (new Url($sn, $_GET))->with('function', 'uploader_upload')
+            ->with('uploader_type', $type)->with('uploader_subdir', $subdir);
         $config = array(
             'runtimes' => 'html5,silverlight,html4',
             'browse_button' => 'pickfiles',
             'container' => 'container',
-            'url' => $url,
+            'url' => (string) $url,
             'max_file_size' => $this->config['size_max'],
             'filters' => [[
                 'title' => $this->lang['title_' . $type],

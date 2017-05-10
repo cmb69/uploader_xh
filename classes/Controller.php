@@ -145,10 +145,10 @@ class Controller
             if (function_exists('XH_registerStandardPluginMenuItems')) {
                 XH_registerStandardPluginMenuItems(true);
             }
-            if (self::isAdministrationRequested()) {
-                self::handleAdministration();
-            } elseif ($function == 'uploader_upload') {
+            if ($function == 'uploader_upload') {
                 self::handleUpload();
+            } elseif (self::isAdministrationRequested()) {
+                self::handleAdministration();
             }
         }
     }
