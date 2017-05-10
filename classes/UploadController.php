@@ -233,17 +233,7 @@ class UploadController
 
         $type = $this->getType();
         $subdir = $this->getSubfolder();
-        $allowedSizes = array('small', 'medium', 'large', 'custom');
-        $resize = isset($_GET['uploader_resize']) && in_array($_GET['uploader_resize'], $allowedSizes)
-            ? $_GET['uploader_resize']
-            : '';
-        foreach (array('width', 'height', 'quality') as $name) {
-            if ($resize == 'custom' && !empty($_GET['uploader_' . $name])
-                && preg_match('/^\d+$/', $_GET['uploader_' . $name])
-            ) {
-                ${$name} = $_GET['uploader_' . $name];
-            }
-        }
+        $resize = $this->getResizeMode();
         $url = (new Url($sn, $_GET))->with('function', 'uploader_upload')
             ->with('uploader_type', $type)->with('uploader_subdir', $subdir);
         $config = array(
@@ -259,13 +249,7 @@ class UploadController
             'file_data_name' => 'uploader_file'
         );
         $config['chunk_size'] = strtolower(ini_get('upload_max_filesize')) . 'b';
-        if (isset($width, $height, $quality)) {
-            $config['resize'] = array(
-                'width' => $width,
-                'height' => $height,
-                'quality' => $quality
-            );
-        } elseif ($resize != '') {
+        if ($resize != '') {
             $config['resize'] = array(
                 'width' => $this->config['resize-' . $resize . '_width'],
                 'height' => $this->config['resize-' . $resize . '_height'],
