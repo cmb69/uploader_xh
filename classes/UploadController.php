@@ -237,13 +237,14 @@ class UploadController
         $url = (new Url($sn, $_GET))->with('function', 'uploader_upload')
             ->with('uploader_type', $type)->with('uploader_subdir', $subdir);
         $config = array(
-            'runtimes' => 'html5,silverlight,html4',
             'url' => (string) $url,
-            'max_file_size' => $this->config['size_max'],
-            'filters' => [[
-                'title' => $this->lang['title_' . $type],
-                'extensions' => $this->config['ext_' . $type]
-            ]],
+            'filters' => [
+                'max_file_size' => $this->config['size_max'],
+                'mime_types' => [[
+                    'title' => $this->lang['title_' . $type],
+                    'extensions' => $this->config['ext_' . $type]
+                ]],
+            ],
             'flash_swf_url' => "{$this->pluginFolder}lib/Moxie.swf",
             'silverlight_xap_url' => "{$this->pluginFolder}lib/Moxie.xap",
             'file_data_name' => 'uploader_file'
