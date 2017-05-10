@@ -75,7 +75,7 @@ class Controller
         global $pth;
 
         $subdir = isset($_GET['uploader_subdir'])
-            ? preg_replace('/\.\.[\/\\\\]?/', '', stsl($_GET['uploader_subdir']))
+            ? preg_replace('/\.\.[\/\\\\]?/', '', $_GET['uploader_subdir'])
             : '';
         if (isset($_GET['uploader_subdir'])
             && is_dir($pth['folder'][self::getType()] . $subdir)
