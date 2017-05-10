@@ -237,7 +237,7 @@ class UploadController
             : '';
         foreach (array('width', 'height', 'quality') as $name) {
             if ($resize == 'custom' && !empty($_GET['uploader_' . $name])
-                && ctype_digit($_GET['uploader_' . $name])
+                && preg_match('/^\d+$/', $_GET['uploader_' . $name])
             ) {
                 ${$name} = $_GET['uploader_' . $name];
             }
