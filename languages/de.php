@@ -6,15 +6,11 @@ $plugin_tx['uploader']['menu_main']="Upload";
 $plugin_tx['uploader']['label_type']="Typ";
 $plugin_tx['uploader']['label_subdir']="Unterordner";
 $plugin_tx['uploader']['label_resize']="Größenänderung";
-$plugin_tx['uploader']['label_expand']="Upload";
-$plugin_tx['uploader']['label_collapse']="Schließen";
 
 $plugin_tx['uploader']['title_downloads']="Downloads";
 $plugin_tx['uploader']['title_images']="Bilder";
 $plugin_tx['uploader']['title_media']="Media-Dateien";
 $plugin_tx['uploader']['title_userfiles']="Andere";
-
-$plugin_tx['uploader']['message_no_js']="JavaScript muss in Ihrem Browser aktiviert sein, um Dateien hoch laden zu können!";
 
 $plugin_tx['uploader']['syscheck_extension']="die PHP-Erweiterung '%s' geladen ist";
 $plugin_tx['uploader']['syscheck_fail']="Fehler";
