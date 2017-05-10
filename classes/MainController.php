@@ -48,9 +48,7 @@ class MainController extends UploadController
             $this->appendScript("{$pth['folder']['plugins']}uploader/lib/plupload.full.min.js");
             $this->appendScript("{$pth['folder']['plugins']}uploader/uploader.min.js");
         }
-        $anchor = 'uploader_container' . $run;
         $view = new View('container');
-        $view->anchor = $anchor;
         $view->typeSelect = new HtmlString($this->type == '*' ? $this->renderTypeSelect($su) : '');
         $view->subdirSelect = new HtmlString($this->subdir == '*' ? $this->renderSubdirSelect($su) : '');
         $view->resizeSelect = new HtmlString($this->resize == '*' ? $this->renderResizeSelect($su) : '');
