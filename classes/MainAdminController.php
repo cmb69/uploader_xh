@@ -30,7 +30,7 @@ class MainAdminController extends UploadController
         $pluginFolder = "{$pth['folder']['plugins']}uploader/";
         $this->appendScript("{$pluginFolder}lib/plupload.full.min.js");
         $this->appendScript("{$pluginFolder}uploader.min.js");
-        $view = new View('admin-container');
+        $view = new View('container');
         $view->typeSelect = new HtmlString(
             $this->renderTypeSelect('&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text')
         );
