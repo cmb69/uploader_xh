@@ -86,51 +86,16 @@ class Controller
         }
     }
 
-    /**
-     * @return array
-     */
-    private static function systemChecks()
-    {
-        global $pth, $tx, $plugin_tx;
-
-        $ptx = $plugin_tx['uploader'];
-        $phpVersion = '5.4.0';
-        $checks = array();
-        $checks[sprintf($ptx['syscheck_phpversion'], $phpVersion)]
-            = version_compare(PHP_VERSION, $phpVersion) >= 0 ? 'ok' : 'fail';
-        foreach (array('ctype') as $ext) {
-            $checks[sprintf($ptx['syscheck_extension'], $ext)]
-                = extension_loaded($ext) ? 'ok' : 'fail';
-        }
-        $checks[$ptx['syscheck_encoding']]
-            = strtoupper($tx['meta']['codepage']) == 'UTF-8' ? 'ok' : 'warn';
-        $checks[$ptx['syscheck_jquery']]
-            = file_exists($pth['folder']['plugins'] . 'jquery/jquery.inc.php')
-            ? 'ok' : 'fail';
-        $folders = array();
-        foreach (array('config/', 'css/', 'languages/') as $folder) {
-            $folders[] = $pth['folder']['plugins'] . 'uploader/' . $folder;
-        }
-        foreach ($folders as $folder) {
-            $checks[sprintf($ptx['syscheck_writable'], $folder)]
-                = is_writable($folder) ? 'ok' : 'warn';
-        }
-        return $checks;
-    }
-
     private static function handleAdministration()
     {
-        global $admin, $action, $plugin, $o, $pth;
+        global $admin, $action, $plugin, $o;
 
         $o .= print_plugin_admin('on');
         switch ($admin) {
             case '':
-                $view = new View('info');
-                $view->logo = "{$pth['folder']['plugins']}uploader/uploader.png";
-                $view->version = UPLOADER_VERSION;
-                $view->checks = self::systemChecks();
-                $view->iconFolder = "{$pth['folder']['plugins']}uploader/images/";
-                $o .= (string) $view;
+                ob_start();
+                (new InfoController)->defaultAction();
+                $o .= ob_get_clean();
                 break;
             case 'plugin_main':
                 $o .= self::handleMainAdministration();
