@@ -288,7 +288,6 @@ class UploadController
         $chunks = isset($_POST['chunks']) ? $_POST['chunks'] : 0;
         $chunk = isset($_POST['chunk']) ? $_POST['chunk'] : 0;
         $receiver = new Receiver($dir, $filename, $chunks, $chunk);
-        $receiver->emitHeaders();
         if (isset($_FILES['uploader_file']['tmp_name'])
             && is_uploaded_file($_FILES['uploader_file']['tmp_name'])
         ) {
