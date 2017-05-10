@@ -248,8 +248,8 @@ class UploadController
             ->with('uploader_type', $type)->with('uploader_subdir', $subdir);
         $config = array(
             'runtimes' => 'html5,silverlight,html4',
-            'browse_button' => 'pickfiles',
-            'container' => 'container',
+            'browse_button' => 'uploader_pickfiles',
+            'container' => 'uploader_container',
             'url' => (string) $url,
             'max_file_size' => $this->config['size_max'],
             'filters' => [[
