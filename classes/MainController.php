@@ -31,6 +31,7 @@ class MainController extends UploadController
 
     public function __construct($type, $subdir, $resize)
     {
+        parent::__construct();
         $this->type = $type;
         $this->subdir = $subdir;
         $this->resize = $resize;
@@ -45,14 +46,14 @@ class MainController extends UploadController
             mkdir($pth['folder']['images'] . $this->subdir, 0777, true);
         }
         if (!$run) {
-            $this->appendScript("{$pth['folder']['plugins']}uploader/lib/plupload.full.min.js");
-            $this->appendScript("{$pth['folder']['plugins']}uploader/uploader.min.js");
+            $this->appendScript("{$this->pluginFolder}lib/plupload.full.min.js");
+            $this->appendScript("{$this->pluginFolder}uploader.min.js");
         }
-        $view = new View('container');
+        $view = new View('widget');
         $view->typeSelect = new HtmlString($this->type == '*' ? $this->renderTypeSelect($su) : '');
         $view->subdirSelect = new HtmlString($this->subdir == '*' ? $this->renderSubdirSelect($su) : '');
         $view->resizeSelect = new HtmlString($this->resize == '*' ? $this->renderResizeSelect($su) : '');
-        $view->pluploadWidget = new HtmlString((new Widget)->render());
+        $view->pluploadConfig = new HtmlString($this->getJsonConfig());
         $run++;
         $view->render();
     }
