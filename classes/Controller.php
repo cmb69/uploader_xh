@@ -37,53 +37,17 @@ class Controller
      */
     public static function main($type, $subdir, $resize)
     {
+        global $function;
+
+        $controller = new MainController($type, $subdir, $resize);
+        if ($function === 'uploader_upload') {
+            $action = 'uploadAction';
+        } else {
+            $action = 'defaultAction';
+        }
         ob_start();
-        (new MainController($type, $subdir, $resize))->defaultAction();
+        $controller->{$action}();
         return ob_get_clean();
-    }
-
-    /**
-     * @return string
-     */
-    private static function getType()
-    {
-        global $pth;
-
-        if (isset($_GET['uploader_type'])
-            && in_array($_GET['uploader_type'], self::getTypes())
-            && isset($pth['folder'][$_GET['uploader_type']])
-        ) {
-            return $_GET['uploader_type'];
-        } else {
-            return 'images';
-        }
-    }
-
-    /**
-     * @return array
-     */
-    private static function getTypes()
-    {
-        return array('images', 'downloads', 'media', 'userfiles');
-    }
-
-    /**
-     * @return string
-     */
-    private static function getSubfolder()
-    {
-        global $pth;
-
-        $subdir = isset($_GET['uploader_subdir'])
-            ? preg_replace('/\.\.[\/\\\\]?/', '', $_GET['uploader_subdir'])
-            : '';
-        if (isset($_GET['uploader_subdir'])
-            && is_dir($pth['folder'][self::getType()] . $subdir)
-        ) {
-            return $subdir;
-        } else {
-            return '';
-        }
     }
 
     private static function handleAdministration()
@@ -110,44 +74,28 @@ class Controller
      */
     private static function handleMainAdministration()
     {
-        ob_start();
-        (new MainAdminController)->defaultAction();
-        return ob_get_clean();
-    }
+        global $function;
 
-    private static function handleUpload()
-    {
-        global $pth;
-
-        $dir = $pth['folder'][self::getType()] . self::getSubfolder();
-        $filename = isset($_POST['name']) ? $_POST['name'] : '';
-        $chunks = isset($_POST['chunks']) ? $_POST['chunks'] : 0;
-        $chunk = isset($_POST['chunk']) ? $_POST['chunk'] : 0;
-        $receiver = new Receiver($dir, $filename, $chunks, $chunk);
-        $receiver->emitHeaders();
-        if (isset($_FILES['uploader_file']['tmp_name'])
-            && is_uploaded_file($_FILES['uploader_file']['tmp_name'])
-        ) {
-            echo $receiver->handleUpload($_FILES['uploader_file']['tmp_name']);
+        $controller = new MainAdminController;
+        if ($function === 'uploader_upload') {
+            $action = 'uploadAction';
         } else {
-            header('HTTP/1.1 400 Bad Request');
-            echo '{"jsonrpc": "2.0", "error": {"code": 103, "message":',
-                '"Failed to move uploaded file."}, "id" : "id"}';
+            $action = 'defaultAction';
         }
-        exit();
+        ob_start();
+        $controller->{$action}();
+        return ob_get_clean();
     }
 
     public static function dispatch()
     {
-        global $adm, $function;
+        global $adm;
 
         if ($adm) {
             if (function_exists('XH_registerStandardPluginMenuItems')) {
                 XH_registerStandardPluginMenuItems(true);
             }
-            if ($function == 'uploader_upload') {
-                self::handleUpload();
-            } elseif (self::isAdministrationRequested()) {
+            if (self::isAdministrationRequested()) {
                 self::handleAdministration();
             }
         }

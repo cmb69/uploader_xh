@@ -278,4 +278,26 @@ class UploadController
         }
         return json_encode($config);
     }
+
+    public function uploadAction()
+    {
+        global $pth;
+
+        $dir = $pth['folder'][$this->getType()] . $this->getSubfolder();
+        $filename = isset($_POST['name']) ? $_POST['name'] : '';
+        $chunks = isset($_POST['chunks']) ? $_POST['chunks'] : 0;
+        $chunk = isset($_POST['chunk']) ? $_POST['chunk'] : 0;
+        $receiver = new Receiver($dir, $filename, $chunks, $chunk);
+        $receiver->emitHeaders();
+        if (isset($_FILES['uploader_file']['tmp_name'])
+            && is_uploaded_file($_FILES['uploader_file']['tmp_name'])
+        ) {
+            echo $receiver->handleUpload($_FILES['uploader_file']['tmp_name']);
+        } else {
+            header('HTTP/1.1 400 Bad Request');
+            echo '{"jsonrpc": "2.0", "error": {"code": 103, "message":',
+                '"Failed to move uploaded file."}, "id" : "id"}';
+        }
+        exit();
+    }
 }
