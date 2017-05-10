@@ -29,7 +29,7 @@ class InfoController
 
         $view = new View('info');
         $view->logo = "{$pth['folder']['plugins']}uploader/uploader.png";
-        $view->version = UPLOADER_VERSION;
+        $view->version = Plugin::VERSION;
         $view->checks = $this->systemChecks();
         $view->iconFolder = "{$pth['folder']['plugins']}uploader/images/";
         $view->render();

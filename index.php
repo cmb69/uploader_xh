@@ -19,16 +19,6 @@
  * along with Uploader_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-if (!defined('CMSIMPLE_XH_VERSION')) {
-    header('HTTP/1.0 403 Forbidden');
-    exit;
-}
-
-/**
- * The plugin version.
- */
-define('UPLOADER_VERSION', '@UPLOADER_VERSION@');
-
 /**
  * Returns the uploader widget.
  *
@@ -43,7 +33,17 @@ define('UPLOADER_VERSION', '@UPLOADER_VERSION@');
  */
 function uploader($type = 'images', $subdir = '', $resize = '')
 {
-    return Uploader\Controller::main($type, $subdir, $resize);
+    global $function;
+
+    $controller = new Uploader\MainController($type, $subdir, $resize);
+    if ($function === 'uploader_upload') {
+        $action = 'uploadAction';
+    } else {
+        $action = 'defaultAction';
+    }
+    ob_start();
+    $controller->{$action}();
+    return ob_get_clean();
 }
 
-Uploader\Controller::dispatch();
+(new Uploader\Plugin)->run();
