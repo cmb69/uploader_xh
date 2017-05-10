@@ -6,11 +6,15 @@ $plugin_tx['uploader']['menu_main']="Upload";
 $plugin_tx['uploader']['label_type']="Type";
 $plugin_tx['uploader']['label_subdir']="Sub-Folder";
 $plugin_tx['uploader']['label_resize']="Resize";
+$plugin_tx['uploader']['label_select_files']="Select files";
+$plugin_tx['uploader']['label_upload_files']="Upload files";
 
 $plugin_tx['uploader']['title_downloads']="Downloads";
 $plugin_tx['uploader']['title_images']="Images";
 $plugin_tx['uploader']['title_media']="Mediafiles";
 $plugin_tx['uploader']['title_userfiles']="Userfiles";
+
+$plugin_tx['uploader']['message_no_support']="Your browser doesn't have Flash, Silverlight or HTML5 support.";
 
 $plugin_tx['uploader']['syscheck_extension']="the PHP extension '%s' is loaded";
 $plugin_tx['uploader']['syscheck_fail']="failure";

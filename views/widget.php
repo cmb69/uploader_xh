@@ -3,10 +3,10 @@
     <?=$this->subdirSelect()?>
     <?=$this->resizeSelect()?>
 </div>
-<div id="uploader_filelist">Your browser doesn't have Flash, Silverlight or HTML5 support.</div>
+<div id="uploader_filelist"><?=$this->text('message_no_support')?></div>
 <div id="uploader_container">
-	<button id="uploader_pickfiles">Select files</button>
-	<button id="uploader_uploadfiles">Upload files</button>
+	<button id="uploader_pickfiles"><?=$this->text('label_select_files')?></button>
+	<button id="uploader_uploadfiles"><?=$this->text('label_upload_files')?></button>
 </div>
 <pre id="uploader_console"></pre>
 
