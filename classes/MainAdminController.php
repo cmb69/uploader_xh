@@ -37,7 +37,7 @@ class MainAdminController extends UploadController
         $view->resizeSelect = new HtmlString(
             $this->renderResizeSelect('&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text')
         );
-        $view->pluploadConfig = new HtmlString($this->getJsonConfig());
+        $view->pluploadConfig = $this->getJsonConfig();
         $view->render();
     }
 }

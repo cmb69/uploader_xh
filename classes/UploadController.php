@@ -56,7 +56,7 @@ class UploadController
     {
         global $pth;
 
-        $o = '<select id="uploader-type" title="'
+        $o = '<select class="uploader_type" title="'
             . $this->lang['label_type'] . '" data-url="'
             . $this->getSelectOnchangeUrl('type', $params) . '">'
             . "\n";
@@ -78,7 +78,7 @@ class UploadController
      */
     protected function renderSubdirSelect($params)
     {
-        return '<select id="uploader-subdir" title="'
+        return '<select class="uploader_subdir" title="'
             . $this->lang['label_subdir'] . '"'
             . ' data-url="' . $this->getSelectOnchangeUrl('subdir', $params) . '">' . "\n"
             . '<option>/</option>' . "\n"
@@ -124,7 +124,7 @@ class UploadController
      */
     protected function renderResizeSelect($params)
     {
-        $o = '<select id="uploader-resize" title="'
+        $o = '<select class="uploader_resize" title="'
             . $this->lang['label_resize'] . '"'
             . ' data-url="' . $this->getSelectOnchangeUrl('resize', $params) . '">' . "\n";
         foreach ($this->getSizes() as $size) {
@@ -248,8 +248,6 @@ class UploadController
             ->with('uploader_type', $type)->with('uploader_subdir', $subdir);
         $config = array(
             'runtimes' => 'html5,silverlight,html4',
-            'browse_button' => 'uploader_pickfiles',
-            'container' => 'uploader_container',
             'url' => (string) $url,
             'max_file_size' => $this->config['size_max'],
             'filters' => [[

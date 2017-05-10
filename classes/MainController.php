@@ -53,7 +53,7 @@ class MainController extends UploadController
         $view->typeSelect = new HtmlString($this->type == '*' ? $this->renderTypeSelect($su) : '');
         $view->subdirSelect = new HtmlString($this->subdir == '*' ? $this->renderSubdirSelect($su) : '');
         $view->resizeSelect = new HtmlString($this->resize == '*' ? $this->renderResizeSelect($su) : '');
-        $view->pluploadConfig = new HtmlString($this->getJsonConfig());
+        $view->pluploadConfig = $this->getJsonConfig();
         $run++;
         $view->render();
     }
