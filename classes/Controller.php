@@ -182,10 +182,6 @@ class Controller
             }
             if (self::isAdministrationRequested()) {
                 self::handleAdministration();
-            } elseif ($function == 'uploader_widget') {
-                $widget = new Widget();
-                echo $widget->render();
-                exit;
             } elseif ($function == 'uploader_upload') {
                 self::handleUpload();
             }

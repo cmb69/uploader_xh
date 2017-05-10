@@ -25,10 +25,11 @@ class MainAdminController extends UploadController
 {
     public function defaultAction()
     {
-        global $bjs, $pth;
+        global $pth;
 
-        $bjs .= '<script type="text/javascript" src="' . "{$pth['folder']['plugins']}uploader/uploader.min.js"
-            . '"></script>';
+        $pluginFolder = "{$pth['folder']['plugins']}uploader/";
+        $this->appendScript("{$pluginFolder}lib/plupload.full.min.js");
+        $this->appendScript("{$pluginFolder}uploader.min.js");
         $view = new View('admin-container');
         $view->typeSelect = new HtmlString(
             $this->renderTypeSelect('&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text')
@@ -39,8 +40,7 @@ class MainAdminController extends UploadController
         $view->resizeSelect = new HtmlString(
             $this->renderResizeSelect('&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text')
         );
-        $view->iframeSrc = '?function=uploader_widget&uploader_type=' . $this->getType()
-            . '&uploader_subdir=' . $this->getSubfolder() . '&uploader_resize=' . $this->getResizeMode();
+        $view->pluploadWidget = new HtmlString((new Widget)->render());
         $view->render();
     }
 }

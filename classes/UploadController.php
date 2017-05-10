@@ -201,4 +201,11 @@ class UploadController
     {
         return array('', 'small', 'medium', 'large');
     }
+
+    protected function appendScript($filename)
+    {
+        global $bjs;
+
+        $bjs .= '<script type="text/javascript" src="' . XH_hsc($filename) . '"></script>';
+    }
 }

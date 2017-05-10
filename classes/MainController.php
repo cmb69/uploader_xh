@@ -38,29 +38,23 @@ class MainController extends UploadController
 
     public function defaultAction()
     {
-        global $bjs, $pth, $su;
+        global $pth, $su;
         static $run = 0;
 
         if (!file_exists($pth['folder']['images'] . $this->subdir)) {
             mkdir($pth['folder']['images'] . $this->subdir, 0777, true);
         }
-        include_once $pth['folder']['plugins'] . 'uploader/init.php';
-        $url = '?function=uploader_widget&uploader_type='
-            . ($this->type == '*' ? $this->getType() : $this->type) . '&uploader_subdir='
-            . ($this->subdir == '*' ? $this->getSubfolder() : $this->subdir)
-            . '&uploader_resize='
-            . ($this->resize == '*' ? $this->getResizeMode() : $this->resize);
         if (!$run) {
-            $bjs .= '<script type="text/javascript" src="' . "{$pth['folder']['plugins']}uploader/uploader.min.js"
-                . '"></script>';
+            $this->appendScript("{$pth['folder']['plugins']}uploader/lib/plupload.full.min.js");
+            $this->appendScript("{$pth['folder']['plugins']}uploader/uploader.min.js");
         }
         $anchor = 'uploader_container' . $run;
         $view = new View('container');
         $view->anchor = $anchor;
-        $view->iframeSrc = $url;
         $view->typeSelect = new HtmlString($this->type == '*' ? $this->renderTypeSelect($su) : '');
         $view->subdirSelect = new HtmlString($this->subdir == '*' ? $this->renderSubdirSelect($su) : '');
         $view->resizeSelect = new HtmlString($this->resize == '*' ? $this->renderResizeSelect($su) : '');
+        $view->pluploadWidget = new HtmlString((new Widget)->render());
         $run++;
         $view->render();
     }
