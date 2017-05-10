@@ -42,9 +42,6 @@ class MainController extends UploadController
         global $pth, $su;
         static $run = 0;
 
-        if (!file_exists($pth['folder']['images'] . $this->subdir)) {
-            mkdir($pth['folder']['images'] . $this->subdir, 0777, true);
-        }
         if (!$run) {
             $this->appendScript("{$this->pluginFolder}lib/plupload.full.min.js");
             $this->appendScript("{$this->pluginFolder}uploader.min.js");
