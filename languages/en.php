@@ -40,7 +40,6 @@ $plugin_tx['uploader']['cf_resize-large_height']="The maximum height (in pixels)
 $plugin_tx['uploader']['cf_resize-large_quality']="The quality (in percent) for large resizing.";
 
 $plugin_tx['uploader']['cf_size_max']="Maximum file size that you can pick. This string can be in the following formats 100b, 10kb, 10mb.";
-$plugin_tx['uploader']['cf_size_chunk']="Enables you to chunk the file into smaller pieces for example if your PHP backend has a max post size of 1MB you can chunk a 10MB file into 10 requests. To disable chunking, leave this option empty.";
 
 $plugin_tx['uploader']['cf_ext_images']="A comma separated list of file extensions you can upload to the images folder.";
 $plugin_tx['uploader']['cf_ext_downloads']="A comma separated list of file extensions you can upload to the downloads folder.";

@@ -258,9 +258,7 @@ class UploadController
             'silverlight_xap_url' => "{$this->pluginFolder}lib/Moxie.xap",
             'file_data_name' => 'uploader_file'
         );
-        if ($this->config['size_chunk'] !== '') {
-            $config['chunk_size'] = $this->config['size_chunk'];
-        }
+        $config['chunk_size'] = strtolower(ini_get('upload_max_filesize')) . 'b';
         if (isset($width, $height, $quality)) {
             $config['resize'] = array(
                 'width' => $width,

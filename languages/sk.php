@@ -22,7 +22,6 @@ $plugin_tx['uploader']['cf_resize-large_width']="Maximálna šírka pre zmeny ve
 $plugin_tx['uploader']['cf_resize-large_height']="Maximálna výška pre zmeny veľkých.";
 $plugin_tx['uploader']['cf_resize-large_quality']="Kvalita pre veľké veľkých.";
 $plugin_tx['uploader']['cf_size_max']="Maximálna veľkosť súborov, ktoré chcete vybrať. Údaj môže byť vo formáte 100b, 10kb, 10mb.";
-$plugin_tx['uploader']['cf_size_chunk']="Umožňuje pracovať s obrázkom v malých častiach, napr. ak PHP má nastavenú maximálnu veľkosť odosielaného súboru 1MB, súbor o veľkosti 10MB môžete takto rozdeliť na 10 častí. Funkciu môžete zrušiť, ak necháte údaj prázdny, leave this option empty.";
 $plugin_tx['uploader']['cf_ext_images']="Uveďte čiarkou oddelený zoznam prípon súborov, ktoré budú uploadované do adresára s obrázkami.";
 $plugin_tx['uploader']['cf_ext_downloads']="Uveďte čiarkou oddelený zoznam prípon súborov, ktoré budú uploadované do adresára na stiahnutie.";
 $plugin_tx['uploader']['cf_ext_media']="Uveďte čiarkou oddelený zoznam prípon súborov, ktoré budú uploadované do adresára pre médiá. (CMSimple_XH 1.5 a novšie).";

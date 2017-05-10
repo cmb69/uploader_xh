@@ -40,7 +40,6 @@ $plugin_tx['uploader']['cf_resize-large_height']="Die maximale Höhe (in Pixeln)
 $plugin_tx['uploader']['cf_resize-large_quality']="Die Qualität (in Prozent) für große Bilder.";
 
 $plugin_tx['uploader']['cf_size_max']="Die maximale Dateigröße für den Upload. Diese kann in den folgenden Formaten angegeben werden: 100b, 10kb, 10mb.";
-$plugin_tx['uploader']['cf_size_chunk']="Ermöglicht das Stückeln von Dateien in kleinere Teile. Wenn Ihr PHP Backend z.B. eine maximale Post-Größe von 1MB hat, kann eine 10MB Datei in 10 Teile von je 1MB aufgeteilt werden. Lassen Sie diese Option leer, um das Stückeln zu deaktivieren.";
 
 $plugin_tx['uploader']['cf_ext_images']="Eine durch Kommas getrennte Liste von Dateitypen, die in den Bildordner hoch geladen werden können.";
 $plugin_tx['uploader']['cf_ext_downloads']="Eine durch Kommas getrennte Liste von Dateitypen, die in den Downloadordner hoch geladen werden können.";

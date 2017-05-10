@@ -26,7 +26,6 @@ $plugin_tx['uploader']['cf_resize-large_width']="Den maksimale bredde for store 
 $plugin_tx['uploader']['cf_resize-large_height']="Den maksimale højde for store resizing.";
 $plugin_tx['uploader']['cf_resize-large_quality']="Kvaliteten for store resizing.";
 $plugin_tx['uploader']['cf_size_max']="Maksimal filstørrelse, som du kan vælge. Denne streng kan være i følgende formater 100b og 10kb og 10 MB ..";
-$plugin_tx['uploader']['cf_size_chunk']="Giver dig mulighed for bid filen i mindre stykker, for eksempel hvis din PHP backend har en max indlæg størrelse på 1 MB kan du dele en 10MB fil i 10 stykker. For at deaktivere deling, skal du lade denne indstilling tom.";
 $plugin_tx['uploader']['cf_ext_images']="En kommasepareret liste over filtypenavne du kan uploade til mappen Billeder.";
 $plugin_tx['uploader']['cf_ext_downloads']="En kommasepareret liste over filtypenavne du kan uploade til mappen Downloads";
 $plugin_tx['uploader']['cf_ext_media']="En kommasepareret liste over filtypenavne du kan uploade til medierne mappe (CMSimple_XH 1,5 og op).";
