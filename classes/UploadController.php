@@ -291,7 +291,18 @@ class UploadController
         if (isset($_FILES['uploader_file']['tmp_name'])
             && is_uploaded_file($_FILES['uploader_file']['tmp_name'])
         ) {
-            echo $receiver->handleUpload($_FILES['uploader_file']['tmp_name']);
+            try {
+                $receiver->handleUpload($_FILES['uploader_file']['tmp_name']);
+                echo '{"jsonrpc" : "2.0", "result" : null, "id" : "id"}';
+            } catch (ReadException $ex) {
+                header('HTTP/1.1 500 Internal Server Error');
+                echo '{"jsonrpc": "2.0", "error": {"code": 101, "message":'
+                    . ' "Failed to open input stream."}, "id" : "id"}';
+            } catch (WriteException $ex) {
+                header('HTTP/1.1 500 Internal Server Error');
+                echo '{"jsonrpc": "2.0", "error": {"code": 102, "message":'
+                    . ' "Failed to open output stream."}, "id" : "id"}';
+            }
         } else {
             header('HTTP/1.1 400 Bad Request');
             echo '{"jsonrpc": "2.0", "error": {"code": 103, "message":',

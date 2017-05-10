@@ -89,28 +89,19 @@ class Receiver
      */
     public function handleUpload($filename)
     {
-        $out = fopen(
-            $this->dir . '/' . $this->filename,
-            $this->chunk == 0 ? 'wb' : 'ab'
-        );
-        if ($out) {
-            $in = fopen($filename, 'rb');
-            if ($in) {
+        if ($out = fopen("$this->dir/$this->filename", $this->chunk == 0 ? 'wb' : 'ab')) {
+            if ($in = fopen($filename, 'rb')) {
                 while ($buff = fread($in, 4096)) {
                     fwrite($out, $buff);
                 }
-                return '{"jsonrpc" : "2.0", "result" : null, "id" : "id"}';
+                fclose($in);
+                fclose($out);
             } else {
-                header('HTTP/1.1 500 Internal Server Error');
-                return '{"jsonrpc": "2.0", "error": {"code": 101, "message":'
-                    . ' "Failed to open input stream."}, "id" : "id"}';
+                fclose($out);
+                throw new ReadException;
             }
-            fclose($in);
-            fclose($out);
         } else {
-            header('HTTP/1.1 500 Internal Server Error');
-            return '{"jsonrpc": "2.0", "error": {"code": 102, "message":'
-                . ' "Failed to open output stream."}, "id" : "id"}';
+            throw new WriteException;
         }
     }
 }
