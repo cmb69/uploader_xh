@@ -16,12 +16,15 @@ $plugin_tx['uploader']['title_userfiles']="Userfiles";
 
 $plugin_tx['uploader']['message_no_js']="Javascript must be enabled in your browser to be able to upload files!";
 
+$plugin_tx['uploader']['syscheck_extension']="the PHP extension '%s' is loaded";
+$plugin_tx['uploader']['syscheck_fail']="failure";
+$plugin_tx['uploader']['syscheck_message']="Checking that %1\$s … %2\$s";
+$plugin_tx['uploader']['syscheck_phpversion']="PHP version ≥ %s";
+$plugin_tx['uploader']['syscheck_success']="okay";
 $plugin_tx['uploader']['syscheck_title']="System check";
-$plugin_tx['uploader']['syscheck_phpversion']="PHP version &ge; %s";
-$plugin_tx['uploader']['syscheck_extension']="Extension '%s' loaded";
-$plugin_tx['uploader']['syscheck_encoding']="Encoding 'UTF-8' configured";
-$plugin_tx['uploader']['syscheck_jquery']="<a href=\"http://www.cmsimple-xh.org/wiki/doku.php/extend:jquery4cmsimple\">jQuery4CMSimple plugin</a> installed";
-$plugin_tx['uploader']['syscheck_writable']="Folder '%s' writable";
+$plugin_tx['uploader']['syscheck_warning']="warning";
+$plugin_tx['uploader']['syscheck_writable']="'%s' is writable";
+$plugin_tx['uploader']['syscheck_xhversion']="CMSimple_XH version ≥ %s";
 
 $plugin_tx['uploader']['cf_resize_default']="The default resize mode for images: \"\" (no resize), \"small\", \"medium\" or \"large\".";
 $plugin_tx['uploader']['cf_resize-small_width']="The maximum width (in pixels) for small resizing.";

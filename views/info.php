@@ -24,13 +24,9 @@
     Uploader_XH. If not, see <a target="_blank"
     href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.
 </p>
-<h2><?=$this->text('syscheck_title')?></h2>
-<ul style="list-style: none">
-<?php foreach ($this->checks as $check => $state):?>
-    <li>
-        <img src="<?=$this->iconFolder()?><?=$this->escape($state)?>.png" alt="<?=$this->escape($state)?>"
-             style="margin: 0; height: 1em; padding-right: 1em"/>
-        <span><?=$check?></span>
-    </li>
+<div class="moved_syscheck">
+    <h2><?php echo $this->text('syscheck_title')?></h2>
+<?php foreach ($this->checks as $check):?>
+    <p class="xh_<?php echo $this->escape($check->state)?>"><?php echo $this->text('syscheck_message', $check->label, $check->stateLabel)?></p>
 <?php endforeach?>
-</ul>
+</div>

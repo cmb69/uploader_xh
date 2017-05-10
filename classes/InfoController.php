@@ -30,40 +30,8 @@ class InfoController
         $view = new View('info');
         $view->logo = "{$pth['folder']['plugins']}uploader/uploader.png";
         $view->version = Plugin::VERSION;
-        $view->checks = $this->systemChecks();
+        $view->checks = (new SystemCheckService)->getChecks();
         $view->iconFolder = "{$pth['folder']['plugins']}uploader/images/";
         $view->render();
-    }
-
-    /**
-     * @return array
-     */
-    private function systemChecks()
-    {
-        global $pth, $tx, $plugin_tx;
-
-        $ptx = $plugin_tx['uploader'];
-        $phpVersion = '5.4.0';
-        $checks = array();
-        $checks[sprintf($ptx['syscheck_phpversion'], $phpVersion)]
-            = version_compare(PHP_VERSION, $phpVersion) >= 0 ? 'ok' : 'fail';
-        foreach (array('json') as $ext) {
-            $checks[sprintf($ptx['syscheck_extension'], $ext)]
-                = extension_loaded($ext) ? 'ok' : 'fail';
-        }
-        $checks[$ptx['syscheck_encoding']]
-            = strtoupper($tx['meta']['codepage']) == 'UTF-8' ? 'ok' : 'warn';
-        $checks[$ptx['syscheck_jquery']]
-            = file_exists($pth['folder']['plugins'] . 'jquery/jquery.inc.php')
-            ? 'ok' : 'fail';
-        $folders = array();
-        foreach (array('config/', 'css/', 'languages/') as $folder) {
-            $folders[] = $pth['folder']['plugins'] . 'uploader/' . $folder;
-        }
-        foreach ($folders as $folder) {
-            $checks[sprintf($ptx['syscheck_writable'], $folder)]
-                = is_writable($folder) ? 'ok' : 'warn';
-        }
-        return $checks;
     }
 }

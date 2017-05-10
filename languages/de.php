@@ -16,12 +16,15 @@ $plugin_tx['uploader']['title_userfiles']="Andere";
 
 $plugin_tx['uploader']['message_no_js']="JavaScript muss in Ihrem Browser aktiviert sein, um Dateien hoch laden zu können!";
 
-$plugin_tx['uploader']['syscheck_title']="Systemprüfung";
-$plugin_tx['uploader']['syscheck_phpversion']="PHP Version &ge; %s";
-$plugin_tx['uploader']['syscheck_extension']="Erweiterung '%s' geladen";
-$plugin_tx['uploader']['syscheck_encoding']="UTF-8 Kodierung eingestellt";
-$plugin_tx['uploader']['syscheck_jquery']="<a href=\"http://www.cmsimple-xh.org/wiki/doku.php/extend:jquery4cmsimple\">jQuery4CMSimple plugin</a> installed";
-$plugin_tx['uploader']['syscheck_writable']="Ordner '%s' beschreibbar";
+$plugin_tx['uploader']['syscheck_extension']="die PHP-Erweiterung '%s' geladen ist";
+$plugin_tx['uploader']['syscheck_fail']="Fehler";
+$plugin_tx['uploader']['syscheck_message']="Prüfe, dass %1\$s … %2\$s";
+$plugin_tx['uploader']['syscheck_phpversion']="die PHP-Version ≥ %s";
+$plugin_tx['uploader']['syscheck_success']="OK";
+$plugin_tx['uploader']['syscheck_title']="System-Prüfung";
+$plugin_tx['uploader']['syscheck_warning']="Warnung";
+$plugin_tx['uploader']['syscheck_writable']="'%s' schreibbar ist";
+$plugin_tx['uploader']['syscheck_xhversion']="die CMSimple_XH-Version ≥ %s";
 
 $plugin_tx['uploader']['cf_resize_default']="Der voreingestellte Größenänderungsmodus für Bilder: \"\" (Originalgröße), \"small\" (klein), \"medium\" (mittel) or \"large\" (groß).";
 $plugin_tx['uploader']['cf_resize-small_width']="Die maximale Breite (in Pixeln) für kleine Bilder.";
