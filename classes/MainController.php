@@ -23,11 +23,11 @@ namespace Uploader;
 
 class MainController extends UploadController
 {
-    private $type;
+    protected $type;
 
-    private $subdir;
+    protected $subdir;
 
-    private $resize;
+    protected $resize;
 
     public function __construct($type, $subdir, $resize)
     {
@@ -35,26 +35,5 @@ class MainController extends UploadController
         $this->type = $type;
         $this->subdir = $subdir;
         $this->resize = $resize;
-    }
-
-    public function defaultAction()
-    {
-        static $run = 0;
-
-        if (!$run) {
-            $this->appendScript("{$this->pluginFolder}lib/plupload.full.min.js");
-            $this->appendScript("{$this->pluginFolder}uploader.min.js");
-        }
-        $view = new View('widget');
-        $selectChangeUrl = $this->getSelectOnchangeUrl();
-        $view->typeSelectChangeUrl = $selectChangeUrl->with('uploader_type', 'FIXME');
-        $view->typeOptions = $this->type === '*' ? $this->getTypeOptions() : null;
-        $view->subdirSelectChangeUrl = $selectChangeUrl->with('uploader_subdir', 'FIXME');
-        $view->subdirOptions = $this->subdir === '*' ? $this->getSubdirOptions() : null;
-        $view->resizeSelectChangeUrl = $selectChangeUrl->with('uploader_resize', 'FIXME');
-        $view->resizeOptions = $this->resize === '*' ? $this->getResizeOptions() : null;
-        $view->pluploadConfig = $this->getJsonConfig();
-        $run++;
-        $view->render();
     }
 }

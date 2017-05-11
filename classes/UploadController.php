@@ -23,6 +23,8 @@ namespace Uploader;
 
 class UploadController
 {
+    protected static $hasRequiredScripts = false;
+
     /**
      * @var array
      */
@@ -47,14 +49,31 @@ class UploadController
         $this->pluginFolder = "{$pth['folder']['plugins']}uploader/";
     }
 
+    public function defaultAction()
+    {
+        $this->requireScripts();
+        $view = new View('widget');
+        $selectChangeUrl = $this->getSelectOnchangeUrl();
+        $view->typeSelectChangeUrl = $selectChangeUrl->with('uploader_type', 'FIXME');
+        $view->typeOptions = $this->getTypeOptions();
+        $view->subdirSelectChangeUrl = $selectChangeUrl->with('uploader_subdir', 'FIXME');
+        $view->subdirOptions = $this->getSubdirOptions();
+        $view->resizeSelectChangeUrl = $selectChangeUrl->with('uploader_resize', 'FIXME');
+        $view->resizeOptions = $this->getResizeOptions();
+        $view->pluploadConfig = $this->getJsonConfig();
+        $view->render();
+    }
+
     protected function getTypeOptions()
     {
         global $pth;
 
         $result = [];
-        foreach ($this->getTypes() as $type) {
-            if (isset($pth['folder'][$type])) {
-                $result[$type] = $type === $this->getType() ? 'selected' : '';
+        if (!isset($this->type) || $this->type === '*') {
+            foreach ($this->getTypes() as $type) {
+                if (isset($pth['folder'][$type])) {
+                    $result[$type] = $type === $this->getType() ? 'selected' : '';
+                }
             }
         }
         return $result;
@@ -65,21 +84,23 @@ class UploadController
         global $pth;
 
         $result = [];
-        if (!isset($parent)) {
-            $result['/'] = '';
-        }
-        $dn = $pth['folder'][$this->getType()] . $parent;
-        if (($dh = opendir($dn)) !== false) {
-            while (($fn = readdir($dh)) !== false) {
-                if (strpos($fn, '.') !== 0
-                    && is_dir($pth['folder'][$this->getType()] . $parent . $fn)
-                ) {
-                    $dir = $parent . $fn . '/';
-                    $result[$dir] = $dir === $this->getSubfolder() ? 'selected' : '';
-                    $result = array_merge($result, $this->getSubdirOptions($dir));
-                }
+        if (!isset($this->subdir) || $this->subdir === '*') {
+            if (!isset($parent)) {
+                $result['/'] = '';
             }
-            closedir($dh);
+            $dn = $pth['folder'][$this->getType()] . $parent;
+            if (($dh = opendir($dn)) !== false) {
+                while (($fn = readdir($dh)) !== false) {
+                    if (strpos($fn, '.') !== 0
+                        && is_dir($pth['folder'][$this->getType()] . $parent . $fn)
+                    ) {
+                        $dir = $parent . $fn . '/';
+                        $result[$dir] = $dir === $this->getSubfolder() ? 'selected' : '';
+                        $result = array_merge($result, $this->getSubdirOptions($dir));
+                    }
+                }
+                closedir($dh);
+            }
         }
         return $result;
     }
@@ -87,8 +108,10 @@ class UploadController
     protected function getResizeOptions()
     {
         $result = [];
-        foreach ($this->getSizes() as $size) {
-            $result[$size] = $size === $this->getResizeMode() ? 'selected' : '';
+        if (!isset($this->resize) || $this->resize === '*') {
+            foreach ($this->getSizes() as $size) {
+                $result[$size] = $size === $this->getResizeMode() ? 'selected' : '';
+            }
         }
         return $result;
     }
@@ -167,6 +190,15 @@ class UploadController
     protected function getSizes()
     {
         return array('', 'small', 'medium', 'large');
+    }
+
+    protected function requireScripts()
+    {
+        if (!self::$hasRequiredScripts) {
+            $this->appendScript("{$this->pluginFolder}lib/plupload.full.min.js");
+            $this->appendScript("{$this->pluginFolder}uploader.min.js");
+            self::$hasRequiredScripts = true;
+        }
     }
 
     protected function appendScript($filename)
