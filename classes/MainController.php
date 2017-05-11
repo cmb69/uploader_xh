@@ -39,7 +39,7 @@ class MainController extends UploadController
 
     public function defaultAction()
     {
-        global $pth, $su;
+        global $su;
         static $run = 0;
 
         if (!$run) {
@@ -47,9 +47,12 @@ class MainController extends UploadController
             $this->appendScript("{$this->pluginFolder}uploader.min.js");
         }
         $view = new View('widget');
-        $view->typeSelect = new HtmlString($this->type == '*' ? $this->renderTypeSelect($su) : '');
-        $view->subdirSelect = new HtmlString($this->subdir == '*' ? $this->renderSubdirSelect($su) : '');
-        $view->resizeSelect = new HtmlString($this->resize == '*' ? $this->renderResizeSelect($su) : '');
+        $view->typeSelectChangeUrl = new HtmlString($this->getSelectOnchangeUrl('type', $su));
+        $view->typeOptions = $this->type === '*' ? $this->getTypeOptions() : null;
+        $view->subdirSelectChangeUrl = new HtmlString($this->getSelectOnchangeUrl('subdir', $su));
+        $view->subdirOptions = $this->subdir === '*' ? $this->getSubdirOptions() : null;
+        $view->resizeSelectChangeUrl = new HtmlString($this->getSelectOnChangeUrl('resize', $su));
+        $view->resizeOptions = $this->resize === '*' ? $this->getResizeOptions() : null;
         $view->pluploadConfig = $this->getJsonConfig();
         $run++;
         $view->render();

@@ -47,54 +47,27 @@ class UploadController
         $this->pluginFolder = "{$pth['folder']['plugins']}uploader/";
     }
 
-    /**
-     * @param string $params A query string.
-     * @param string $anchor A fragment identifier.
-     * @return string (X)HTML.
-     */
-    protected function renderTypeSelect($params)
+    protected function getTypeOptions()
     {
         global $pth;
 
-        $o = '<select class="uploader_type" title="'
-            . $this->lang['label_type'] . '" data-url="'
-            . $this->getSelectOnchangeUrl('type', $params) . '">'
-            . "\n";
+        $result = [];
         foreach ($this->getTypes() as $type) {
             if (isset($pth['folder'][$type])) {
-                $sel = $type == $this->getType() ? ' selected="selected"' : '';
-                $o .= '<option value="' . $type . '"' . $sel . '>' . $type
-                    . '</option>' . "\n";
+                $result[$type] = $type === $this->getType() ? 'selected' : '';
             }
         }
-        $o .= '</select>' . "\n";
-        return $o;
+        return $result;
     }
 
-    /**
-     * @param string $params A query string.
-     * @param string $anchor A fragment identifier.
-     * @return string (X)HTML.
-     */
-    protected function renderSubdirSelect($params)
-    {
-        return '<select class="uploader_subdir" title="'
-            . $this->lang['label_subdir'] . '"'
-            . ' data-url="' . $this->getSelectOnchangeUrl('subdir', $params) . '">' . "\n"
-            . '<option>/</option>' . "\n"
-            . $this->renderSubdirSelectRec('')
-            . '</select>' . "\n";
-    }
-
-    /**
-     * @param string $parent A parent folder.
-     * @return string (X)HTML.
-     */
-    protected function renderSubdirSelectRec($parent)
+    protected function getSubdirOptions($parent = null)
     {
         global $pth;
 
-        $o = '';
+        $result = [];
+        if (!isset($parent)) {
+            $result['/'] = '';
+        }
         $dn = $pth['folder'][$this->getType()] . $parent;
         if (($dh = opendir($dn)) !== false) {
             while (($fn = readdir($dh)) !== false) {
@@ -102,38 +75,22 @@ class UploadController
                     && is_dir($pth['folder'][$this->getType()] . $parent . $fn)
                 ) {
                     $dir = $parent . $fn . '/';
-                    $sel = ($dir == $this->getSubfolder())
-                        ? ' selected="selected"'
-                        : '';
-                    $o .= '<option value="' . $dir . '"' . $sel . '>' . $dir
-                        . '</option>' . "\n";
-                    $o .= $this->renderSubdirSelectRec($dir);
+                    $result[$dir] = $dir === $this->getSubfolder() ? 'selected' : '';
+                    $result = array_merge($result, $this->getSubdirOptions($dir));
                 }
             }
             closedir($dh);
-        } else {
-            e('cntopen', 'folder', $dn);
         }
-        return $o;
+        return $result;
     }
 
-    /**
-     * @param string $params A query string.
-     * @param string $anchor A fragment identifier.
-     * @return string (X)HTML.
-     */
-    protected function renderResizeSelect($params)
+    protected function getResizeOptions()
     {
-        $o = '<select class="uploader_resize" title="'
-            . $this->lang['label_resize'] . '"'
-            . ' data-url="' . $this->getSelectOnchangeUrl('resize', $params) . '">' . "\n";
+        $result = [];
         foreach ($this->getSizes() as $size) {
-            $sel = $size == $this->getResizeMode() ? ' selected="selected"' : '';
-            $o .= '<option value="' . $size . '"' . $sel . '>' . $size . '</option>'
-                . "\n";
+            $result[$size] = $size === $this->getResizeMode() ? 'selected' : '';
         }
-        $o .= '</select>' . "\n";
-        return $o;
+        return $result;
     }
 
     protected function getSelectOnchangeUrl($param, $params)
