@@ -28,11 +28,11 @@ class MainAdminController extends UploadController
         $this->appendScript("{$this->pluginFolder}lib/plupload.full.min.js");
         $this->appendScript("{$this->pluginFolder}uploader.min.js");
         $view = new View('widget');
-        $view->typeSelectChangeUrl = new HtmlString($this->getSelectOnchangeUrl('type', '&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text'));
+        $view->typeSelectChangeUrl = $this->getSelectOnchangeUrl('type', '&uploader&admin=plugin_main&action=plugin_text');
         $view->typeOptions = $this->getTypeOptions();
-        $view->subdirSelectChangeUrl = new HtmlString($this->getSelectOnchangeUrl('subdir', '&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text'));
+        $view->subdirSelectChangeUrl = $this->getSelectOnchangeUrl('subdir', '&uploader&admin=plugin_main&action=plugin_text');
         $view->subdirOptions = $this->getSubdirOptions();
-        $view->resizeSelectChangeUrl = new HtmlString($this->getSelectOnChangeUrl('resize', '&amp;uploader&amp;admin=plugin_main&amp;action=plugin_text'));
+        $view->resizeSelectChangeUrl = $this->getSelectOnChangeUrl('resize', '&uploader&admin=plugin_main&action=plugin_text');
         $view->resizeOptions = $this->getResizeOptions();
         $view->pluploadConfig = $this->getJsonConfig();
         $view->render();

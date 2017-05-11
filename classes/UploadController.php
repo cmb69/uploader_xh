@@ -99,15 +99,15 @@ class UploadController
 
         $url = $sn . '?' . $params;
         if ($param != 'type') {
-            $url .= '&amp;uploader_type=' . urlencode($this->getType());
+            $url .= '&uploader_type=' . urlencode($this->getType());
         }
         if ($param != 'subdir') {
-            $url .= '&amp;uploader_subdir=' . urlencode($this->getSubfolder());
+            $url .= '&uploader_subdir=' . urlencode($this->getSubfolder());
         }
         if ($param != 'resize') {
-            $url .= '&amp;uploader_resize=' . urlencode($this->getResizeMode());
+            $url .= '&uploader_resize=' . urlencode($this->getResizeMode());
         }
-        $url .= '&amp;uploader_' . $param . '=';
+        $url .= '&uploader_' . $param . '=';
         return $url;
     }
 

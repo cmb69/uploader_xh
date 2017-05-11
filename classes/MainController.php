@@ -47,11 +47,11 @@ class MainController extends UploadController
             $this->appendScript("{$this->pluginFolder}uploader.min.js");
         }
         $view = new View('widget');
-        $view->typeSelectChangeUrl = new HtmlString($this->getSelectOnchangeUrl('type', $su));
+        $view->typeSelectChangeUrl = $this->getSelectOnchangeUrl('type', $su);
         $view->typeOptions = $this->type === '*' ? $this->getTypeOptions() : null;
-        $view->subdirSelectChangeUrl = new HtmlString($this->getSelectOnchangeUrl('subdir', $su));
+        $view->subdirSelectChangeUrl = $this->getSelectOnchangeUrl('subdir', $su);
         $view->subdirOptions = $this->subdir === '*' ? $this->getSubdirOptions() : null;
-        $view->resizeSelectChangeUrl = new HtmlString($this->getSelectOnChangeUrl('resize', $su));
+        $view->resizeSelectChangeUrl = $this->getSelectOnChangeUrl('resize', $su);
         $view->resizeOptions = $this->resize === '*' ? $this->getResizeOptions() : null;
         $view->pluploadConfig = $this->getJsonConfig();
         $run++;
