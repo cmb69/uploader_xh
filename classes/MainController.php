@@ -39,7 +39,6 @@ class MainController extends UploadController
 
     public function defaultAction()
     {
-        global $su;
         static $run = 0;
 
         if (!$run) {
@@ -47,11 +46,12 @@ class MainController extends UploadController
             $this->appendScript("{$this->pluginFolder}uploader.min.js");
         }
         $view = new View('widget');
-        $view->typeSelectChangeUrl = $this->getSelectOnchangeUrl('type', $su);
+        $selectChangeUrl = $this->getSelectOnchangeUrl();
+        $view->typeSelectChangeUrl = $selectChangeUrl->with('uploader_type', 'FIXME');
         $view->typeOptions = $this->type === '*' ? $this->getTypeOptions() : null;
-        $view->subdirSelectChangeUrl = $this->getSelectOnchangeUrl('subdir', $su);
+        $view->subdirSelectChangeUrl = $selectChangeUrl->with('uploader_subdir', 'FIXME');
         $view->subdirOptions = $this->subdir === '*' ? $this->getSubdirOptions() : null;
-        $view->resizeSelectChangeUrl = $this->getSelectOnChangeUrl('resize', $su);
+        $view->resizeSelectChangeUrl = $selectChangeUrl->with('uploader_resize', 'FIXME');
         $view->resizeOptions = $this->resize === '*' ? $this->getResizeOptions() : null;
         $view->pluploadConfig = $this->getJsonConfig();
         $run++;

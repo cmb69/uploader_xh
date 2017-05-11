@@ -93,22 +93,14 @@ class UploadController
         return $result;
     }
 
-    protected function getSelectOnchangeUrl($param, $params)
+    protected function getSelectOnchangeUrl()
     {
         global $sn;
 
-        $url = $sn . '?' . $params;
-        if ($param != 'type') {
-            $url .= '&uploader_type=' . urlencode($this->getType());
-        }
-        if ($param != 'subdir') {
-            $url .= '&uploader_subdir=' . urlencode($this->getSubfolder());
-        }
-        if ($param != 'resize') {
-            $url .= '&uploader_resize=' . urlencode($this->getResizeMode());
-        }
-        $url .= '&uploader_' . $param . '=';
-        return $url;
+        return (new Url($sn, $_GET))
+            ->with('uploader_type', $this->getType())
+            ->with('uploader_subdir', $this->getSubfolder())
+            ->with('uploader_resize', $this->getResizeMode());
     }
 
     /**
