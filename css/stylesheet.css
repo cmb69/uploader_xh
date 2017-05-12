@@ -5,10 +5,16 @@
     margin: 1em 0;
 }
 .uploader_controls {}
-.uploader_filelist {
-    padding: 0.5em;
-    border: 1px solid #888;
-    margin: 1em 0;
+.uploader_filelist {}
+.uploader_row_template {
+    display: none !important;
+}
+.uploader_filename {
+    padding-right: 1em;
+}
+.uploader_size,
+.uploader_progress {
+    text-align: right;
 }
 .uploader_buttons {}
 .uploader_pickfiles {}

@@ -6,6 +6,9 @@ $plugin_tx['uploader']['menu_main']="Upload";
 $plugin_tx['uploader']['label_type']="Type";
 $plugin_tx['uploader']['label_subdir']="Sub-Folder";
 $plugin_tx['uploader']['label_resize']="Resize";
+$plugin_tx['uploader']['label_filename']="Filename";
+$plugin_tx['uploader']['label_size']="Size";
+$plugin_tx['uploader']['label_progress']="Progress";
 $plugin_tx['uploader']['label_select_files']="Select files";
 $plugin_tx['uploader']['label_upload_files']="Upload files";
 

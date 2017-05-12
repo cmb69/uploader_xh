@@ -22,7 +22,18 @@
 		</select>
 <?php endif?>
 	</div>
-	<div class="uploader_filelist"><?=$this->text('message_no_support')?></div>
+	<table class="uploader_filelist">
+		<tr>
+			<th><?=$this->text('label_filename')?></th>
+			<th><?=$this->text('label_size')?></th>
+			<th><?=$this->text('label_progress')?></th>
+		</tr>
+		<tr class="uploader_row_template">
+			<td class="uploader_filename"></td>
+			<td class="uploader_size"></td>
+			<td class="uploader_progress"></td>
+		</tr>
+	</table>
 	<div class="uploader_buttons">
 		<button class="uploader_pickfiles"><?=$this->text('label_select_files')?></button>
 		<button class="uploader_uploadfiles"><?=$this->text('label_upload_files')?></button>
