@@ -27,11 +27,13 @@
 			<th><?=$this->text('label_filename')?></th>
 			<th><?=$this->text('label_size')?></th>
 			<th><?=$this->text('label_progress')?></th>
+			<th></th>
 		</tr>
 		<tr class="uploader_row_template">
 			<td class="uploader_filename"></td>
 			<td class="uploader_size"></td>
 			<td class="uploader_progress"></td>
+			<td><button class="uploader_remove"><?=$this->text('label_remove')?></button></td>
 		</tr>
 	</table>
 	<div class="uploader_buttons">

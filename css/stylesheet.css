@@ -9,11 +9,11 @@
 .uploader_row_template {
     display: none !important;
 }
-.uploader_filename {
+.uploader_row {}
+.uploader_filename, .uploader_size, .uploader_progress {
     padding-right: 1em;
 }
-.uploader_size,
-.uploader_progress {
+.uploader_size, .uploader_progress {
     text-align: right;
 }
 .uploader_buttons {}

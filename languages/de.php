@@ -9,6 +9,7 @@ $plugin_tx['uploader']['label_resize']="Größenänderung";
 $plugin_tx['uploader']['label_filename']="Dateiname";
 $plugin_tx['uploader']['label_size']="Größe";
 $plugin_tx['uploader']['label_progress']="Fortschritt";
+$plugin_tx['uploader']['label_remove']="Entfernen";
 $plugin_tx['uploader']['label_select_files']="Dateien auswählen";
 $plugin_tx['uploader']['label_upload_files']="Dateien hochladen";
 
