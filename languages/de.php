@@ -20,6 +20,7 @@ $plugin_tx['uploader']['syscheck_extension']="die PHP-Erweiterung '%s' geladen i
 $plugin_tx['uploader']['syscheck_fail']="Fehler";
 $plugin_tx['uploader']['syscheck_message']="Prüfe, dass %1\$s … %2\$s";
 $plugin_tx['uploader']['syscheck_phpversion']="die PHP-Version ≥ %s";
+$plugin_tx['uploader']['syscheck_plugin']="das CMSIMPLE_XH Plugin '%s' installiert ist";
 $plugin_tx['uploader']['syscheck_success']="OK";
 $plugin_tx['uploader']['syscheck_title']="System-Prüfung";
 $plugin_tx['uploader']['syscheck_warning']="Warnung";

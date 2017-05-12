@@ -194,7 +194,11 @@ class UploadController
 
     protected function requireScripts()
     {
+        global $pth;
+
         if (!self::$hasRequiredScripts) {
+            include_once "{$pth['folder']['plugins']}jquery/jquery.inc.php";
+            include_jQuery();
             $this->appendScript("{$this->pluginFolder}lib/plupload.full.min.js");
             $this->appendScript("{$this->pluginFolder}uploader.min.js");
             self::$hasRequiredScripts = true;

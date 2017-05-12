@@ -26,6 +26,11 @@ class SystemCheckService
     /**
      * @var string
      */
+    private $pluginsFolder;
+
+    /**
+     * @var string
+     */
     private $pluginFolder;
 
     /**
@@ -37,7 +42,8 @@ class SystemCheckService
     {
         global $pth, $plugin_tx;
 
-        $this->pluginFolder = "{$pth['folder']['plugins']}uploader";
+        $this->pluginsFolder = $pth['folder']['plugins'];
+        $this->pluginFolder = "{$this->pluginsFolder}uploader";
         $this->lang = $plugin_tx['uploader'];
     }
 
@@ -50,6 +56,7 @@ class SystemCheckService
             $this->checkPhpVersion('5.4.0'),
             $this->checkExtension('json'),
             $this->checkXhVersion('1.6.3'),
+            $this->checkPlugin('jquery'),
             $this->checkWritability("$this->pluginFolder/config/"),
             $this->checkWritability("$this->pluginFolder/css/"),
             $this->checkWritability("$this->pluginFolder/languages/")
@@ -89,6 +96,18 @@ class SystemCheckService
     {
         $state = version_compare(CMSIMPLE_XH_VERSION, "CMSimple_XH $version", 'ge') ? 'success' : 'fail';
         $label = sprintf($this->lang['syscheck_xhversion'], $version);
+        $stateLabel = $this->lang["syscheck_$state"];
+        return (object) compact('state', 'label', 'stateLabel');
+    }
+
+    /**
+     * @param string $plugin
+     * @return object
+     */
+    private function checkPlugin($plugin)
+    {
+        $state = is_dir($this->pluginsFolder) ? 'success' : 'fail';
+        $label = sprintf($this->lang['syscheck_plugin'], $plugin);
         $stateLabel = $this->lang["syscheck_$state"];
         return (object) compact('state', 'label', 'stateLabel');
     }
