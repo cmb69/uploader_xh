@@ -23,6 +23,14 @@ namespace Uploader;
 
 class UploadController
 {
+    /**
+     * @var int
+     */
+    protected static $serial = 0;
+
+    /**
+     * @var bool
+     */
     protected static $hasRequiredScripts = false;
 
     /**
@@ -44,14 +52,26 @@ class UploadController
     {
         global $pth, $plugin_cf, $plugin_tx;
 
+        self::$serial++;
         $this->config = $plugin_cf['uploader'];
         $this->lang = $plugin_tx['uploader'];
-        $this->pluginFolder = "{$pth['folder']['plugins']}uploader/";
+        $this->pluginFolder = "{$pth['folder']['plugins']}uploader/";        
     }
 
     public function defaultAction()
     {
         $this->requireScripts();
+        echo '<div class="uploader_placeholder" data-serial="' . self::$serial . '"></div>';
+    }
+
+    public function widgetAction()
+    {
+        if (self::$serial != $_GET['uploader_serial']) {
+            return;
+        }
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
         $view = new View('widget');
         $selectChangeUrl = $this->getSelectOnchangeUrl();
         $view->typeSelectChangeUrl = $selectChangeUrl->with('uploader_type', 'FIXME');
@@ -62,6 +82,7 @@ class UploadController
         $view->resizeOptions = $this->getResizeOptions();
         $view->pluploadConfig = $this->getJsonConfig();
         $view->render();
+        exit;
     }
 
     protected function getTypeOptions()
@@ -249,6 +270,9 @@ class UploadController
     {
         global $pth;
 
+        if (self::$serial != $_GET['uploader_serial']) {
+            return;
+        }
         $dir = $pth['folder'][$this->getType()] . $this->getSubfolder();
         $filename = isset($_POST['name']) ? $_POST['name'] : '';
         $chunks = isset($_POST['chunks']) ? $_POST['chunks'] : 0;

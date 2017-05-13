@@ -38,6 +38,8 @@ function uploader($type = 'images', $subdir = '', $resize = '')
     $controller = new Uploader\MainController($type, $subdir, $resize);
     if ($function === 'uploader_upload') {
         $action = 'uploadAction';
+    } elseif (isset($_GET['uploader_serial'])) {
+        $action = 'widgetAction';
     } else {
         $action = 'defaultAction';
     }

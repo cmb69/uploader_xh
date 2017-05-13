@@ -80,6 +80,8 @@ class Plugin
         $controller = new MainAdminController;
         if ($function === 'uploader_upload') {
             $action = 'uploadAction';
+        } elseif (isset($_GET['uploader_serial'])) {
+            $action = 'widgetAction';
         } else {
             $action = 'defaultAction';
         }
