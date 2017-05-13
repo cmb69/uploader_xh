@@ -55,7 +55,7 @@ class UploadController
         self::$serial++;
         $this->config = $plugin_cf['uploader'];
         $this->lang = $plugin_tx['uploader'];
-        $this->pluginFolder = "{$pth['folder']['plugins']}uploader/";        
+        $this->pluginFolder = "{$pth['folder']['plugins']}uploader/";
     }
 
     public function defaultAction()
