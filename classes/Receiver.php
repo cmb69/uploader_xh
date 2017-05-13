@@ -60,9 +60,9 @@ class Receiver
     public function __construct($dir, $filename, $chunks, $chunk)
     {
         $this->dir = $dir;
-        $this->filename = $this->cleanFilename($filename);
         $this->chunks = $chunks;
         $this->chunk = $chunk;
+        $this->filename = $this->cleanFilename($filename);
     }
 
     /**
