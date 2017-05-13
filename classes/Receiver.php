@@ -60,27 +60,28 @@ class Receiver
     public function __construct($dir, $filename, $chunks, $chunk)
     {
         $this->dir = $dir;
-        $this->filename = $filename;
+        $this->filename = $this->cleanFilename($filename);
         $this->chunks = $chunks;
         $this->chunk = $chunk;
-        $this->cleanFilename();
     }
 
-    private function cleanFilename()
+    /**
+     * @param string $filename
+     * @return string
+     */
+    private function cleanFilename($filename)
     {
-        $this->filename = preg_replace('/[^\w\._]+/', '', $this->filename);
-        if ($this->chunks < 2 && file_exists($this->dir . $this->filename)) {
-            $ext = strrpos($this->filename, '.');
-            $beginning = substr($this->filename, 0, $ext);
-            $end = substr($this->filename, $ext);
-            $count = 1;
-            $path = $this->dir . $beginning . '_' . $count . $end;
-            while (file_exists($path)) {
+        $filename = preg_replace('/[^a-z0-9_\.]+/i', '', $filename);
+        if ($this->chunks <= 1 && file_exists($this->dir . $filename)) {
+            $pathinfo = pathinfo($filename);
+            $count = 0;
+            do {
                 $count++;
-                $path = $this->dir . $beginning . '_' . $count . $end;
-            }
-            $this->filename = $beginning . '_' . $count . $end;
+                $path = "{$this->dir}{$pathinfo['filename']}_{$count}.{$pathinfo['extension']}";
+            } while (file_exists($path));
+            $filename = basename($path);
         }
+        return $filename;
     }
 
     /**
