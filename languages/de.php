@@ -18,6 +18,8 @@ $plugin_tx['uploader']['title_images']="Bilder";
 $plugin_tx['uploader']['title_media']="Media-Dateien";
 $plugin_tx['uploader']['title_userfiles']="Andere";
 
+$plugin_tx['uploader']['error_error']="Fehler";
+
 $plugin_tx['uploader']['message_no_support']="Ihr Browser verfügt nicht über Flash-, Silverlight- oder HTML5-Unterstützung.";
 
 $plugin_tx['uploader']['syscheck_extension']="die PHP-Erweiterung '%s' geladen ist";
