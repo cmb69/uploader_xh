@@ -40,5 +40,4 @@
 		<button class="uploader_pickfiles"><?=$this->text('label_select_files')?></button>
 		<button class="uploader_uploadfiles"><?=$this->text('label_upload_files')?></button>
 	</div>
-	<pre class="uploader_console"></pre>
 </div>
