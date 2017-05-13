@@ -25,7 +25,6 @@ $plugin_tx['uploader']['cf_resize-medium_quality']="Kvaliteten til mellemstore r
 $plugin_tx['uploader']['cf_resize-large_width']="Den maksimale bredde for store resizing.";
 $plugin_tx['uploader']['cf_resize-large_height']="Den maksimale højde for store resizing.";
 $plugin_tx['uploader']['cf_resize-large_quality']="Kvaliteten for store resizing.";
-$plugin_tx['uploader']['cf_size_max']="Maksimal filstørrelse, som du kan vælge. Denne streng kan være i følgende formater 100b og 10kb og 10 MB ..";
 $plugin_tx['uploader']['cf_ext_images']="En kommasepareret liste over filtypenavne du kan uploade til mappen Billeder.";
 $plugin_tx['uploader']['cf_ext_downloads']="En kommasepareret liste over filtypenavne du kan uploade til mappen Downloads";
 $plugin_tx['uploader']['cf_ext_media']="En kommasepareret liste over filtypenavne du kan uploade til medierne mappe (CMSimple_XH 1,5 og op).";

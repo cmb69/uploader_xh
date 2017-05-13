@@ -44,7 +44,7 @@ $plugin_tx['uploader']['cf_resize-large_width']="Die maximale Breite (in Pixeln)
 $plugin_tx['uploader']['cf_resize-large_height']="Die maximale Höhe (in Pixeln) für große Bilder.";
 $plugin_tx['uploader']['cf_resize-large_quality']="Die Qualität (in Prozent) für große Bilder.";
 
-$plugin_tx['uploader']['cf_size_max']="Die maximale Dateigröße für den Upload. Diese kann in den folgenden Formaten angegeben werden: 100b, 10kb, 10mb.";
+$plugin_tx['uploader']['cf_size_max']="Die maximale Dateigröße für den Upload in Bytes.";
 
 $plugin_tx['uploader']['cf_ext_images']="Eine durch Kommas getrennte Liste von Dateitypen, die in den Bildordner hoch geladen werden können.";
 $plugin_tx['uploader']['cf_ext_downloads']="Eine durch Kommas getrennte Liste von Dateitypen, die in den Downloadordner hoch geladen werden können.";

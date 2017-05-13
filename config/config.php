@@ -11,7 +11,7 @@ $plugin_cf['uploader']['resize-large_width']="800";
 $plugin_cf['uploader']['resize-large_height']="800";
 $plugin_cf['uploader']['resize-large_quality']="85";
 
-$plugin_cf['uploader']['size_max']="200mb";
+$plugin_cf['uploader']['size_max']="200000000";
 
 $plugin_cf['uploader']['ext_images']="jpg,gif,png";
 $plugin_cf['uploader']['ext_downloads']="pdf,zip";

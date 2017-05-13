@@ -36,7 +36,7 @@ class UploadController
     /**
      * @var array
      */
-    private $config;
+    protected $config;
 
     /**
      * @var array
@@ -187,7 +187,7 @@ class UploadController
         ) {
             return $subdir;
         } else {
-            return '';
+            return '/';
         }
     }
 
@@ -245,7 +245,7 @@ class UploadController
         $config = array(
             'url' => (string) $url,
             'filters' => [
-                'max_file_size' => $this->config['size_max'],
+                'max_file_size' => "{$this->config['size_max']}b",
                 'mime_types' => [[
                     'title' => $this->lang['title_' . $type],
                     'extensions' => $this->config['ext_' . $type]
@@ -270,7 +270,7 @@ class UploadController
     {
         global $pth;
 
-        if (self::$serial != $_GET['uploader_serial']) {
+        if (self::$serial != $_GET['uploader_serial'] || !$this->isUploadAllowed()) {
             return;
         }
         $dir = $pth['folder'][$this->getType()] . $this->getSubfolder();

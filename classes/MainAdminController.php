@@ -23,4 +23,11 @@ namespace Uploader;
 
 class MainAdminController extends UploadController
 {
+    /**
+     * @return bool
+     */
+    protected function isUploadAllowed()
+    {
+        return true;
+    }
 }
