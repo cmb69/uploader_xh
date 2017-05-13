@@ -71,7 +71,7 @@ class Receiver
      */
     private function cleanFilename($filename)
     {
-        $filename = preg_replace('/[^a-z0-9_\.]+/i', '', $filename);
+        $filename = preg_replace('/[^a-z0-9_\.-]+/i', '', $filename);
         if ($this->chunks <= 1 && file_exists($this->dir . $filename)) {
             $pathinfo = pathinfo($filename);
             $count = 0;
