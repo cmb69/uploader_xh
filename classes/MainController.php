@@ -44,8 +44,8 @@ class MainController extends UploadController
     {
         return ($this->type === '*' || $this->getType() === $this->type)
             && ($this->subdir === '*' || $this->getSubfolder() === $this->subdir)
-            && isset($_FILES['uploader_file']['name'])
-            && $this->isExtensionAllowed($_FILES['uploader_file']['name'])
+            && isset($_POST['name'])
+            && $this->isExtensionAllowed($_POST['name'])
             && isset($_FILES['uploader_file']['tmp_name'])
             && filesize($_FILES['uploader_file']['tmp_name']) <= $this->config['size_max']
             && $this->isSizeAllowed($_FILES['uploader_file']['tmp_name']);
