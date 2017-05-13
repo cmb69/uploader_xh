@@ -1,12 +1,3 @@
-TODO
-    translation-hints
-    uploader localization from back-end???
-    styling of uploader widget from back-end???
-    check: cleaning of upload file name vs. upload to base directory
-
-Version 1alpha8 - released TODO
-cmb	added: front-end upload to non-existent subdirectory creates this directory (suggested by Marco Hahn)
-    
 Version 1alpha7 - released 2012-05-02
 cmb	updated czech translation (contributed by oldnema)
 cmb	fixed bug: language and config were not properly included in init.php
