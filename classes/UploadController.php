@@ -21,8 +21,21 @@
 
 namespace Uploader;
 
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
+
 class UploadController
 {
+    /**
+     * @var string[]
+     */
+    protected static $types = ['images', 'downloads', 'media', 'userfiles'];
+
+    /**
+     * @var string[]
+     */
+    protected static $sizes = ['', 'small', 'medium', 'large'];
+
     /**
      * @var int
      */
@@ -91,7 +104,7 @@ class UploadController
 
         $result = [];
         if (!isset($this->type) || $this->type === '*') {
-            foreach ($this->getTypes() as $type) {
+            foreach (self::$types as $type) {
                 if (isset($pth['folder'][$type])) {
                     $result[$type] = $type === $this->getType() ? 'selected' : '';
                 }
@@ -100,27 +113,17 @@ class UploadController
         return $result;
     }
 
-    protected function getSubdirOptions($parent = null)
+    protected function getSubdirOptions()
     {
         global $pth;
 
         $result = [];
-        if (!isset($this->subdir) || $this->subdir === '*') {
-            if (!isset($parent)) {
-                $result['/'] = '';
-            }
-            $dn = $pth['folder'][$this->getType()] . $parent;
-            if (($dh = opendir($dn)) !== false) {
-                while (($fn = readdir($dh)) !== false) {
-                    if (strpos($fn, '.') !== 0
-                        && is_dir($pth['folder'][$this->getType()] . $parent . $fn)
-                    ) {
-                        $dir = $parent . $fn . '/';
-                        $result[$dir] = $dir === $this->getSubfolder() ? 'selected' : '';
-                        $result = array_merge($result, $this->getSubdirOptions($dir));
-                    }
-                }
-                closedir($dh);
+        $subdir = $pth['folder'][$this->getType()];
+        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($subdir));
+        foreach ($files as $file) {
+            if ($file->getFilename() === '.') {
+                $dir = str_replace('\\', '/', rtrim(substr($file->getPathname(), strlen($subdir) - 1), '.'));
+                $result[$dir] = $dir === $this->getSubfolder() ? 'selected' : '';
             }
         }
         return $result;
@@ -130,7 +133,7 @@ class UploadController
     {
         $result = [];
         if (!isset($this->resize) || $this->resize === '*') {
-            foreach ($this->getSizes() as $size) {
+            foreach (self::$sizes as $size) {
                 $result[$size] = $size === $this->getResizeMode() ? 'selected' : '';
             }
         }
@@ -155,21 +158,13 @@ class UploadController
         global $pth;
 
         if (isset($_GET['uploader_type'])
-            && in_array($_GET['uploader_type'], $this->getTypes())
+            && in_array($_GET['uploader_type'], self::$types)
             && isset($pth['folder'][$_GET['uploader_type']])
         ) {
             return $_GET['uploader_type'];
         } else {
             return 'images';
         }
-    }
-
-    /**
-     * @return array
-     */
-    protected function getTypes()
-    {
-        return array('images', 'downloads', 'media', 'userfiles');
     }
 
     /**
@@ -197,20 +192,12 @@ class UploadController
     protected function getResizeMode()
     {
         if (isset($_GET['uploader_resize'])
-            && in_array($_GET['uploader_resize'], $this->getSizes())
+            && in_array($_GET['uploader_resize'], self::$sizes)
         ) {
             return $_GET['uploader_resize'];
         } else {
             return $this->config['resize_default'];
         }
-    }
-
-    /**
-     * @return array
-     */
-    protected function getSizes()
-    {
-        return array('', 'small', 'medium', 'large');
     }
 
     protected function requireScripts()
@@ -283,23 +270,28 @@ class UploadController
         if (isset($_FILES['uploader_file']['tmp_name'])
             && is_uploaded_file($_FILES['uploader_file']['tmp_name'])
         ) {
-            try {
-                $receiver->handleUpload($_FILES['uploader_file']['tmp_name']);
-                echo '{"jsonrpc" : "2.0", "result" : null, "id" : "id"}';
-            } catch (ReadException $ex) {
-                header('HTTP/1.1 500 Internal Server Error');
-                echo '{"jsonrpc": "2.0", "error": {"code": 101, "message":'
-                    . ' "Failed to open input stream."}, "id" : "id"}';
-            } catch (WriteException $ex) {
-                header('HTTP/1.1 500 Internal Server Error');
-                echo '{"jsonrpc": "2.0", "error": {"code": 102, "message":'
-                    . ' "Failed to open output stream."}, "id" : "id"}';
-            }
+            $this->doUpload($receiver);
         } else {
             header('HTTP/1.1 400 Bad Request');
             echo '{"jsonrpc": "2.0", "error": {"code": 103, "message":',
                 '"Failed to move uploaded file."}, "id" : "id"}';
         }
         exit();
+    }
+
+    private function doUpload(Receiver $receiver)
+    {
+        try {
+            $receiver->handleUpload($_FILES['uploader_file']['tmp_name']);
+            echo '{"jsonrpc" : "2.0", "result" : null, "id" : "id"}';
+        } catch (ReadException $ex) {
+            header('HTTP/1.1 500 Internal Server Error');
+            echo '{"jsonrpc": "2.0", "error": {"code": 101, "message":'
+                . ' "Failed to open input stream."}, "id" : "id"}';
+        } catch (WriteException $ex) {
+            header('HTTP/1.1 500 Internal Server Error');
+            echo '{"jsonrpc": "2.0", "error": {"code": 102, "message":'
+                . ' "Failed to open output stream."}, "id" : "id"}';
+        }
     }
 }
