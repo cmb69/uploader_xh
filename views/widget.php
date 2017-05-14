@@ -26,7 +26,7 @@
 		<tr>
 			<th><?=$this->text('label_filename')?></th>
 			<th><?=$this->text('label_size')?></th>
-			<th><?=$this->text('label_progress')?></th>
+			<th><?=$this->text('label_state')?></th>
 			<th></th>
 		</tr>
 		<tr class="uploader_row_template">

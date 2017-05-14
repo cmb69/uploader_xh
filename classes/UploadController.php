@@ -205,7 +205,11 @@ class UploadController
         global $pth;
 
         if (!self::$hasRequiredScripts) {
-            $i18n = XH_hsc(json_encode(['error_error' => $this->lang['error_error']]));
+            $i18n = [];
+            foreach (['label_done', 'label_failed'] as $key) {
+                $i18n[$key] = $this->lang[$key];
+            }
+            $i18n = XH_hsc(json_encode($i18n));
             echo '<script type="text/x-json" id="uploader_i18n" data-i18n="' . $i18n . '"></script>' . PHP_EOL;
             include_once "{$pth['folder']['plugins']}jquery/jquery.inc.php";
             include_jQuery();

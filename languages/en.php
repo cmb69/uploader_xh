@@ -8,17 +8,17 @@ $plugin_tx['uploader']['label_subdir']="Sub-Folder";
 $plugin_tx['uploader']['label_resize']="Resize";
 $plugin_tx['uploader']['label_filename']="Filename";
 $plugin_tx['uploader']['label_size']="Size";
-$plugin_tx['uploader']['label_progress']="Progress";
+$plugin_tx['uploader']['label_state']="State";
 $plugin_tx['uploader']['label_remove']="Remove";
 $plugin_tx['uploader']['label_select_files']="Select files";
 $plugin_tx['uploader']['label_upload_files']="Upload files";
+$plugin_tx['uploader']['label_done']="Done";
+$plugin_tx['uploader']['label_failed']="Failed";
 
 $plugin_tx['uploader']['title_downloads']="Downloads";
 $plugin_tx['uploader']['title_images']="Images";
 $plugin_tx['uploader']['title_media']="Mediafiles";
 $plugin_tx['uploader']['title_userfiles']="Userfiles";
-
-$plugin_tx['uploader']['error_error']="Error";
 
 $plugin_tx['uploader']['message_no_support']="Your browser doesn't have Flash, Silverlight or HTML5 support.";
 

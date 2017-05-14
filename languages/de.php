@@ -8,17 +8,18 @@ $plugin_tx['uploader']['label_subdir']="Unterordner";
 $plugin_tx['uploader']['label_resize']="Größenänderung";
 $plugin_tx['uploader']['label_filename']="Dateiname";
 $plugin_tx['uploader']['label_size']="Größe";
-$plugin_tx['uploader']['label_progress']="Fortschritt";
+$plugin_tx['uploader']['label_state']="Status";
 $plugin_tx['uploader']['label_remove']="Entfernen";
 $plugin_tx['uploader']['label_select_files']="Dateien auswählen";
 $plugin_tx['uploader']['label_upload_files']="Dateien hochladen";
+$plugin_tx['uploader']['label_done']="Fertig";
+$plugin_tx['uploader']['label_failed']="Fehlgeschlagen";
 
 $plugin_tx['uploader']['title_downloads']="Downloads";
 $plugin_tx['uploader']['title_images']="Bilder";
 $plugin_tx['uploader']['title_media']="Media-Dateien";
 $plugin_tx['uploader']['title_userfiles']="Andere";
 
-$plugin_tx['uploader']['error_error']="Fehler";
 
 $plugin_tx['uploader']['message_no_support']="Ihr Browser verfügt nicht über Flash-, Silverlight- oder HTML5-Unterstützung.";
 
