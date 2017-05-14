@@ -71,7 +71,7 @@ class UploadController
     public function defaultAction()
     {
         $this->requireScripts();
-        echo '<div class="uploader_placeholder" data-serial="' . self::$serial . '"></div>';
+        echo '<div class="uploader_placeholder" data-serial="' . XH_hsc(self::$serial) . '"></div>';
     }
 
     public function widgetAction()
