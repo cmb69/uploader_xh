@@ -13,7 +13,10 @@ $plugin_tx['uploader']['label_remove']="Remove";
 $plugin_tx['uploader']['label_select_files']="Select files";
 $plugin_tx['uploader']['label_upload_files']="Upload files";
 $plugin_tx['uploader']['label_done']="Done";
-$plugin_tx['uploader']['label_failed']="Failed";
+
+$plugin_tx['uploader']['error_read']="Read error";
+$plugin_tx['uploader']['error_write']="Write error";
+$plugin_tx['uploader']['error_forbidden']="Forbidden";
 
 $plugin_tx['uploader']['title_downloads']="Downloads";
 $plugin_tx['uploader']['title_images']="Images";

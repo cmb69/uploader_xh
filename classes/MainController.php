@@ -47,8 +47,7 @@ class MainController extends UploadController
             && isset($_POST['name'])
             && $this->isExtensionAllowed($_POST['name'])
             && isset($_FILES['uploader_file']['tmp_name'])
-            && filesize($_FILES['uploader_file']['tmp_name']) <= $this->config['size_max']
-            && $this->isSizeAllowed($_FILES['uploader_file']['tmp_name']);
+            && filesize($_FILES['uploader_file']['tmp_name']) <= $this->config['size_max'];
     }
 
     /**
@@ -61,22 +60,5 @@ class MainController extends UploadController
             strtolower(pathinfo($filename, PATHINFO_EXTENSION)),
             explode(',', $this->config['ext_' . $this->getType()])
         );
-    }
-
-    /**
-     * @param string $filename
-     * @return bool
-     */
-    private function isSizeAllowed($filename)
-    {
-        $resize = $this->getResizeMode();
-        if ($resize !== '') {
-            $size = getimagesize($filename);
-            return !in_array($size[2], [IMAGETYPE_JPEG, IMAGETYPE_PNG])
-                || $size[0] <= $this->config["resize-{$resize}_width"]
-                && $size[1] <= $this->config["resize-{$resize}_height"];
-        } else {
-            return true;
-        }
     }
 }

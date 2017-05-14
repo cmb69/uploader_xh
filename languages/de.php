@@ -13,7 +13,10 @@ $plugin_tx['uploader']['label_remove']="Entfernen";
 $plugin_tx['uploader']['label_select_files']="Dateien auswählen";
 $plugin_tx['uploader']['label_upload_files']="Dateien hochladen";
 $plugin_tx['uploader']['label_done']="Fertig";
-$plugin_tx['uploader']['label_failed']="Fehlgeschlagen";
+
+$plugin_tx['uploader']['error_read']="Lesefehler";
+$plugin_tx['uploader']['error_write']="Schreibfehler";
+$plugin_tx['uploader']['error_forbidden']="Nicht erlaubt";
 
 $plugin_tx['uploader']['title_downloads']="Downloads";
 $plugin_tx['uploader']['title_images']="Bilder";

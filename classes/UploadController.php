@@ -205,12 +205,6 @@ class UploadController
         global $pth;
 
         if (!self::$hasRequiredScripts) {
-            $i18n = [];
-            foreach (['label_done', 'label_failed'] as $key) {
-                $i18n[$key] = $this->lang[$key];
-            }
-            $i18n = XH_hsc(json_encode($i18n));
-            echo '<script type="text/x-json" id="uploader_i18n" data-i18n="' . $i18n . '"></script>' . PHP_EOL;
             include_once "{$pth['folder']['plugins']}jquery/jquery.inc.php";
             include_jQuery();
             $this->appendScript("{$this->pluginFolder}lib/plupload.full.min.js");
@@ -266,40 +260,38 @@ class UploadController
         if (self::$serial != $_GET['uploader_serial']) {
             return;
         }
-        if (!$this->isUploadAllowed()) {
-            header('HTTP/1.1 400 Bad Request');
-            exit;
-        }
         $dir = $pth['folder'][$this->getType()] . $this->getSubfolder();
         $filename = isset($_POST['name']) ? $_POST['name'] : '';
         $chunks = isset($_POST['chunks']) ? $_POST['chunks'] : 0;
         $chunk = isset($_POST['chunk']) ? $_POST['chunk'] : 0;
-        $receiver = new Receiver($dir, $filename, $chunks, $chunk);
+        $receiver = new Receiver($dir, $filename, $chunks, $chunk, $this->config['size_max']);
+        header('Content-Type: text/plain; charset=UTF-8');
         if (isset($_FILES['uploader_file']['tmp_name'])
             && is_uploaded_file($_FILES['uploader_file']['tmp_name'])
+            && $this->isUploadAllowed()
         ) {
             $this->doUpload($receiver);
         } else {
-            header('HTTP/1.1 400 Bad Request');
-            echo '{"jsonrpc": "2.0", "error": {"code": 103, "message":',
-                '"Failed to move uploaded file."}, "id" : "id"}';
+            header('HTTP/1.1 403 Forbidden');
+            echo $this->lang['error_forbidden'];
         }
-        exit();
+        exit;
     }
 
     private function doUpload(Receiver $receiver)
     {
         try {
             $receiver->handleUpload($_FILES['uploader_file']['tmp_name']);
-            echo '{"jsonrpc" : "2.0", "result" : null, "id" : "id"}';
+            echo $this->lang['label_done'];
+        } catch (FilesizeException $ex) {
+            header('HTTP/1.1 403 Forbidden');
+            echo $this->lang['error_forbidden'];
         } catch (ReadException $ex) {
             header('HTTP/1.1 500 Internal Server Error');
-            echo '{"jsonrpc": "2.0", "error": {"code": 101, "message":'
-                . ' "Failed to open input stream."}, "id" : "id"}';
+            echo $this->lang['error_read'];
         } catch (WriteException $ex) {
             header('HTTP/1.1 500 Internal Server Error');
-            echo '{"jsonrpc": "2.0", "error": {"code": 102, "message":'
-                . ' "Failed to open output stream."}, "id" : "id"}';
+            echo $this->lang['error_write'];
         }
     }
 }

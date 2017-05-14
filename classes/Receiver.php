@@ -52,16 +52,23 @@ class Receiver
     private $chunk;
 
     /**
+     * @var int
+     */
+    private $maxFilesize;
+
+    /**
      * @param string $dir      Path of the destination folder.
      * @param string $filename Name of the destination file.
      * @param int    $chunks   The number of chunks of the upload.
      * @param int    $chunk    The number of the currently uploaded chunk.
+     * @param int    $maxSize
      */
-    public function __construct($dir, $filename, $chunks, $chunk)
+    public function __construct($dir, $filename, $chunks, $chunk, $maxFilesize)
     {
         $this->dir = $dir;
         $this->chunks = $chunks;
         $this->chunk = $chunk;
+        $this->maxFilesize = $maxFilesize;
         $this->filename = $this->cleanFilename($filename);
     }
 
@@ -97,6 +104,10 @@ class Receiver
                 }
                 fclose($in);
                 fclose($out);
+                if (filesize("$this->dir/$this->filename") > $this->maxFilesize) {
+                    unlink("$this->dir/$this->filename");
+                    throw new FilesizeException;
+                }
             } else {
                 fclose($out);
                 throw new ReadException;
