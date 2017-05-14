@@ -21,9 +21,6 @@
 
 namespace Uploader;
 
-use RecursiveIteratorIterator;
-use RecursiveDirectoryIterator;
-
 class UploadController
 {
     /**
@@ -117,14 +114,9 @@ class UploadController
     {
         global $pth;
 
-        $result = [];
-        $subdir = $pth['folder'][$this->getType()];
-        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($subdir));
-        foreach ($files as $file) {
-            if ($file->getFilename() === '.') {
-                $dir = str_replace('\\', '/', rtrim(substr($file->getPathname(), strlen($subdir) - 1), '.'));
-                $result[$dir] = $dir === $this->getSubfolder() ? 'selected' : '';
-            }
+        $result = array_flip((new FileSystemService)->getSubdirsOf($pth['folder'][$this->getType()]));
+        foreach ($result as $dirname => &$selected) {
+            $selected = $dirname === $this->getSubfolder() ? 'selected' : '';
         }
         return $result;
     }
