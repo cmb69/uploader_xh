@@ -263,8 +263,12 @@ class UploadController
     {
         global $pth;
 
-        if (self::$serial != $_GET['uploader_serial'] || !$this->isUploadAllowed()) {
+        if (self::$serial != $_GET['uploader_serial']) {
             return;
+        }
+        if (!$this->isUploadAllowed()) {
+            header('HTTP/1.1 400 Bad Request');
+            exit;
         }
         $dir = $pth['folder'][$this->getType()] . $this->getSubfolder();
         $filename = isset($_POST['name']) ? $_POST['name'] : '';
