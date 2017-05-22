@@ -154,6 +154,8 @@ class UploadController
             && isset($pth['folder'][$_GET['uploader_type']])
         ) {
             return $_GET['uploader_type'];
+        } else if (isset($this->type) && $this->type !== '*') {
+            return $this->type;
         } else {
             return 'images';
         }
