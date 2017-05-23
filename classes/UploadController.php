@@ -152,13 +152,13 @@ class UploadController
     {
         global $pth;
 
-        if (isset($_GET['uploader_type'])
+        if (isset($this->type) && $this->type !== '*') {
+            return $this->type;
+        } elseif (isset($_GET['uploader_type'])
             && in_array($_GET['uploader_type'], self::$types)
             && isset($pth['folder'][$_GET['uploader_type']])
         ) {
             return $_GET['uploader_type'];
-        } elseif (isset($this->type) && $this->type !== '*') {
-            return $this->type;
         } else {
             return 'images';
         }
@@ -171,6 +171,9 @@ class UploadController
     {
         global $pth;
 
+        if (isset($this->subdir) && $this->subdir !== '*') {
+            return $this->subdir;
+        }
         $subdir = isset($_GET['uploader_subdir'])
             ? preg_replace('/\.\.[\/\\\\]?/', '', $_GET['uploader_subdir'])
             : '';
@@ -188,7 +191,9 @@ class UploadController
      */
     protected function getResizeMode()
     {
-        if (isset($_GET['uploader_resize'])
+        if (isset($this->resize) && $this->resize !== '*') {
+            return $this->resize;
+        } elseif (isset($_GET['uploader_resize'])
             && in_array($_GET['uploader_resize'], self::$sizes)
         ) {
             return $_GET['uploader_resize'];
@@ -225,7 +230,8 @@ class UploadController
         $subdir = $this->getSubfolder();
         $resize = $this->getResizeMode();
         $url = (new Url($sn, $_GET))->with('function', 'uploader_upload')
-            ->with('uploader_type', $type)->with('uploader_subdir', $subdir);
+            ->with('uploader_type', $type)->with('uploader_subdir', $subdir)
+            ->with('uploader_resize', $resize);
         $config = array(
             'url' => (string) $url,
             'filters' => [
