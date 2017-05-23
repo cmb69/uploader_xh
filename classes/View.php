@@ -125,7 +125,6 @@ class View
     {
         global $pth;
 
-        echo "<!-- {$this->template} -->", PHP_EOL;
         include "{$pth['folder']['plugins']}uploader/views/{$this->template}.php";
     }
 
