@@ -1,7 +1,7 @@
 Uploader_XH – a CMSimple_XH plugin
 ==================================
 
-[![beta: 1.0beta1](https://img.shields.io/badge/beta-1.0beta1-red.svg)](https://github.com/cmb69/uploader_xh/releases/tag/1.0beta1)
+[![beta: 1.0beta2](https://img.shields.io/badge/beta-1.0beta2-red.svg)](https://github.com/cmb69/uploader_xh/releases/tag/1.0beta2)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](http://www.gnu.org/licenses/agpl-3.0)
 
 Copyright © 2011-2017 Christoph M. Becker
