@@ -247,11 +247,15 @@ class UploadController
         );
         $config['chunk_size'] = strtolower(ini_get('upload_max_filesize')) . 'b';
         if ($resize != '') {
-            $config['resize'] = array(
-                'width' => $this->config['resize-' . $resize . '_width'],
-                'height' => $this->config['resize-' . $resize . '_height'],
-                'quality' => $this->config['resize-' . $resize . '_quality']
-            );
+            if (is_array($resize)) {
+                $config['resize'] = $resize;
+            } else {
+                $config['resize'] = array(
+                    'width' => $this->config['resize-' . $resize . '_width'],
+                    'height' => $this->config['resize-' . $resize . '_height'],
+                    'quality' => $this->config['resize-' . $resize . '_quality']
+                );
+            }
         }
         return json_encode($config);
     }
