@@ -23,7 +23,7 @@ namespace Uploader;
 
 class Plugin
 {
-    const VERSION = '@UPLOADER_VERSION@';
+    const VERSION = '1.0beta2';
 
     public function run()
     {
