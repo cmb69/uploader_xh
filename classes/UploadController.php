@@ -80,21 +80,18 @@ class UploadController
         $this->scriptName = $scriptName;
     }
 
-    /** @return void */
-    public function defaultAction(?string $type = null, ?string $subdir = null, ?string $resize = null)
+    public function defaultAction(?string $type = null, ?string $subdir = null, ?string $resize = null): Response
     {
         $this->requireScripts();
-        echo '<div class="uploader_placeholder" data-serial="' . XH_hsc((string) ++$this->serial) . '"></div>';
+        return new Response(
+            '<div class="uploader_placeholder" data-serial="' . XH_hsc((string) ++$this->serial) . '"></div>'
+        );
     }
 
-    /** @return void */
-    public function widgetAction(?string $type = null, ?string $subdir = null, ?string $resize = null)
+    public function widgetAction(?string $type = null, ?string $subdir = null, ?string $resize = null): Response
     {
         if (++$this->serial != $_GET['uploader_serial']) {
-            return;
-        }
-        while (ob_get_level()) {
-            ob_end_clean();
+            return new Response("");
         }
         $view = new View("{$this->pluginFolder}views/", $this->lang);
         $selectChangeUrl = $this->getSelectOnchangeUrl($type, $subdir, $resize);
@@ -107,8 +104,7 @@ class UploadController
             'resizeOptions' => $this->getResizeOptions($resize),
             'pluploadConfig' => $this->getJsonConfig($type, $subdir, $resize),
         ];
-        echo $view->render('widget', $data);
-        exit;
+        return new Response($view->render('widget', $data), "text/html");
     }
 
     /** @return array<string,string> */
@@ -265,45 +261,37 @@ class UploadController
         return json_encode($config);
     }
 
-    /** @return void */
-    public function uploadAction(?string $type = null, ?string $subdir = null, ?string $resize = null)
+    public function uploadAction(?string $type = null, ?string $subdir = null, ?string $resize = null): Response
     {
         if (++$this->serial != $_GET['uploader_serial']) {
-            return;
+            return new Response("");
         }
         $dir = $this->fileFolders[$this->getType($type)] . $this->getSubfolder($type, $subdir);
         $filename = isset($_POST['name']) ? $_POST['name'] : '';
         $chunks = isset($_POST['chunks']) ? $_POST['chunks'] : 0;
         $chunk = isset($_POST['chunk']) ? $_POST['chunk'] : 0;
         $receiver = new Receiver($dir, $filename, $chunks, $chunk, (int) $this->config['size_max']);
-        header('Content-Type: text/plain; charset=UTF-8');
         if (isset($_FILES['uploader_file']['tmp_name'])
             && is_uploaded_file($_FILES['uploader_file']['tmp_name'])
             && $this->isUploadAllowed($type, $subdir, $resize)
         ) {
-            $this->doUpload($receiver);
+            return $this->doUpload($receiver);
         } else {
-            header('HTTP/1.1 403 Forbidden');
-            echo $this->lang['error_forbidden'];
+            return new Response($this->lang['error_forbidden'], "text/plain", 403);
         }
-        exit;
     }
 
-    /** @return void */
-    private function doUpload(Receiver $receiver)
+    private function doUpload(Receiver $receiver): Response
     {
         try {
             $receiver->handleUpload($_FILES['uploader_file']['tmp_name']);
-            echo $this->lang['label_done'];
+            return new Response($this->lang['label_done'], "text/plain");
         } catch (FilesizeException $ex) {
-            header('HTTP/1.1 403 Forbidden');
-            echo $this->lang['error_forbidden'];
+            return new Response($this->lang['error_forbidden'], "text/plain", 403);
         } catch (ReadException $ex) {
-            header('HTTP/1.1 500 Internal Server Error');
-            echo $this->lang['error_read'];
+            return new Response($this->lang['error_read'], "text/plain", 500);
         } catch (WriteException $ex) {
-            header('HTTP/1.1 500 Internal Server Error');
-            echo $this->lang['error_write'];
+            return new Response($this->lang['error_write'], "text/plain", 500);
         }
     }
 

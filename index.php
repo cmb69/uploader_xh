@@ -31,7 +31,7 @@ use Uploader\Dic;
  * @param string $resize    The resize mode ('', 'small', 'medium' or 'large').
  *                          '*' displays a selectbox.
  *
- * @return string (X)HTML.
+ * @return string|never
  */
 function uploader($type = 'images', $subdir = '', $resize = '')
 {
@@ -45,9 +45,7 @@ function uploader($type = 'images', $subdir = '', $resize = '')
     } else {
         $action = 'defaultAction';
     }
-    ob_start();
-    $controller->{$action}($type, $subdir, $resize);
-    return ob_get_clean();
+    return $controller->{$action}($type, $subdir, $resize)->trigger();
 }
 
 (new Uploader\Plugin)->run();

@@ -62,7 +62,7 @@ class Plugin
     }
 
     /**
-     * @return string
+     * @return string|never
      */
     private function handleMainAdministration()
     {
@@ -76,8 +76,6 @@ class Plugin
         } else {
             $action = 'defaultAction';
         }
-        ob_start();
-        $controller->{$action}();
-        return ob_get_clean();
+        return $controller->{$action}()->trigger();
     }
 }
