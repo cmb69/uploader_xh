@@ -61,15 +61,6 @@ class UploadController
     /** @var string */
     private $scriptName;
 
-    /** @var string|null */
-    private $type = null;
-
-    /** @var string|null */
-    private $subdir = null;
-
-    /** @var string|null */
-    private $resize = null;
-
     /**
      * @param array<string,string> $config
      * @param array<string,string> $lang
@@ -80,7 +71,7 @@ class UploadController
         array $lang,
         string $pluginFolder,
         array $fileFolders,
-        string $scriptName,
+        string $scriptName
     ) {
         self::$serial++;
         $this->config = $config;
@@ -93,9 +84,6 @@ class UploadController
     /** @return void */
     public function defaultAction(?string $type = null, ?string $subdir = null, ?string $resize = null)
     {
-        $this->type = $type;
-        $this->subdir = $subdir;
-        $this->resize = $resize;
         $this->requireScripts();
         echo '<div class="uploader_placeholder" data-serial="' . XH_hsc((string) self::$serial) . '"></div>';
     }
@@ -103,9 +91,6 @@ class UploadController
     /** @return void */
     public function widgetAction(?string $type = null, ?string $subdir = null, ?string $resize = null)
     {
-        $this->type = $type;
-        $this->subdir = $subdir;
-        $this->resize = $resize;
         if (self::$serial != $_GET['uploader_serial']) {
             return;
         }
@@ -113,72 +98,72 @@ class UploadController
             ob_end_clean();
         }
         $view = new View("{$this->pluginFolder}views/", $this->lang);
-        $selectChangeUrl = $this->getSelectOnchangeUrl();
+        $selectChangeUrl = $this->getSelectOnchangeUrl($type, $subdir, $resize);
         $data = [
             'typeSelectChangeUrl' => $selectChangeUrl->with('uploader_type', 'FIXME'),
-            'typeOptions' => $this->getTypeOptions(),
+            'typeOptions' => $this->getTypeOptions($type),
             'subdirSelectChangeUrl' => $selectChangeUrl->with('uploader_subdir', 'FIXME'),
-            'subdirOptions' => $this->getSubdirOptions(),
+            'subdirOptions' => $this->getSubdirOptions($type, $subdir),
             'resizeSelectChangeUrl' => $selectChangeUrl->with('uploader_resize', 'FIXME'),
-            'resizeOptions' => $this->getResizeOptions(),
-            'pluploadConfig' => $this->getJsonConfig(),
+            'resizeOptions' => $this->getResizeOptions($resize),
+            'pluploadConfig' => $this->getJsonConfig($type, $subdir, $resize),
         ];
         echo $view->render('widget', $data);
         exit;
     }
 
     /** @return array<string,string> */
-    private function getTypeOptions(): array
+    private function getTypeOptions(?string $type): array
     {
         $result = [];
-        if (!isset($this->type) || $this->type === '*') {
-            foreach (self::TYPES as $type) {
-                $result[$type] = $type === $this->getType() ? 'selected' : '';
+        if (!isset($type) || $type === '*') {
+            foreach (self::TYPES as $atype) {
+                $result[$atype] = $atype === $this->getType($type) ? 'selected' : '';
             }
         }
         return $result;
     }
 
     /** @return array<string,string> */
-    private function getSubdirOptions(): array
+    private function getSubdirOptions(?string $type, ?string $subdir): array
     {
         $result = [];
-        if (!isset($this->subdir) || $this->subdir === '*') {
-            $subdirs = (new FileSystemService)->getSubdirsOf($this->fileFolders[$this->getType()]);
+        if (!isset($subdir) || $subdir === '*') {
+            $subdirs = (new FileSystemService)->getSubdirsOf($this->fileFolders[$this->getType($type)]);
             foreach ($subdirs as $dirname) {
-                $result[$dirname] = $dirname === $this->getSubfolder() ? 'selected' : '';
+                $result[$dirname] = $dirname === $this->getSubfolder($type, $subdir) ? 'selected' : '';
             }
         }
         return $result;
     }
 
     /** @return array<string,string> */
-    private function getResizeOptions(): array
+    private function getResizeOptions(?string $resize): array
     {
         $result = [];
-        if (!isset($this->resize) || $this->resize === '*') {
+        if (!isset($resize) || $resize === '*') {
             foreach (self::SIZES as $size) {
-                $result[$size] = $size === $this->getResizeMode() ? 'selected' : '';
+                $result[$size] = $size === $this->getResizeMode($resize) ? 'selected' : '';
             }
         }
         return $result;
     }
 
-    private function getSelectOnchangeUrl(): Url
+    private function getSelectOnchangeUrl(?string $type, ?string $subdir, ?string $redir): Url
     {
         return (new Url($this->scriptName, $_GET))
-            ->with('uploader_type', $this->getType())
-            ->with('uploader_subdir', $this->getSubfolder())
-            ->with('uploader_resize', $this->getResizeMode());
+            ->with('uploader_type', $this->getType($type))
+            ->with('uploader_subdir', $this->getSubfolder($type, $subdir))
+            ->with('uploader_resize', $this->getResizeMode($redir));
     }
 
     /**
      * @return string
      */
-    private function getType()
+    private function getType(?string $type)
     {
-        if (isset($this->type) && $this->type !== '*') {
-            return $this->type;
+        if (isset($type) && $type !== '*') {
+            return $type;
         } elseif (isset($_GET['uploader_type'])
             && in_array($_GET['uploader_type'], self::TYPES)
             && isset($this->fileFolders[$_GET['uploader_type']])
@@ -192,16 +177,16 @@ class UploadController
     /**
      * @return string
      */
-    private function getSubfolder()
+    private function getSubfolder(?string $type, ?string $subdir)
     {
-        if (isset($this->subdir) && $this->subdir !== '*') {
-            return $this->subdir;
+        if (isset($subdir) && $subdir !== '*') {
+            return $subdir;
         }
         $subdir = isset($_GET['uploader_subdir'])
             ? preg_replace('/\.\.[\/\\\\]?/', '', $_GET['uploader_subdir'])
             : '';
         if (isset($_GET['uploader_subdir'])
-            && is_dir($this->fileFolders[$this->getType()] . $subdir)
+            && is_dir($this->fileFolders[$this->getType($type)] . $subdir)
         ) {
             return $subdir;
         } else {
@@ -212,10 +197,10 @@ class UploadController
     /**
      * @return string
      */
-    private function getResizeMode()
+    private function getResizeMode(?string $resize)
     {
-        if (isset($this->resize) && $this->resize !== '*') {
-            return $this->resize;
+        if (isset($resize) && $resize !== '*') {
+            return $resize;
         } elseif (isset($_GET['uploader_resize'])
             && in_array($_GET['uploader_resize'], self::SIZES)
         ) {
@@ -245,11 +230,11 @@ class UploadController
         $bjs .= '<script type="text/javascript" src="' . XH_hsc($filename) . '"></script>';
     }
 
-    private function getJsonConfig(): string
+    private function getJsonConfig(?string $type, ?string $subdir, ?string $resize): string
     {
-        $type = $this->getType();
-        $subdir = $this->getSubfolder();
-        $resize = $this->getResizeMode();
+        $type = $this->getType($type);
+        $subdir = $this->getSubfolder($type, $subdir);
+        $resize = $this->getResizeMode($resize);
         $url = (new Url($this->scriptName, $_GET))->with('function', 'uploader_upload')
             ->with('uploader_type', $type)->with('uploader_subdir', $subdir)
             ->with('uploader_resize', $resize);
@@ -284,13 +269,10 @@ class UploadController
     /** @return void */
     public function uploadAction(?string $type = null, ?string $subdir = null, ?string $resize = null)
     {
-        $this->type = $type;
-        $this->subdir = $subdir;
-        $this->resize = $resize;
         if (self::$serial != $_GET['uploader_serial']) {
             return;
         }
-        $dir = $this->fileFolders[$this->getType()] . $this->getSubfolder();
+        $dir = $this->fileFolders[$this->getType($type)] . $this->getSubfolder($type, $subdir);
         $filename = isset($_POST['name']) ? $_POST['name'] : '';
         $chunks = isset($_POST['chunks']) ? $_POST['chunks'] : 0;
         $chunk = isset($_POST['chunk']) ? $_POST['chunk'] : 0;
@@ -298,7 +280,7 @@ class UploadController
         header('Content-Type: text/plain; charset=UTF-8');
         if (isset($_FILES['uploader_file']['tmp_name'])
             && is_uploaded_file($_FILES['uploader_file']['tmp_name'])
-            && $this->isUploadAllowed()
+            && $this->isUploadAllowed($type, $subdir, $resize)
         ) {
             $this->doUpload($receiver);
         } else {
@@ -327,13 +309,13 @@ class UploadController
     }
 
     /** @return bool */
-    private function isUploadAllowed()
+    private function isUploadAllowed(?string $type, ?string $subdir, ?string $resize)
     {
-        if ($this->type !== null && $this->subdir !== null && $this->resize !== null) {
-            return ($this->type === '*' || $this->getType() === $this->type)
-                && ($this->subdir === '*' || $this->getSubfolder() === $this->subdir)
+        if ($type !== null && $subdir !== null && $resize !== null) {
+            return ($type === '*' || $this->getType($type) === $type)
+                && ($subdir === '*' || $this->getSubfolder($type, $subdir) === $subdir)
                 && isset($_POST['name'])
-                && $this->isExtensionAllowed($_POST['name'])
+                && $this->isExtensionAllowed($_POST['name'], $type)
                 && isset($_FILES['uploader_file']['tmp_name'])
                 && filesize($_FILES['uploader_file']['tmp_name']) <= $this->config['size_max'];
         }
@@ -344,11 +326,11 @@ class UploadController
      * @param string $filename
      * @return bool
      */
-    private function isExtensionAllowed($filename)
+    private function isExtensionAllowed($filename, ?string $type)
     {
         return in_array(
             strtolower(pathinfo($filename, PATHINFO_EXTENSION)),
-            explode(',', $this->config['ext_' . $this->getType()])
+            explode(',', $this->config['ext_' . $this->getType($type)])
         );
     }
 }
