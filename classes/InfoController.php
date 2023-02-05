@@ -26,6 +26,9 @@ class InfoController
     /** @var string */
     private $pluginsFolder;
 
+    /** @var string */
+    private $pluginFolder;
+
     /** @var array<string,string> */
     private $lang;
 
@@ -36,6 +39,7 @@ class InfoController
     public function __construct(string $pluginsFolder, array $lang, SystemChecker $systemChecker)
     {
         $this->pluginsFolder = $pluginsFolder;
+        $this->pluginFolder = "{$pluginsFolder}uploader/";
         $this->lang = $lang;
         $this->systemChecker = $systemChecker;
     }
@@ -43,11 +47,97 @@ class InfoController
     /** @return void */
     public function defaultAction()
     {
-        $systemCheckService = new SystemCheckService($this->pluginsFolder, $this->lang, $this->systemChecker);
         $view = new View("{$this->pluginsFolder}uploader/views/", $this->lang);
         echo $view->render('info', [
             'version' => Plugin::VERSION,
-            'checks' => $systemCheckService->getChecks(),
+            'checks' => $this->getChecks(),
         ]);
+    }
+
+    /**
+     * @return list<array{class:string,label:string,stateLabel:string}>
+     */
+    private function getChecks()
+    {
+        return array(
+            $this->checkPhpVersion('7.1.0'),
+            $this->checkExtension('json'),
+            $this->checkXhVersion('1.7.0'),
+            $this->checkPlugin('jquery'),
+            $this->checkWritability("{$this->pluginFolder}config/"),
+            $this->checkWritability("{$this->pluginFolder}css/"),
+            $this->checkWritability("{$this->pluginFolder}languages/")
+        );
+    }
+
+    /**
+     * @param string $version
+     * @return array{class:string,label:string,stateLabel:string}
+     */
+    private function checkPhpVersion($version)
+    {
+        $state = $this->systemChecker->checkVersion(PHP_VERSION, $version) ? 'success' : 'fail';
+        return [
+            'class' => "xh_$state",
+            'label' => sprintf($this->lang['syscheck_phpversion'], $version),
+            'stateLabel' => $this->lang["syscheck_$state"],
+        ];
+    }
+
+    /**
+     * @param string $extension
+     * @param bool $isMandatory
+     * @return array{class:string,label:string,stateLabel:string}
+     */
+    private function checkExtension($extension, $isMandatory = true)
+    {
+        $state = $this->systemChecker->checkExtension($extension) ? 'success' : ($isMandatory ? 'fail' : 'warning');
+        return [
+            'class' => "xh_$state",
+            'label' => sprintf($this->lang['syscheck_extension'], $extension),
+            'stateLabel' => $this->lang["syscheck_$state"],
+        ];
+    }
+
+    /**
+     * @param string $version
+     * @return array{class:string,label:string,stateLabel:string}
+     */
+    private function checkXhVersion($version)
+    {
+        $state = $this->systemChecker->checkVersion(CMSIMPLE_XH_VERSION, "CMSimple_XH $version") ? 'success' : 'fail';
+        return [
+            'class' => "xh_$state",
+            'label' => sprintf($this->lang['syscheck_xhversion'], $version),
+            'stateLabel' => $this->lang["syscheck_$state"],
+        ];
+    }
+
+    /**
+     * @param string $plugin
+     * @return array{class:string,label:string,stateLabel:string}
+     */
+    private function checkPlugin($plugin)
+    {
+        $state = $this->systemChecker->checkPlugin("{$this->pluginsFolder}{$plugin}") ? 'success' : 'fail';
+        return [
+            'class' => "xh_$state",
+            'label' => sprintf($this->lang['syscheck_plugin'], $plugin),
+            'stateLabel' => $this->lang["syscheck_$state"],
+        ];
+    }
+
+    /**
+     * @param string $folder
+     * @return array{class:string,label:string,stateLabel:string}
+     */
+    private function checkWritability($folder)
+    {
+        $state = $this->systemChecker->checkWritability($folder) ? 'success' : 'warning';
+        return [
+            'class' => "xh_$state",
+            'label' => sprintf($this->lang['syscheck_writable'], $folder),
+            'stateLabel' => $this->lang["syscheck_$state"],
+        ];
     }
 }
