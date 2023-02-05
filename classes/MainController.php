@@ -21,6 +21,9 @@
 
 namespace Uploader;
 
+/**
+ * @phpstan-import-type FileFolders from UploadController
+ */
 class MainController extends UploadController
 {
     /** @var string */
@@ -33,13 +36,24 @@ class MainController extends UploadController
     protected $resize;
 
     /**
+     * @param array<string,string> $config
+     * @param array<string,string> $lang
+     * @param FileFolders $fileFolders
      * @param string $type
      * @param string $subdir
      * @param string $resize
      */
-    public function __construct($type, $subdir, $resize)
-    {
-        parent::__construct();
+    public function __construct(
+        array $config,
+        array $lang,
+        string $pluginFolder,
+        array $fileFolders,
+        string $scriptName,
+        $type,
+        $subdir,
+        $resize
+    ) {
+        parent::__construct($config, $lang, $pluginFolder, $fileFolders, $scriptName);
         $this->type = $type;
         $this->subdir = $subdir;
         $this->resize = $resize;

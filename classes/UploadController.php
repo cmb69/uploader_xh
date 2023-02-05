@@ -21,6 +21,9 @@
 
 namespace Uploader;
 
+/**
+ * @phpstan-type FileFolders array{images:string,downloads:string,media:string,userfiles:string}
+ */
 abstract class UploadController
 {
     /**
@@ -58,14 +61,30 @@ abstract class UploadController
      */
     protected $pluginFolder;
 
-    public function __construct()
-    {
-        global $pth, $plugin_cf, $plugin_tx;
+    /** @var FileFolders */
+    private $fileFolders;
 
+    /** @var string */
+    private $scriptName;
+
+    /**
+     * @param array<string,string> $config
+     * @param array<string,string> $lang
+     * @param FileFolders $fileFolders
+     */
+    public function __construct(
+        array $config,
+        array $lang,
+        string $pluginFolder,
+        array $fileFolders,
+        string $scriptName
+    ) {
         self::$serial++;
-        $this->config = $plugin_cf['uploader'];
-        $this->lang = $plugin_tx['uploader'];
-        $this->pluginFolder = "{$pth['folder']['plugins']}uploader/";
+        $this->config = $config;
+        $this->lang = $lang;
+        $this->pluginFolder = $pluginFolder;
+        $this->fileFolders = $fileFolders;
+        $this->scriptName = $scriptName;
     }
 
     /** @return void */
@@ -102,12 +121,10 @@ abstract class UploadController
     /** @return array<string,string> */
     protected function getTypeOptions(): array
     {
-        global $pth;
-
         $result = [];
         if (!isset($this->type) || $this->type === '*') {
             foreach (self::$types as $type) {
-                if (isset($pth['folder'][$type])) {
+                if (isset($this->fileFolders[$type])) {
                     $result[$type] = $type === $this->getType() ? 'selected' : '';
                 }
             }
@@ -118,11 +135,9 @@ abstract class UploadController
     /** @return array<string,string> */
     protected function getSubdirOptions(): array
     {
-        global $pth;
-
         $result = [];
         if (!isset($this->subdir) || $this->subdir === '*') {
-            $subdirs = (new FileSystemService)->getSubdirsOf($pth['folder'][$this->getType()]);
+            $subdirs = (new FileSystemService)->getSubdirsOf($this->fileFolders[$this->getType()]);
             foreach ($subdirs as $dirname) {
                 $result[$dirname] = $dirname === $this->getSubfolder() ? 'selected' : '';
             }
@@ -144,9 +159,7 @@ abstract class UploadController
 
     protected function getSelectOnchangeUrl(): Url
     {
-        global $sn;
-
-        return (new Url($sn, $_GET))
+        return (new Url($this->scriptName, $_GET))
             ->with('uploader_type', $this->getType())
             ->with('uploader_subdir', $this->getSubfolder())
             ->with('uploader_resize', $this->getResizeMode());
@@ -157,13 +170,11 @@ abstract class UploadController
      */
     protected function getType()
     {
-        global $pth;
-
         if (isset($this->type) && $this->type !== '*') {
             return $this->type;
         } elseif (isset($_GET['uploader_type'])
             && in_array($_GET['uploader_type'], self::$types)
-            && isset($pth['folder'][$_GET['uploader_type']])
+            && isset($this->fileFolders[$_GET['uploader_type']])
         ) {
             return $_GET['uploader_type'];
         } else {
@@ -176,8 +187,6 @@ abstract class UploadController
      */
     protected function getSubfolder()
     {
-        global $pth;
-
         if (isset($this->subdir) && $this->subdir !== '*') {
             return $this->subdir;
         }
@@ -185,7 +194,7 @@ abstract class UploadController
             ? preg_replace('/\.\.[\/\\\\]?/', '', $_GET['uploader_subdir'])
             : '';
         if (isset($_GET['uploader_subdir'])
-            && is_dir($pth['folder'][$this->getType()] . $subdir)
+            && is_dir($this->fileFolders[$this->getType()] . $subdir)
         ) {
             return $subdir;
         } else {
@@ -212,10 +221,8 @@ abstract class UploadController
     /** @return void */
     protected function requireScripts()
     {
-        global $pth;
-
         if (!self::$hasRequiredScripts) {
-            include_once "{$pth['folder']['plugins']}jquery/jquery.inc.php";
+            include_once "{$this->pluginFolder}../jquery/jquery.inc.php";
             include_jQuery();
             $this->appendScript("{$this->pluginFolder}lib/plupload.full.min.js");
             $this->appendScript("{$this->pluginFolder}uploader.min.js");
@@ -233,12 +240,10 @@ abstract class UploadController
 
     protected function getJsonConfig(): string
     {
-        global $sn;
-
         $type = $this->getType();
         $subdir = $this->getSubfolder();
         $resize = $this->getResizeMode();
-        $url = (new Url($sn, $_GET))->with('function', 'uploader_upload')
+        $url = (new Url($this->scriptName, $_GET))->with('function', 'uploader_upload')
             ->with('uploader_type', $type)->with('uploader_subdir', $subdir)
             ->with('uploader_resize', $resize);
         $config = array(
@@ -272,12 +277,10 @@ abstract class UploadController
     /** @return void */
     public function uploadAction()
     {
-        global $pth;
-
         if (self::$serial != $_GET['uploader_serial']) {
             return;
         }
-        $dir = $pth['folder'][$this->getType()] . $this->getSubfolder();
+        $dir = $this->fileFolders[$this->getType()] . $this->getSubfolder();
         $filename = isset($_POST['name']) ? $_POST['name'] : '';
         $chunks = isset($_POST['chunks']) ? $_POST['chunks'] : 0;
         $chunk = isset($_POST['chunk']) ? $_POST['chunk'] : 0;

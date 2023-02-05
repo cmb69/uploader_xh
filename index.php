@@ -33,9 +33,23 @@
  */
 function uploader($type = 'images', $subdir = '', $resize = '')
 {
-    global $function;
+    global $pth, $sn, $function, $plugin_cf, $plugin_tx;
 
-    $controller = new Uploader\MainController($type, $subdir, $resize);
+    $controller = new Uploader\MainController(
+        $plugin_cf['uploader'],
+        $plugin_tx['uploader'],
+        "{$pth['folder']['plugins']}uploader/",
+        [
+            'images' => $pth['folder']['images'],
+            'downloads' => $pth['folder']['downloads'],
+            'media' => $pth['folder']['media'],
+            'userfiles' => $pth['folder']['userfiles']
+        ],
+        $sn,
+        $type,
+        $subdir,
+        $resize
+    );
     if ($function === 'uploader_upload') {
         $action = 'uploadAction';
     } elseif (isset($_GET['uploader_serial'])) {

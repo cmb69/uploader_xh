@@ -66,9 +66,20 @@ class Plugin
      */
     private function handleMainAdministration()
     {
-        global $function;
+        global $pth, $sn, $function, $plugin_cf, $plugin_tx;
 
-        $controller = new MainAdminController;
+        $controller = new MainAdminController(
+            $plugin_cf['uploader'],
+            $plugin_tx['uploader'],
+            "{$pth['folder']['plugins']}uploader/",
+            [
+                'images' => $pth['folder']['images'],
+                'downloads' => $pth['folder']['downloads'],
+                'media' => $pth['folder']['media'],
+                'userfiles' => $pth['folder']['userfiles'],
+            ],
+            $sn
+        );
         if ($function === 'uploader_upload') {
             $action = 'uploadAction';
         } elseif (isset($_GET['uploader_serial'])) {
