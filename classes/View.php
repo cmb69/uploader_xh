@@ -41,7 +41,7 @@ class View
      * @param mixed $args
      * @return string
      */
-    protected function text($key, ...$args)
+    public function text($key, ...$args)
     {
         return $this->escape(vsprintf($this->lang[$key], $args));
     }
@@ -62,7 +62,7 @@ class View
      * @param mixed $value
      * @return mixed
      */
-    protected function escape($value)
+    public function escape($value)
     {
         if ($value instanceof HtmlString) {
             return $value;
