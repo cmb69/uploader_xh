@@ -23,17 +23,28 @@ namespace Uploader;
 
 class InfoController
 {
+    /** @var string */
+    private $pluginsFolder;
+
+    /** @var array<string,string> */
+    private $lang;
+
+    /** @var SystemChecker */
+    private $systemChecker;
+
+    /** @param array<string,string> $lang */
+    public function __construct(string $pluginsFolder, array $lang, SystemChecker $systemChecker)
+    {
+        $this->pluginsFolder = $pluginsFolder;
+        $this->lang = $lang;
+        $this->systemChecker = $systemChecker;
+    }
+
     /** @return void */
     public function defaultAction()
     {
-        global $pth, $plugin_tx;
-
-        $systemCheckService = new SystemCheckService(
-            $pth['folder']['plugins'],
-            $plugin_tx['uploader'],
-            new SystemChecker()
-        );
-        $view = new View("{$pth['folder']['plugins']}uploader/views/", $plugin_tx['uploader']);
+        $systemCheckService = new SystemCheckService($this->pluginsFolder, $this->lang, $this->systemChecker);
+        $view = new View("{$this->pluginsFolder}uploader/views/", $this->lang);
         echo $view->render('info', [
             'version' => Plugin::VERSION,
             'checks' => $systemCheckService->getChecks(),

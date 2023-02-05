@@ -41,13 +41,18 @@ class Plugin
     /** @return void */
     private function handleAdministration()
     {
-        global $admin, $action, $plugin, $o;
+        global $pth, $plugin_tx, $admin, $o;
 
         $o .= print_plugin_admin('on');
         switch ($admin) {
             case '':
+                $controller = new InfoController(
+                    $pth['folder']['plugins'],
+                    $plugin_tx['uploader'],
+                    new SystemChecker()
+                );
                 ob_start();
-                (new InfoController)->defaultAction();
+                $controller->defaultAction();
                 $o .= ob_get_clean();
                 break;
             case 'plugin_main':
