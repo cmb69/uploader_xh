@@ -26,7 +26,7 @@ use PHPUnit\Framework\TestCase;
 
 class InfoControllerTest extends TestCase
 {
-    public function testIt(): void
+    public function testDefaultActionShowsPluginInfo(): void
     {
         $plugin_tx = XH_includeVar("./languages/en.php", 'plugin_tx');
         $lang = $plugin_tx['uploader'];
