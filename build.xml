@@ -44,7 +44,7 @@
     <move todir="dist">
       <fileset dir="export">
         <exclude name="tests/**"/>
-        <exlucde name="README.md"/>
+        <exclude name="README.md"/>
         <exclude name="build.xml"/>
         <exclude name="composer.*"/>
         <exclude name="teplad.xml"/>
