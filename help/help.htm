@@ -1,233 +1,115 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8">
-<title>Uploader_XH – User Manual</title>
-<link rel="stylesheet" type="text/css" href="./stylesheet.css">
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Uploader_XH – User Manual</title>
+  <style type="text/css">
+    body {
+        font-family: Georgia, serif;
+        line-height: 1.5;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+        background: #ffffe1;
+        max-width: 32em;
+    }
+    p {
+        text-align: justify;
+    }
+    pre {
+        color: black;
+        background: #ffe;
+        overflow: auto;
+        padding: 0.2em 0.5em;
+        border: 1px solid silver;
+    }
+  </style>
 </head>
-
 <body>
-
-<article>
-<h1>Uploader_XH – User Manual</h1>
-<img src="../uploader.png" class="logo" alt="Upward pointing arrow">
-<p>
-    Uploader_XH facilitates the upload of files to the <code>images</code>,
-    <code>downloads</code>, <code>userfiles</code> and <code>media</code>
-    folders. Contrary to the standard filemanager it allows queued and chunked
-    uploading, so it is an alternative to FTP, if you want to upload many and/or
-    large files. Uploader_XH is, however, not an alternative filemanager.
-</p>
-
-<nav id="nav">
-<h2>Table of Contents</h2>
+<h1 id="uploader_xh">Uploader_XH</h1>
+<p>Uploader_XH facilitates the upload of files to the <code>images/</code>, <code>downloads/</code>, <code>userfiles/</code> and <code>media/</code> folders of CMSimple_XH. Contrary to the standard filemanager it allows queued and chunked uploading, so it is an alternative to FTP, if you want to upload many and/or large files. Uploader_XH is, however, not an alternative filemanager.</p>
 <ul>
-<li><a href="#notice">Important Notice</a></li>
 <li><a href="#requirements">Requirements</a></li>
+<li><a href="#download">Download</a></li>
 <li><a href="#installation">Installation</a></li>
 <li><a href="#settings">Settings</a></li>
 <li><a href="#usage">Usage</a>
 <ul>
-<li><a href="#usage-back-end">Back-End</a></li>
-<li><a href="#usage-front-end">Front-End</a></li>
+<li><a href="#back-end">Back-End</a></li>
+<li><a href="#front-end">Front-End</a>
+<ul>
+<li><a href="#examples">Examples</a></li>
+</ul></li>
 </ul></li>
 <li><a href="#limitations">Limitations</a></li>
+<li><a href="#troubleshooting">Troubleshooting</a></li>
 <li><a href="#license">License</a></li>
 <li><a href="#credits">Credits</a></li>
 </ul>
-</nav>
-
-<section id="notice">
-<h2>Important Notice</h2>
-<p class="important">
-    Uploader_XH couldn't be tested so far in various environments. It is a so
-    called beta version. Use with caution!
-</p>
-</section>
-
-<section id="requirements">
-<h2>Requirements</h2>
-<p>
-    Uploader_XH requires CMSimple_XH ≥ 1.7.0, PHP ≥ 5.4.0 with the JSON
-    extension and a browser that is supported by the jQuery version in use.
-</p>
-</section>
-
-<section id="installation">
-<h2>Installation</h2>
-<p>
-    The installation is done as with many other CMSimple_XH plugins. See the <a
-    href="http://www.cmsimple-xh.org/wiki/doku.php/installation"> CMSimple_XH
-    wiki</a> for further details.
-</p>
-<ol>
-<li class="important">
-    Backup the data on your server.
-</li>
-<li>
-    Unzip the distribution on your computer.
-</li>
-<li>
-    Upload the whole directory <code>uploader/</code> to your server into CMSimple_XH's
-    plugins directory.
-</li>
-<li>
-    Set write permissions for the subdirectories <code>config/</code>,
-    <code>css/</code>, and <code>languages/</code>.
-</li>
-<li class="important">
-    Navigate to <i>Plugins</i> → <i>Uploader</i> in the back-end to check if all
-    requirements are fulfilled.
-</li>
+<h2 id="requirements">Requirements</h2>
+<p>Uploader_XH is a plugin for <a href="https://www.cmsimple-xh.org/">CMSimple_XH</a>. It requires CMSimple_XH ≥ 1.7.0, PHP ≥ 5.4.0 with the JSON extension and a browser that is supported by the jQuery version in use.</p>
+<h2 id="download">Download</h2>
+<p>The <a href="https://github.com/cmb69/uploader_xh/releases/latest">lastest release</a> is available for download on Github.</p>
+<h2 id="installation">Installation</h2>
+<p>The installation is done as with many other CMSimple_XH plugins. See the <a href="https://wiki.cmsimple-xh.org/?for-users/working-with-the-cms/plugins#id3_install-plugin">CMSimple_XH wiki</a> for further details.</p>
+<ol type="1">
+<li><strong>Backup the data on your server.</strong></li>
+<li>Unzip the distribution on your computer.</li>
+<li>Upload the whole directory <code>uploader/</code> to your server into the <code>plugins/</code> folder of CMSimple_XH.</li>
+<li>Set write permissions for the subdirectories <code>config/</code>, <code>css/</code>, and <code>languages/</code>.</li>
+<li>Navigate to <code>Plugins</code> → <code>Uploader</code> in the back-end to check if all requirements are fulfilled.</li>
 </ol>
-</section>
-
-<section id="settings">
-<h2>Settings</h2>
-<p>
-    The plugin's configuration is done as with many other CMSimple_XH plugins in
-    the website's back-end. Select <i>Plugins</i> → <i>Uploader</i>.
-</p>
-<p>
-    You can change the default settings of Uploader_XH under <i>Config</i>.
-    Hints for the options will be displayed when hovering over the help icon
-    with your mouse.
-</p>
-<p>
-    Localization is done under <i>Language</i>. You can translate the character
-    strings to your own language if there is no appropriate language file
-    available, or customize them according to your needs.
-</p>
-<p>
-    The look of Uploader_XH can be customized under <i>Stylesheet</i>.
-</p>
-</section>
-
-<section id="usage">
-<h2>Usage</h2>
-
-<section id="usage-back-end">
-<h3>Back-End</h3>
-<p>
-    In the back-end under <i>Plugins</i> → <i>Uploader</i> → <i>Upload</i>
-    you'll find the upload form. It's usage is pretty much self-explaining. Use
-    the select-boxes to choose the type of upload, the subfolder and the size
-    for JPEG and PNG images.
-</p>
-</section>
-
-<section id="usage-front-end">
-<h3>Front-End</h3>
-<p>
-    It's possible to use Uploader_XH on a CMSimple_XH page. <strong>You are
-    advised to make use of this feature only on pages that are not publicly
-    available</strong> (e.g. pages protected by <a
-    href="http://3-magi.net/?CMSimple_XH/Register_XH">Register_XH</a> or <a
-    href="https://github.com/cmsimple-xh/memberpages">Memberpages</a>).
-    Otherwise your server's disk space might be quickly filled up with useless
-    or even dangerous files.
-</p>
+<h2 id="settings">Settings</h2>
+<p>The configuration of the plugin is done as with many other CMSimple_XH plugins in the back-end of the Website. Select <code>Plugins</code> → <code>Uploader</code>.</p>
+<p>You can change the default settings of Uploader_XH under <code>Config</code>. Hints for the options will be displayed when hovering over the help icon with your mouse.</p>
+<p>Localization is done under <code>Language</code>. You can translate the character strings to your own language if there is no appropriate language file available, or customize them according to your needs.</p>
+<p>The look of Uploader_XH can be customized under <code>Stylesheet</code>.</p>
+<h2 id="usage">Usage</h2>
+<h3 id="back-end">Back-End</h3>
+<p>In the back-end under <code>Plugins</code> → <code>Uploader</code> → <code>Upload</code> you can find the upload form. Its usage is pretty much self-explaining. Use the select-boxes to choose the type of upload, the subfolder and the size for JPEG and PNG images.</p>
+<h3 id="front-end">Front-End</h3>
+<p>It is possible to use Uploader_XH on a CMSimple_XH page. <strong>You are strongly advised to make use of this feature only on pages that are <em>not</em> publicly available</strong> (e.g. pages protected by <a href="https://github.com/cmb69/register_xh">Register_XH</a> or <a href="https://github.com/cmsimple-xh/memberpages">Memberpages</a>). Otherwise the disk space of your server might be quickly filled up with useless or even dangerous files.</p>
 <p>To display the upload widget insert in the content:</p>
-<pre>{{{uploader('%TYPE%', '%SUBDIR%', '%RESIZE%')}}}</pre>
+<pre><code>{{{uploader(&#39;%TYPE%&#39;, &#39;%SUBDIR%&#39;, &#39;%RESIZE%&#39;)}}}</code></pre>
 <p>The placeholders have the following meaning:</p>
-<dl>
-<dt><code>%TYPE%</code></dt>
-<dd>
-    The upload type, i.e. <code>images</code>, <code>downloads</code>,
-    <code>media</code> or <code>userfiles</code>. <code>*</code> will display a
-    selectbox to the user. Defaults to <code>images</code>.
-</dd>
-</dl>
-<dt><code>%SUBDIR%</code></dt>
-<dd>
-    The subfolder (terminated by <code>/</code>) relative to the type's folder
-    (set in CMSimple_XH's configuration) where the files should be uploaded to.
-    Note that the subfolder has to exist. <code>*</code> will display a
-    selectbox to the user. Defaults to <code>/</code>.
-</dd>
-<dt><code>%RESIZE%</code></dt>
-<dd>
-    The resize mode for uploaded JPEG or PNG images, i.e. <i>blank</i> (no
-    resizing), <code>small</code>, <code>medium</code>, <code>large</code>.
-    <code>*</code> will display a selectbox to the user. Defaults to
-    <i>blank</i>. The exact sizes can be set in Uploader_XH's configuration.
-</dd>
-<section>
-<h4>Examples</h4>
+<ul>
+<li><p><code>%TYPE%</code>: The upload type, i.e. <code>images</code>, <code>downloads</code>, <code>media</code> or <code>userfiles</code>. <code>*</code> will display a selectbox to the user. Defaults to <code>images</code>.</p></li>
+<li><p><code>%SUBDIR%</code>: The subfolder (terminated by <code>/</code>) relative to the folder of that type (set in the configuration of CMSimple_XH) where the files should be uploaded to. Note that the subfolder has to exist. <code>*</code> will display a selectbox to the user. Defaults to <code>/</code>.</p></li>
+<li><p><code>%RESIZE%</code>: The resize mode for uploaded JPEG or PNG images, i.e. <code>blank</code> (no resizing), <code>small</code>, <code>medium</code>, <code>large</code>. <code>*</code> will display a selectbox to the user. Defaults to <code>blank</code>. The exact sizes can be set in the configuration of Uploader_XH.</p></li>
+</ul>
+<h4 id="examples">Examples</h4>
 <p>Uploading images directly to the configured image folder:</p>
-<pre>{{{uploader()}}}</pre>
+<pre><code>{{{uploader()}}}</code></pre>
 <p>Uploading images directly to the configured image folder always resized to small size:</p>
-<pre>{{{uploader('images', '', 'small')}}}</pre>
+<pre><code>{{{uploader(&#39;images&#39;, &#39;&#39;, &#39;small&#39;)}}}</code></pre>
 <p>Uploading documents to the subfolder <code>extern/</code> of the configured download folder:</p>
-<pre>{{{uploader('downloads', 'extern/')}}}</pre>
+<pre><code>{{{uploader(&#39;downloads&#39;, &#39;extern/&#39;)}}}</code></pre>
 <p>Uploading files to a selectable subfolder of the configured userfiles folder:</p>
-<pre>{{{uploader('userfiles', '*')}}}</pre>
+<pre><code>{{{uploader(&#39;userfiles&#39;, &#39;*&#39;)}}}</code></pre>
 <p>Uploading with full flexibility as available in the back-end:</p>
-<pre>{{{uploader('*', '*', '*')}}}</pre>
+<pre><code>{{{uploader(&#39;*&#39;, &#39;*&#39;, &#39;*&#39;)}}}</code></pre>
 <p>Separate upload widgets for images and media files on the same page:</p>
-<pre>
-{{{uploader('images', '', '')}}}
-{{{uploader('media', '', '')}}}
-</pre>
-</section>
-</section>
-
-</section>
-
-<section id="limitations">
-<h2>Limitations</h2>
-<p>
-    The full feature set of Uploader_XH is only supported on contemporary
-    browsers. Older browsers may not offer all features, such as chunked
-    uploading, image resizing etc.
-</p>
-</section>
-
-<section id="license">
-<h2>License</h2>
-<p>
-    Uploader_XH is licensed under <a
-    href="http://www.gnu.org/licenses/agpl.html">Affero GPLv3</a>.
-</p>
-<p>Copyright © 2011-2017 Christoph M. Becker</p>
-<p>
-    Slovak translation © 2012 Dr. Martin Sereday<br>
-    Czech translation © 2012 Josef Němec<br>
-    Danish translation © 2012 Jens Maegard
-</p>
-</section>
-
-<section id="credits">
-<h2>Credits</h2>
-<p>
-    Uploader_XH uses <a href="http://www.plupload.com/">Plupload</a>. Many thanks
-    to <a href="http://www.ephox.com/">Ephox</a> for releasing it under AGPL.
-</p>
-<p>
-    The plugin logo is designed by <a
-    href="http://schollidesign.deviantart.com/">schollidesign</a>. Many thanks
-    for publishing this icon under GPL.
-</p>
-<p>
-    Many thanks to the community at the <a
-    href="http://www.cmsimpleforum.com/">CMSimple forum</a> for tips,
-    suggestions and testing. Particularly I want to thank <i>twc</i>, who made
-    me aware of Plupload, and <i>wolfgang_58</i> and <i>Tata</i> for testing and
-    reporting bugs. And many thanks to <i>Holger</i>, who tested the primordial
-    API and helped improving it. Also many thanks to <i>pmschulze</i> who
-    reported a severe bug in 1.0beta1.
-</p>
-<p>
-    Last but not least many thanks to <a href="http://harteg.dk/">Peter
-    Harteg</a>, the "father" of CMSimple, and all developers of <a
-    href="http://www.cmsimple-xh.org/"> CMSimple_XH</a> without whom this
-    amazing CMS wouldn't exist.
-</p>
-</section>
-
-</article>
-
+<pre><code>{{{uploader(&#39;images&#39;, &#39;&#39;, &#39;&#39;)}}}
+{{{uploader(&#39;media&#39;, &#39;&#39;, &#39;&#39;)}}}</code></pre>
+<h2 id="limitations">Limitations</h2>
+<p>The full feature set of Uploader_XH is only supported on contemporary browsers. Older browsers may not offer all features, such as chunked uploading, image resizing etc.</p>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<p>Report bugs and ask for support either on <a href="https://github.com/cmb69/uploader_xh/issues">Github</a> or in the <a href="https://cmsimpleforum.com/">CMSimple_XH Forum</a>.</p>
+<h2 id="license">License</h2>
+<p>Uploader_XH is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+<p>Uploader_XH is distributed in the hope that it will be useful, but <em>without any warranty</em>; without even the implied warranty of <em>merchantibility</em> or <em>fitness for a particular purpose</em>. See the GNU Affero General Public License for more details.</p>
+<p>You should have received a copy of the GNU Affero General Public License along with Uploader_XH. If not, see <a href="http://www.gnu.org/licenses/" class="uri">http://www.gnu.org/licenses/</a>.</p>
+<p>© 2011-2017 Christoph M. Becker</p>
+<p>Slovak translation © 2012 Dr. Martin Sereday<br />
+Czech translation © 2012 Josef Němec<br />
+Danish translation © 2012 Jens Maegard</p>
+<h2 id="credits">Credits</h2>
+<p>Uploader_XH uses <a href="https://www.plupload.com/">Plupload</a></a>. Many thanks to <a href="https://www.ephox.com/">Ephox</a> for releasing it under AGPL.</p>
+<p>The plugin logo is designed by <a href="https://www.deviantart.com/schollidesign">schollidesign</a>. Many thanks for publishing this icon under GPL.</p>
+<p>Many thanks to the community at the <a href="http://www.cmsimpleforum.com/">CMSimple_XH-Forum</a> for tips, suggestions and testing. Particularly I want to thank <em>twc</em>, who made me aware of Plupload, and <em>wolfgang_58</em> and <em>Tata</em> for testing and reporting bugs. And many thanks to <em>Holger</em>, who tested the primordial API and helped improving it. Also many thanks to <em>pmschulze</em> who reported a severe bug in 1.0beta1.</p>
+<p>And last but not least many thanks to <a href="https://www.harteg.dk/">Peter Harteg</a>, the “father” of CMSimple, and all developers of <a href="https://www.cmsimple-xh.org/">CMSimple_XH</a> without whom this amazing CMS would not exist.</p>
 </body>
-
 </html>
