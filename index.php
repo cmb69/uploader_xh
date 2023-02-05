@@ -45,10 +45,7 @@ function uploader($type = 'images', $subdir = '', $resize = '')
             'media' => $pth['folder']['media'],
             'userfiles' => $pth['folder']['userfiles']
         ],
-        $sn,
-        $type,
-        $subdir,
-        $resize
+        $sn
     );
     if ($function === 'uploader_upload') {
         $action = 'uploadAction';
@@ -58,7 +55,7 @@ function uploader($type = 'images', $subdir = '', $resize = '')
         $action = 'defaultAction';
     }
     ob_start();
-    $controller->{$action}();
+    $controller->{$action}($type, $subdir, $resize);
     return ob_get_clean();
 }
 

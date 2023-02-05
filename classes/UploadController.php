@@ -62,13 +62,13 @@ class UploadController
     private $scriptName;
 
     /** @var string|null */
-    private $type;
+    private $type = null;
 
     /** @var string|null */
-    private $subdir;
+    private $subdir = null;
 
     /** @var string|null */
-    private $resize;
+    private $resize = null;
 
     /**
      * @param array<string,string> $config
@@ -81,9 +81,6 @@ class UploadController
         string $pluginFolder,
         array $fileFolders,
         string $scriptName,
-        ?string $type = null,
-        ?string $subdir = null,
-        ?string $resize = null
     ) {
         self::$serial++;
         $this->config = $config;
@@ -91,21 +88,24 @@ class UploadController
         $this->pluginFolder = $pluginFolder;
         $this->fileFolders = $fileFolders;
         $this->scriptName = $scriptName;
-        $this->type = $type;
-        $this->subdir = $subdir;
-        $this->resize = $resize;
     }
 
     /** @return void */
-    public function defaultAction()
+    public function defaultAction(?string $type = null, ?string $subdir = null, ?string $resize = null)
     {
+        $this->type = $type;
+        $this->subdir = $subdir;
+        $this->resize = $resize;
         $this->requireScripts();
         echo '<div class="uploader_placeholder" data-serial="' . XH_hsc((string) self::$serial) . '"></div>';
     }
 
     /** @return void */
-    public function widgetAction()
+    public function widgetAction(?string $type = null, ?string $subdir = null, ?string $resize = null)
     {
+        $this->type = $type;
+        $this->subdir = $subdir;
+        $this->resize = $resize;
         if (self::$serial != $_GET['uploader_serial']) {
             return;
         }
@@ -282,8 +282,11 @@ class UploadController
     }
 
     /** @return void */
-    public function uploadAction()
+    public function uploadAction(?string $type = null, ?string $subdir = null, ?string $resize = null)
     {
+        $this->type = $type;
+        $this->subdir = $subdir;
+        $this->resize = $resize;
         if (self::$serial != $_GET['uploader_serial']) {
             return;
         }
