@@ -1,3 +1,17 @@
+<?php
+
+use Uploader\Url;
+use Uploader\View;
+
+/**
+ * @var View $this
+ * @var string $pluploadConfig
+ * @var Url $typeSelectChangeUrl
+ * @var Url $subdirSelectChangeUrl
+ * @var Url $resizeSelectChangeUrl
+ */
+?>
+
 <div class="uploader_widget" data-config="<?=$this->escape($pluploadConfig)?>">
   <div class="uploader_controls">
 <?php if (!empty($typeOptions)):?>

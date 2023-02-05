@@ -1,3 +1,15 @@
+<?php
+
+use Uploader\View;
+
+/**
+ * @var View $this
+ * @var string $logo
+ * @var string $version
+ * @var list<stdClass> $checks
+ */
+?>
+
 <h1>Uploader – <?=$this->text('menu_info')?></h1>
 <img class="uploader_logo" src="<?=$this->escape($logo)?>" alt="<?=$this->text('alt_logo')?>">
 <p>Version: <?=$this->escape($version)?></p>
