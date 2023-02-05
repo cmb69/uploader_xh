@@ -2,10 +2,6 @@
 
 <project name="Uploader" default="help">
 
-  <fileset id="attack-tests" dir="tests/attack">
-    <include name="*Test.php"/>
-  </fileset>
-
   <target name="help" description="lists available targets">
     <exec command="phing -l" outputProperty="help"/>
     <echo>${help}</echo>
