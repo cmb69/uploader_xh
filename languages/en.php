@@ -1,6 +1,5 @@
 <?php
 
-$plugin_tx['uploader']['menu_info']="Info";
 $plugin_tx['uploader']['menu_main']="Upload";
 
 $plugin_tx['uploader']['label_type']="Type";
@@ -35,8 +34,6 @@ $plugin_tx['uploader']['syscheck_title']="System check";
 $plugin_tx['uploader']['syscheck_warning']="warning";
 $plugin_tx['uploader']['syscheck_writable']="'%s' is writable";
 $plugin_tx['uploader']['syscheck_xhversion']="CMSimple_XH version ≥ %s";
-
-$plugin_tx['uploader']['alt_logo']="Up Arrow";
 
 $plugin_tx['uploader']['cf_resize_default']="The default resize mode for images: \"\" (no resize), \"small\", \"medium\" or \"large\".";
 $plugin_tx['uploader']['cf_resize-small_width']="The maximum width (in pixels) for small resizing.";

@@ -30,10 +30,8 @@ class InfoController
 
         $view = new View("{$pth['folder']['plugins']}uploader/views/", $plugin_tx['uploader']);
         echo $view->render('info', [
-            'logo' => "{$pth['folder']['plugins']}uploader/uploader.png",
             'version' => Plugin::VERSION,
             'checks' => (new SystemCheckService)->getChecks(),
-            'iconFolder' => "{$pth['folder']['plugins']}uploader/images/",
         ]);
     }
 }

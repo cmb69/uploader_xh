@@ -19,15 +19,3 @@
 .uploader_buttons {}
 .uploader_pickfiles {}
 .uploader_uploadfiles {}
-
-/**
- * Plugin info
- */
-.uploader_logo {
-    float: left;
-    margin: 0.5em 1.5em 0.5em 0;
-}
-.uploader_license {
-    text-align: justify;
-}
-.uploader_syscheck {}

@@ -1,6 +1,5 @@
 <?php
 
-$plugin_tx['uploader']['menu_info']="Info";
 $plugin_tx['uploader']['menu_main']="Upload";
 
 $plugin_tx['uploader']['label_type']="Typ";
@@ -36,8 +35,6 @@ $plugin_tx['uploader']['syscheck_title']="System-Prüfung";
 $plugin_tx['uploader']['syscheck_warning']="Warnung";
 $plugin_tx['uploader']['syscheck_writable']="'%s' schreibbar ist";
 $plugin_tx['uploader']['syscheck_xhversion']="die CMSimple_XH-Version ≥ %s";
-
-$plugin_tx['uploader']['alt_logo']="Pfeil nach oben";
 
 $plugin_tx['uploader']['cf_resize_default']="Der voreingestellte Größenänderungsmodus für Bilder: \"\" (Originalgröße), \"small\" (klein), \"medium\" (mittel) or \"large\" (groß).";
 $plugin_tx['uploader']['cf_resize-small_width']="Die maximale Breite (in Pixeln) für kleine Bilder.";
