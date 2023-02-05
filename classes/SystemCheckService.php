@@ -43,7 +43,7 @@ class SystemCheckService
         global $pth, $plugin_tx;
 
         $this->pluginsFolder = $pth['folder']['plugins'];
-        $this->pluginFolder = "{$this->pluginsFolder}uploader";
+        $this->pluginFolder = "{$this->pluginsFolder}uploader/";
         $this->lang = $plugin_tx['uploader'];
     }
 
@@ -57,9 +57,9 @@ class SystemCheckService
             $this->checkExtension('json'),
             $this->checkXhVersion('1.7.0'),
             $this->checkPlugin('jquery'),
-            $this->checkWritability("$this->pluginFolder/config/"),
-            $this->checkWritability("$this->pluginFolder/css/"),
-            $this->checkWritability("$this->pluginFolder/languages/")
+            $this->checkWritability("{$this->pluginFolder}config/"),
+            $this->checkWritability("{$this->pluginFolder}css/"),
+            $this->checkWritability("{$this->pluginFolder}languages/")
         );
     }
 
