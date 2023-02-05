@@ -51,9 +51,7 @@ class Plugin
                     $plugin_tx['uploader'],
                     new SystemChecker()
                 );
-                ob_start();
-                $controller->defaultAction();
-                $o .= ob_get_clean();
+                $o .= $controller->defaultAction();
                 break;
             case 'plugin_main':
                 $o .= $this->handleMainAdministration();

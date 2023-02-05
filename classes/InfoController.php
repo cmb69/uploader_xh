@@ -44,11 +44,10 @@ class InfoController
         $this->systemChecker = $systemChecker;
     }
 
-    /** @return void */
-    public function defaultAction()
+    public function defaultAction(): string
     {
         $view = new View("{$this->pluginsFolder}uploader/views/", $this->lang);
-        echo $view->render('info', [
+        return $view->render('info', [
             'version' => Plugin::VERSION,
             'checks' => $this->getChecks(),
         ]);
