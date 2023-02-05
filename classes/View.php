@@ -38,12 +38,11 @@ class View
 
     /**
      * @param string $key
+     * @param mixed $args
      * @return string
      */
-    protected function text($key)
+    protected function text($key, ...$args)
     {
-        $args = func_get_args();
-        array_shift($args);
         return $this->escape(vsprintf($this->lang[$key], $args));
     }
 
