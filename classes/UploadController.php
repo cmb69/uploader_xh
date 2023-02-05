@@ -26,15 +26,9 @@ namespace Uploader;
  */
 class UploadController
 {
-    /**
-     * @var string[]
-     */
-    private static $types = ['images', 'downloads', 'media', 'userfiles'];
+    private const TYPES = ['images', 'downloads', 'media', 'userfiles'];
 
-    /**
-     * @var string[]
-     */
-    private static $sizes = ['', 'small', 'medium', 'large'];
+    private const SIZES = ['', 'small', 'medium', 'large'];
 
     /**
      * @var int
@@ -143,10 +137,8 @@ class UploadController
     {
         $result = [];
         if ($this->type === '*') {
-            foreach (self::$types as $type) {
-                if (isset($this->fileFolders[$type])) {
-                    $result[$type] = $type === $this->getType() ? 'selected' : '';
-                }
+            foreach (self::TYPES as $type) {
+                $result[$type] = $type === $this->getType() ? 'selected' : '';
             }
         }
         return $result;
@@ -170,7 +162,7 @@ class UploadController
     {
         $result = [];
         if ($this->resize === '*') {
-            foreach (self::$sizes as $size) {
+            foreach (self::SIZES as $size) {
                 $result[$size] = $size === $this->getResizeMode() ? 'selected' : '';
             }
         }
@@ -193,7 +185,7 @@ class UploadController
         if ($this->type !== '*') {
             return $this->type;
         } elseif (isset($_GET['uploader_type'])
-            && in_array($_GET['uploader_type'], self::$types)
+            && in_array($_GET['uploader_type'], self::TYPES)
             && isset($this->fileFolders[$_GET['uploader_type']])
         ) {
             return $_GET['uploader_type'];
@@ -230,7 +222,7 @@ class UploadController
         if ($this->resize !== '*') {
             return $this->resize;
         } elseif (isset($_GET['uploader_resize'])
-            && in_array($_GET['uploader_resize'], self::$sizes)
+            && in_array($_GET['uploader_resize'], self::SIZES)
         ) {
             return $_GET['uploader_resize'];
         } else {
