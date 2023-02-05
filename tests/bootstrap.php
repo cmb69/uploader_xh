@@ -31,3 +31,4 @@ require_once "./classes/Receiver.php";
 require_once "./classes/ReadException.php";
 require_once "./classes/SystemChecker.php";
 require_once "./classes/View.php";
+require_once "./classes/WriteException.php";

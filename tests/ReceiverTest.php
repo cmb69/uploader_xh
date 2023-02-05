@@ -74,4 +74,16 @@ class ReceiverTest extends TestCase
         $this->expectException(ReadException::class);
         $sut->handleUpload(vfsStream::url("root/upload"));
     }
+
+    public function testThrowsWriteExceptionIfFileIsNotWritable(): void
+    {
+        vfsStream::setup("root/");
+        file_put_contents(vfsStream::url("root/upload"), "da");
+        $sut = new Receiver(vfsStream::url("root/"), "image.jpg", 2, 0, 1000);
+        $sut->handleUpload(vfsStream::url("root/upload"));
+        chmod(vfsStream::url("root/image.jpg"), 0444);
+        $sut = new Receiver(vfsStream::url("root/"), "image.jpg", 2, 1, 1000);
+        $this->expectException(WriteException::class);
+        $sut->handleUpload(vfsStream::url("root/upload"));
+    }
 }
