@@ -22,7 +22,7 @@ large files. Uploader_XH is, however, not an alternative filemanager.
 ## Requirements
 
 Uploader_XH is a plugin for [CMSimple_XH](https://www.cmsimple-xh.org/).
-It requires CMSimple_XH ≥ 1.7.0, PHP ≥ 5.4.0 with the JSON
+It requires CMSimple_XH ≥ 1.7.0, PHP ≥ 7.1.0 with the JSON
 extension and a browser that is supported by the jQuery version in use.
 
 ## Download
