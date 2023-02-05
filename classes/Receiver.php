@@ -61,7 +61,7 @@ class Receiver
      * @param string $filename Name of the destination file.
      * @param int    $chunks   The number of chunks of the upload.
      * @param int    $chunk    The number of the currently uploaded chunk.
-     * @param int    $maxSize
+     * @param int    $maxFilesize
      */
     public function __construct($dir, $filename, $chunks, $chunk, $maxFilesize)
     {

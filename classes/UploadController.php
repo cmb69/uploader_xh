@@ -71,7 +71,7 @@ abstract class UploadController
     public function defaultAction()
     {
         $this->requireScripts();
-        echo '<div class="uploader_placeholder" data-serial="' . XH_hsc(self::$serial) . '"></div>';
+        echo '<div class="uploader_placeholder" data-serial="' . XH_hsc((string) self::$serial) . '"></div>';
     }
 
     public function widgetAction()
@@ -249,7 +249,7 @@ abstract class UploadController
         );
         $config['chunk_size'] = strtolower(ini_get('upload_max_filesize')) . 'b';
         if ($resize != '') {
-            if (is_array($resize)) {
+            if (is_array($resize)) { // @phpstan-ignore-line
                 $config['resize'] = $resize;
             } else {
                 $config['resize'] = array(
