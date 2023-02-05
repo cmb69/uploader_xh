@@ -82,7 +82,7 @@ abstract class UploadController
         while (ob_get_level()) {
             ob_end_clean();
         }
-        $view = new View('widget');
+        $view = new View("{$this->pluginFolder}views/", $this->lang);
         $selectChangeUrl = $this->getSelectOnchangeUrl();
         $data = [
             'typeSelectChangeUrl' => $selectChangeUrl->with('uploader_type', 'FIXME'),
@@ -93,7 +93,7 @@ abstract class UploadController
             'resizeOptions' => $this->getResizeOptions(),
             'pluploadConfig' => $this->getJsonConfig(),
         ];
-        $view->render($data);
+        $view->render('widget', $data);
         exit;
     }
 

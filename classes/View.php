@@ -23,22 +23,22 @@ namespace Uploader;
 
 class View
 {
-    /**
-     * @var string
-     */
-    private $template;
+    /** @var string */
+    private $templateFolder;
+
+    /** @var array<string,string> */
+    private $lang;
 
     /**
      * @var array
      */
     private $data = array();
 
-    /**
-     * @param string $template
-     */
-    public function __construct($template)
+    /** @param array<string,string> $lang */
+    public function __construct(string $templateFolder, array $lang)
     {
-        $this->template = $template;
+        $this->templateFolder = $templateFolder;
+        $this->lang = $lang;
     }
 
     /**
@@ -74,11 +74,9 @@ class View
      */
     protected function text($key)
     {
-        global $plugin_tx;
-
         $args = func_get_args();
         array_shift($args);
-        return $this->escape(vsprintf($plugin_tx['uploader'][$key], $args));
+        return $this->escape(vsprintf($this->lang[$key], $args));
     }
 
     /**
@@ -87,8 +85,6 @@ class View
      */
     protected function plural($key, $count)
     {
-        global $plugin_tx;
-
         if ($count == 0) {
             $key .= '_0';
         } else {
@@ -96,19 +92,17 @@ class View
         }
         $args = func_get_args();
         array_shift($args);
-        return $this->escape(vsprintf($plugin_tx['uploader'][$key], $args));
+        return $this->escape(vsprintf($this->lang[$key], $args));
     }
 
     /**
      * @param array<string,mixed> $_data
      * @return void
      */
-    public function render(array $_data)
+    public function render(string $_template, array $_data)
     {
-        global $pth;
-
         $this->data = $_data;
-        include "{$pth['folder']['plugins']}uploader/views/{$this->template}.php";
+        include "{$this->templateFolder}{$_template}.php";
     }
 
     /**
