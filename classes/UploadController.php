@@ -44,12 +44,12 @@ abstract class UploadController
     protected static $hasRequiredScripts = false;
 
     /**
-     * @var array
+     * @var array<string,string>
      */
     protected $config;
 
     /**
-     * @var array
+     * @var array<string,string>
      */
     private $lang;
 
@@ -68,12 +68,14 @@ abstract class UploadController
         $this->pluginFolder = "{$pth['folder']['plugins']}uploader/";
     }
 
+    /** @return void */
     public function defaultAction()
     {
         $this->requireScripts();
         echo '<div class="uploader_placeholder" data-serial="' . XH_hsc((string) self::$serial) . '"></div>';
     }
 
+    /** @return void */
     public function widgetAction()
     {
         if (self::$serial != $_GET['uploader_serial']) {
@@ -97,7 +99,8 @@ abstract class UploadController
         exit;
     }
 
-    protected function getTypeOptions()
+    /** @return array<string,string> */
+    protected function getTypeOptions(): array
     {
         global $pth;
 
@@ -112,21 +115,23 @@ abstract class UploadController
         return $result;
     }
 
-    protected function getSubdirOptions()
+    /** @return array<string,string> */
+    protected function getSubdirOptions(): array
     {
         global $pth;
 
         $result = [];
         if (!isset($this->subdir) || $this->subdir === '*') {
-            $result = array_flip((new FileSystemService)->getSubdirsOf($pth['folder'][$this->getType()]));
-            foreach ($result as $dirname => &$selected) {
-                $selected = $dirname === $this->getSubfolder() ? 'selected' : '';
+            $subdirs = (new FileSystemService)->getSubdirsOf($pth['folder'][$this->getType()]);
+            foreach ($subdirs as $dirname) {
+                $result[$dirname] = $dirname === $this->getSubfolder() ? 'selected' : '';
             }
         }
         return $result;
     }
 
-    protected function getResizeOptions()
+    /** @return array<string,string> */
+    protected function getResizeOptions(): array
     {
         $result = [];
         if (!isset($this->resize) || $this->resize === '*') {
@@ -137,7 +142,7 @@ abstract class UploadController
         return $result;
     }
 
-    protected function getSelectOnchangeUrl()
+    protected function getSelectOnchangeUrl(): Url
     {
         global $sn;
 
@@ -204,6 +209,7 @@ abstract class UploadController
         }
     }
 
+    /** @return void */
     protected function requireScripts()
     {
         global $pth;
@@ -217,14 +223,15 @@ abstract class UploadController
         }
     }
 
-    protected function appendScript($filename)
+    /** @return void */
+    protected function appendScript(string $filename)
     {
         global $bjs;
 
         $bjs .= '<script type="text/javascript" src="' . XH_hsc($filename) . '"></script>';
     }
 
-    protected function getJsonConfig()
+    protected function getJsonConfig(): string
     {
         global $sn;
 
@@ -262,6 +269,7 @@ abstract class UploadController
         return json_encode($config);
     }
 
+    /** @return void */
     public function uploadAction()
     {
         global $pth;
@@ -273,7 +281,7 @@ abstract class UploadController
         $filename = isset($_POST['name']) ? $_POST['name'] : '';
         $chunks = isset($_POST['chunks']) ? $_POST['chunks'] : 0;
         $chunk = isset($_POST['chunk']) ? $_POST['chunk'] : 0;
-        $receiver = new Receiver($dir, $filename, $chunks, $chunk, $this->config['size_max']);
+        $receiver = new Receiver($dir, $filename, $chunks, $chunk, (int) $this->config['size_max']);
         header('Content-Type: text/plain; charset=UTF-8');
         if (isset($_FILES['uploader_file']['tmp_name'])
             && is_uploaded_file($_FILES['uploader_file']['tmp_name'])
@@ -287,6 +295,7 @@ abstract class UploadController
         exit;
     }
 
+    /** @return void */
     private function doUpload(Receiver $receiver)
     {
         try {

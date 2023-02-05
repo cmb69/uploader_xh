@@ -29,12 +29,13 @@ class Url
     private $path;
 
     /**
-     * @var array
+     * @var array<string,string>
      */
     private $params;
 
     /**
      * @param string $path
+     * @param array<string,string> $params
      */
     public function __construct($path, array $params)
     {

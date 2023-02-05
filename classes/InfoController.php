@@ -23,6 +23,7 @@ namespace Uploader;
 
 class InfoController
 {
+    /** @return void */
     public function defaultAction()
     {
         global $pth, $plugin_tx;

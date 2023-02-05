@@ -25,6 +25,7 @@ class Plugin
 {
     const VERSION = '1.0beta2';
 
+    /** @return void */
     public function run()
     {
         global $adm;
@@ -37,6 +38,7 @@ class Plugin
         }
     }
 
+    /** @return void */
     private function handleAdministration()
     {
         global $admin, $action, $plugin, $o;

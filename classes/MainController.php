@@ -23,12 +23,20 @@ namespace Uploader;
 
 class MainController extends UploadController
 {
+    /** @var string */
     protected $type;
 
+    /** @var string */
     protected $subdir;
 
+    /** @var string */
     protected $resize;
 
+    /**
+     * @param string $type
+     * @param string $subdir
+     * @param string $resize
+     */
     public function __construct($type, $subdir, $resize)
     {
         parent::__construct();

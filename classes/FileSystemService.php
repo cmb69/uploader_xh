@@ -26,7 +26,8 @@ use RecursiveDirectoryIterator;
 
 class FileSystemService
 {
-    public function getSubdirsOf($dirname)
+    /** @return list<string> */
+    public function getSubdirsOf(string $dirname): array
     {
         $result = [];
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dirname));
