@@ -93,7 +93,7 @@ class Receiver
 
     /**
      * @param string $filename Name of the input file.
-     * @return string JSON response.
+     * @return void
      */
     public function handleUpload($filename)
     {

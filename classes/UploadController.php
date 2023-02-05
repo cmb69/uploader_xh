@@ -21,7 +21,7 @@
 
 namespace Uploader;
 
-class UploadController
+abstract class UploadController
 {
     /**
      * @var string[]
@@ -301,4 +301,7 @@ class UploadController
             echo $this->lang['error_write'];
         }
     }
+
+   /** @return bool */
+   abstract protected function isUploadAllowed();
 }

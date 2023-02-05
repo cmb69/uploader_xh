@@ -24,5 +24,7 @@ jobs:
         run: cd cmsimplexh/plugins/uploader && composer install
       - name: phing sniff
         run: cd cmsimplexh/plugins/uploader && PATH=vendor/bin:$PATH phing sniff
+      - name: phing stan
+        run: cd cmsimplexh/plugins/uploader && PATH=vendor/bin:$PATH phing stan
       - name: phing mess
         run: cd cmsimplexh/plugins/uploader && PATH=vendor/bin:$PATH phing mess
