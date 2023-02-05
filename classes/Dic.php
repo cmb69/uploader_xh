@@ -26,18 +26,22 @@ class Dic
     public static function makeUploadController(): UploadController
     {
         global $pth, $sn, $plugin_cf, $plugin_tx;
+        static $instance = null;
 
-        return new UploadController(
-            $plugin_cf['uploader'],
-            $plugin_tx['uploader'],
-            "{$pth['folder']['plugins']}uploader/",
-            [
-                'images' => $pth['folder']['images'],
-                'downloads' => $pth['folder']['downloads'],
-                'media' => $pth['folder']['media'],
-                'userfiles' => $pth['folder']['userfiles']
-            ],
-            $sn
-        );
+        if ($instance === null) {
+            $instance = new UploadController(
+                $plugin_cf['uploader'],
+                $plugin_tx['uploader'],
+                "{$pth['folder']['plugins']}uploader/",
+                [
+                    'images' => $pth['folder']['images'],
+                    'downloads' => $pth['folder']['downloads'],
+                    'media' => $pth['folder']['media'],
+                    'userfiles' => $pth['folder']['userfiles']
+                ],
+                $sn
+            );
+        }
+        return $instance;
     }
 }

@@ -33,12 +33,12 @@ class UploadController
     /**
      * @var int
      */
-    private static $serial = 0;
+    private $serial = 0;
 
     /**
      * @var bool
      */
-    private static $hasRequiredScripts = false;
+    private $hasRequiredScripts = false;
 
     /**
      * @var array<string,string>
@@ -73,7 +73,6 @@ class UploadController
         array $fileFolders,
         string $scriptName
     ) {
-        self::$serial++;
         $this->config = $config;
         $this->lang = $lang;
         $this->pluginFolder = $pluginFolder;
@@ -85,13 +84,13 @@ class UploadController
     public function defaultAction(?string $type = null, ?string $subdir = null, ?string $resize = null)
     {
         $this->requireScripts();
-        echo '<div class="uploader_placeholder" data-serial="' . XH_hsc((string) self::$serial) . '"></div>';
+        echo '<div class="uploader_placeholder" data-serial="' . XH_hsc((string) ++$this->serial) . '"></div>';
     }
 
     /** @return void */
     public function widgetAction(?string $type = null, ?string $subdir = null, ?string $resize = null)
     {
-        if (self::$serial != $_GET['uploader_serial']) {
+        if (++$this->serial != $_GET['uploader_serial']) {
             return;
         }
         while (ob_get_level()) {
@@ -213,12 +212,12 @@ class UploadController
     /** @return void */
     private function requireScripts()
     {
-        if (!self::$hasRequiredScripts) {
+        if (!$this->hasRequiredScripts) {
             include_once "{$this->pluginFolder}../jquery/jquery.inc.php";
             include_jQuery();
             $this->appendScript("{$this->pluginFolder}lib/plupload.full.min.js");
             $this->appendScript("{$this->pluginFolder}uploader.min.js");
-            self::$hasRequiredScripts = true;
+            $this->hasRequiredScripts = true;
         }
     }
 
@@ -269,7 +268,7 @@ class UploadController
     /** @return void */
     public function uploadAction(?string $type = null, ?string $subdir = null, ?string $resize = null)
     {
-        if (self::$serial != $_GET['uploader_serial']) {
+        if (++$this->serial != $_GET['uploader_serial']) {
             return;
         }
         $dir = $this->fileFolders[$this->getType($type)] . $this->getSubfolder($type, $subdir);
