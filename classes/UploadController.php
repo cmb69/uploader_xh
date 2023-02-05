@@ -40,9 +40,6 @@ class UploadController
      */
     private static $hasRequiredScripts = false;
 
-    /** @var bool */
-    private $isUserWidget;
-
     /**
      * @var array<string,string>
      */
@@ -64,13 +61,13 @@ class UploadController
     /** @var string */
     private $scriptName;
 
-    /** @var string */
+    /** @var string|null */
     private $type;
 
-    /** @var string */
+    /** @var string|null */
     private $subdir;
 
-    /** @var string */
+    /** @var string|null */
     private $resize;
 
     /**
@@ -79,18 +76,16 @@ class UploadController
      * @param FileFolders $fileFolders
      */
     public function __construct(
-        bool $isUserWidget,
         array $config,
         array $lang,
         string $pluginFolder,
         array $fileFolders,
         string $scriptName,
-        string $type = "*",
-        string $subdir = "*",
-        string $resize = "*"
+        ?string $type = null,
+        ?string $subdir = null,
+        ?string $resize = null
     ) {
         self::$serial++;
-        $this->isUserWidget = $isUserWidget;
         $this->config = $config;
         $this->lang = $lang;
         $this->pluginFolder = $pluginFolder;
@@ -136,7 +131,7 @@ class UploadController
     private function getTypeOptions(): array
     {
         $result = [];
-        if ($this->type === '*') {
+        if (!isset($this->type) || $this->type === '*') {
             foreach (self::TYPES as $type) {
                 $result[$type] = $type === $this->getType() ? 'selected' : '';
             }
@@ -148,7 +143,7 @@ class UploadController
     private function getSubdirOptions(): array
     {
         $result = [];
-        if ($this->subdir === '*') {
+        if (!isset($this->subdir) || $this->subdir === '*') {
             $subdirs = (new FileSystemService)->getSubdirsOf($this->fileFolders[$this->getType()]);
             foreach ($subdirs as $dirname) {
                 $result[$dirname] = $dirname === $this->getSubfolder() ? 'selected' : '';
@@ -161,7 +156,7 @@ class UploadController
     private function getResizeOptions(): array
     {
         $result = [];
-        if ($this->resize === '*') {
+        if (!isset($this->resize) || $this->resize === '*') {
             foreach (self::SIZES as $size) {
                 $result[$size] = $size === $this->getResizeMode() ? 'selected' : '';
             }
@@ -182,7 +177,7 @@ class UploadController
      */
     private function getType()
     {
-        if ($this->type !== '*') {
+        if (isset($this->type) && $this->type !== '*') {
             return $this->type;
         } elseif (isset($_GET['uploader_type'])
             && in_array($_GET['uploader_type'], self::TYPES)
@@ -199,7 +194,7 @@ class UploadController
      */
     private function getSubfolder()
     {
-        if ($this->subdir !== '*') {
+        if (isset($this->subdir) && $this->subdir !== '*') {
             return $this->subdir;
         }
         $subdir = isset($_GET['uploader_subdir'])
@@ -219,7 +214,7 @@ class UploadController
      */
     private function getResizeMode()
     {
-        if ($this->resize !== '*') {
+        if (isset($this->resize) && $this->resize !== '*') {
             return $this->resize;
         } elseif (isset($_GET['uploader_resize'])
             && in_array($_GET['uploader_resize'], self::SIZES)
@@ -331,7 +326,7 @@ class UploadController
     /** @return bool */
     private function isUploadAllowed()
     {
-        if ($this->isUserWidget) {
+        if ($this->type !== null && $this->subdir !== null && $this->resize !== null) {
             return ($this->type === '*' || $this->getType() === $this->type)
                 && ($this->subdir === '*' || $this->getSubfolder() === $this->subdir)
                 && isset($_POST['name'])

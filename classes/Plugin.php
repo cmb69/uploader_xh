@@ -69,7 +69,6 @@ class Plugin
         global $pth, $sn, $function, $plugin_cf, $plugin_tx;
 
         $controller = new UploadController(
-            false,
             $plugin_cf['uploader'],
             $plugin_tx['uploader'],
             "{$pth['folder']['plugins']}uploader/",

@@ -36,7 +36,6 @@ function uploader($type = 'images', $subdir = '', $resize = '')
     global $pth, $sn, $function, $plugin_cf, $plugin_tx;
 
     $controller = new Uploader\UploadController(
-        true,
         $plugin_cf['uploader'],
         $plugin_tx['uploader'],
         "{$pth['folder']['plugins']}uploader/",
