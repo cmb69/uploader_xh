@@ -302,6 +302,6 @@ abstract class UploadController
         }
     }
 
-   /** @return bool */
-   abstract protected function isUploadAllowed();
+    /** @return bool */
+    abstract protected function isUploadAllowed();
 }
