@@ -48,22 +48,6 @@ class View
     }
 
     /**
-     * @param string $key
-     * @param int $count
-     */
-    protected function plural($key, $count)
-    {
-        if ($count == 0) {
-            $key .= '_0';
-        } else {
-            $key .= XH_numberSuffix($count);
-        }
-        $args = func_get_args();
-        array_shift($args);
-        return $this->escape(vsprintf($this->lang[$key], $args));
-    }
-
-    /**
      * @param array<string,mixed> $_data
      * @return string
      */
