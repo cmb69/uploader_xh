@@ -20,10 +20,14 @@
     <echo>${help}</echo>
   </target>
 
-  <target name="sniff" description="checks adherence to the coding standards">
-    <phpcodesniffer standard="PSR2">
-      <fileset refid="php-sources"/>
-    </phpcodesniffer>
+  <target name="sniff" description="checks adherence to the coding standard">
+    <exec executable="phpcs" passthru="true" checkreturn="true">
+      <arg value="--standard=PSR2"/>
+      <arg line="--runtime-set ignore_warnings_on_exit true"/>
+      <arg line="--extensions=php"/>
+      <arg file="classes"/>
+      <arg file="index.php"/>
+    </exec>
   </target>
 
   <target name="mess" description="detects code flaws">
