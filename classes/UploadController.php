@@ -24,32 +24,35 @@ namespace Uploader;
 /**
  * @phpstan-type FileFolders array{images:string,downloads:string,media:string,userfiles:string}
  */
-abstract class UploadController
+class UploadController
 {
     /**
      * @var string[]
      */
-    protected static $types = ['images', 'downloads', 'media', 'userfiles'];
+    private static $types = ['images', 'downloads', 'media', 'userfiles'];
 
     /**
      * @var string[]
      */
-    protected static $sizes = ['', 'small', 'medium', 'large'];
+    private static $sizes = ['', 'small', 'medium', 'large'];
 
     /**
      * @var int
      */
-    protected static $serial = 0;
+    private static $serial = 0;
 
     /**
      * @var bool
      */
-    protected static $hasRequiredScripts = false;
+    private static $hasRequiredScripts = false;
+
+    /** @var bool */
+    private $isUserWidget;
 
     /**
      * @var array<string,string>
      */
-    protected $config;
+    private $config;
 
     /**
      * @var array<string,string>
@@ -59,7 +62,7 @@ abstract class UploadController
     /**
      * @var string
      */
-    protected $pluginFolder;
+    private $pluginFolder;
 
     /** @var FileFolders */
     private $fileFolders;
@@ -67,24 +70,41 @@ abstract class UploadController
     /** @var string */
     private $scriptName;
 
+    /** @var string */
+    private $type;
+
+    /** @var string */
+    private $subdir;
+
+    /** @var string */
+    private $resize;
+
     /**
      * @param array<string,string> $config
      * @param array<string,string> $lang
      * @param FileFolders $fileFolders
      */
     public function __construct(
+        bool $isUserWidget,
         array $config,
         array $lang,
         string $pluginFolder,
         array $fileFolders,
-        string $scriptName
+        string $scriptName,
+        string $type = "*",
+        string $subdir = "*",
+        string $resize = "*"
     ) {
         self::$serial++;
+        $this->isUserWidget = $isUserWidget;
         $this->config = $config;
         $this->lang = $lang;
         $this->pluginFolder = $pluginFolder;
         $this->fileFolders = $fileFolders;
         $this->scriptName = $scriptName;
+        $this->type = $type;
+        $this->subdir = $subdir;
+        $this->resize = $resize;
     }
 
     /** @return void */
@@ -119,10 +139,10 @@ abstract class UploadController
     }
 
     /** @return array<string,string> */
-    protected function getTypeOptions(): array
+    private function getTypeOptions(): array
     {
         $result = [];
-        if (!isset($this->type) || $this->type === '*') {
+        if ($this->type === '*') {
             foreach (self::$types as $type) {
                 if (isset($this->fileFolders[$type])) {
                     $result[$type] = $type === $this->getType() ? 'selected' : '';
@@ -133,10 +153,10 @@ abstract class UploadController
     }
 
     /** @return array<string,string> */
-    protected function getSubdirOptions(): array
+    private function getSubdirOptions(): array
     {
         $result = [];
-        if (!isset($this->subdir) || $this->subdir === '*') {
+        if ($this->subdir === '*') {
             $subdirs = (new FileSystemService)->getSubdirsOf($this->fileFolders[$this->getType()]);
             foreach ($subdirs as $dirname) {
                 $result[$dirname] = $dirname === $this->getSubfolder() ? 'selected' : '';
@@ -146,10 +166,10 @@ abstract class UploadController
     }
 
     /** @return array<string,string> */
-    protected function getResizeOptions(): array
+    private function getResizeOptions(): array
     {
         $result = [];
-        if (!isset($this->resize) || $this->resize === '*') {
+        if ($this->resize === '*') {
             foreach (self::$sizes as $size) {
                 $result[$size] = $size === $this->getResizeMode() ? 'selected' : '';
             }
@@ -157,7 +177,7 @@ abstract class UploadController
         return $result;
     }
 
-    protected function getSelectOnchangeUrl(): Url
+    private function getSelectOnchangeUrl(): Url
     {
         return (new Url($this->scriptName, $_GET))
             ->with('uploader_type', $this->getType())
@@ -168,9 +188,9 @@ abstract class UploadController
     /**
      * @return string
      */
-    protected function getType()
+    private function getType()
     {
-        if (isset($this->type) && $this->type !== '*') {
+        if ($this->type !== '*') {
             return $this->type;
         } elseif (isset($_GET['uploader_type'])
             && in_array($_GET['uploader_type'], self::$types)
@@ -185,9 +205,9 @@ abstract class UploadController
     /**
      * @return string
      */
-    protected function getSubfolder()
+    private function getSubfolder()
     {
-        if (isset($this->subdir) && $this->subdir !== '*') {
+        if ($this->subdir !== '*') {
             return $this->subdir;
         }
         $subdir = isset($_GET['uploader_subdir'])
@@ -205,9 +225,9 @@ abstract class UploadController
     /**
      * @return string
      */
-    protected function getResizeMode()
+    private function getResizeMode()
     {
-        if (isset($this->resize) && $this->resize !== '*') {
+        if ($this->resize !== '*') {
             return $this->resize;
         } elseif (isset($_GET['uploader_resize'])
             && in_array($_GET['uploader_resize'], self::$sizes)
@@ -219,7 +239,7 @@ abstract class UploadController
     }
 
     /** @return void */
-    protected function requireScripts()
+    private function requireScripts()
     {
         if (!self::$hasRequiredScripts) {
             include_once "{$this->pluginFolder}../jquery/jquery.inc.php";
@@ -231,14 +251,14 @@ abstract class UploadController
     }
 
     /** @return void */
-    protected function appendScript(string $filename)
+    private function appendScript(string $filename)
     {
         global $bjs;
 
         $bjs .= '<script type="text/javascript" src="' . XH_hsc($filename) . '"></script>';
     }
 
-    protected function getJsonConfig(): string
+    private function getJsonConfig(): string
     {
         $type = $this->getType();
         $subdir = $this->getSubfolder();
@@ -317,5 +337,28 @@ abstract class UploadController
     }
 
     /** @return bool */
-    abstract protected function isUploadAllowed();
+    private function isUploadAllowed()
+    {
+        if ($this->isUserWidget) {
+            return ($this->type === '*' || $this->getType() === $this->type)
+                && ($this->subdir === '*' || $this->getSubfolder() === $this->subdir)
+                && isset($_POST['name'])
+                && $this->isExtensionAllowed($_POST['name'])
+                && isset($_FILES['uploader_file']['tmp_name'])
+                && filesize($_FILES['uploader_file']['tmp_name']) <= $this->config['size_max'];
+        }
+        return true;
+    }
+
+    /**
+     * @param string $filename
+     * @return bool
+     */
+    private function isExtensionAllowed($filename)
+    {
+        return in_array(
+            strtolower(pathinfo($filename, PATHINFO_EXTENSION)),
+            explode(',', $this->config['ext_' . $this->getType()])
+        );
+    }
 }
