@@ -2,10 +2,6 @@
 
 <project name="Uploader" default="help">
 
-  <fileset id="js-sources" dir=".">
-    <include name="*.js"/>
-  </fileset>
-
   <fileset id="attack-tests" dir="tests/attack">
     <include name="*Test.php"/>
   </fileset>
@@ -36,11 +32,13 @@
     <exec command="git archive -o export.zip HEAD" checkreturn="true"/>
     <unzip file="export.zip" todir="export"/>
     <delete file="export.zip"/>
-    <jsMin targetDir="dist" suffix="" failOnError="false">
-      <fileset dir="export">
-        <include name="*.min.js"/>
-      </fileset>
-    </jsMin>
+    <exec executable="uglifyjs" checkreturn="true">
+      <arg file="export/uploader.min.js"/>
+      <arg value="--compress"/>
+      <arg value="--mangle"/>
+      <arg value="--output"/>
+      <arg file="export/uploader.min.js"/>
+    </exec>
     <move todir="dist">
       <fileset dir="export">
         <exclude name="tests/**"/>
