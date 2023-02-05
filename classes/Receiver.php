@@ -99,7 +99,7 @@ class Receiver
     {
         $destFilename = "{$this->dir}/" . $this->cleanFilename($this->filename);
         if ($out = fopen($destFilename, $this->chunk == 0 ? 'wb' : 'ab')) {
-            if ($in = fopen($filename, 'rb')) {
+            if ($in = @fopen($filename, 'rb')) {
                 while ($buff = fread($in, 4096)) {
                     fwrite($out, $buff);
                 }
