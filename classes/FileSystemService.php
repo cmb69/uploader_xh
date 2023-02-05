@@ -38,6 +38,6 @@ class FileSystemService
             }
         }
         natcasesort($result);
-        return $result;
+        return array_values($result);
     }
 }
