@@ -31,7 +31,7 @@ class InfoController
         $view = new View("{$pth['folder']['plugins']}uploader/views/", $plugin_tx['uploader']);
         echo $view->render('info', [
             'version' => Plugin::VERSION,
-            'checks' => (new SystemCheckService)->getChecks(),
+            'checks' => (new SystemCheckService($pth['folder']['plugins'], $plugin_tx['uploader']))->getChecks(),
         ]);
     }
 }
