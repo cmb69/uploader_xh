@@ -23,7 +23,7 @@ const CMSIMPLE_XH_VERSION = "CMSimple_XH 1.7.5";
 
 require_once "../../cmsimple/functions.php";
 
-require_once "./classes/FileSizeException.php";
+require_once "./classes/FilesizeException.php";
 require_once "./classes/FileSystemService.php";
 require_once "./classes/InfoController.php";
 require_once "./classes/Plugin.php";

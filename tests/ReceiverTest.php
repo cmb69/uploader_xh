@@ -57,12 +57,12 @@ class ReceiverTest extends TestCase
         $this->assertStringEqualsFile(vfsStream::url("root/image.jpg"), "data");
     }
 
-    public function testThrowsFileSizeExceptionIfFileIsTooLarge(): void
+    public function testThrowsFilesizeExceptionIfFileIsTooLarge(): void
     {
         vfsStream::setup("root/");
         file_put_contents(vfsStream::url("root/upload"), "data");
         $sut = new Receiver(vfsStream::url("root/"), "image.jpg", 1, 0, 1);
-        $this->expectException(FileSizeException::class);
+        $this->expectException(FilesizeException::class);
         $sut->handleUpload(vfsStream::url("root/upload"));
     }
 
