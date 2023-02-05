@@ -28,10 +28,11 @@ class InfoController
         global $pth;
 
         $view = new View('info');
-        $view->logo = "{$pth['folder']['plugins']}uploader/uploader.png";
-        $view->version = Plugin::VERSION;
-        $view->checks = (new SystemCheckService)->getChecks();
-        $view->iconFolder = "{$pth['folder']['plugins']}uploader/images/";
-        $view->render();
+        $view->render([
+            'logo' => "{$pth['folder']['plugins']}uploader/uploader.png",
+            'version' => Plugin::VERSION,
+            'checks' => (new SystemCheckService)->getChecks(),
+            'iconFolder' => "{$pth['folder']['plugins']}uploader/images/",
+        ]);
     }
 }

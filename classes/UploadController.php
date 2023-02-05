@@ -84,14 +84,16 @@ abstract class UploadController
         }
         $view = new View('widget');
         $selectChangeUrl = $this->getSelectOnchangeUrl();
-        $view->typeSelectChangeUrl = $selectChangeUrl->with('uploader_type', 'FIXME');
-        $view->typeOptions = $this->getTypeOptions();
-        $view->subdirSelectChangeUrl = $selectChangeUrl->with('uploader_subdir', 'FIXME');
-        $view->subdirOptions = $this->getSubdirOptions();
-        $view->resizeSelectChangeUrl = $selectChangeUrl->with('uploader_resize', 'FIXME');
-        $view->resizeOptions = $this->getResizeOptions();
-        $view->pluploadConfig = $this->getJsonConfig();
-        $view->render();
+        $data = [
+            'typeSelectChangeUrl' => $selectChangeUrl->with('uploader_type', 'FIXME'),
+            'typeOptions' => $this->getTypeOptions(),
+            'subdirSelectChangeUrl' => $selectChangeUrl->with('uploader_subdir', 'FIXME'),
+            'subdirOptions' => $this->getSubdirOptions(),
+            'resizeSelectChangeUrl' => $selectChangeUrl->with('uploader_resize', 'FIXME'),
+            'resizeOptions' => $this->getResizeOptions(),
+            'pluploadConfig' => $this->getJsonConfig(),
+        ];
+        $view->render($data);
         exit;
     }
 
