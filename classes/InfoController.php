@@ -28,7 +28,7 @@ class InfoController
         global $pth, $plugin_tx;
 
         $view = new View("{$pth['folder']['plugins']}uploader/views/", $plugin_tx['uploader']);
-        $view->render('info', [
+        echo $view->render('info', [
             'logo' => "{$pth['folder']['plugins']}uploader/uploader.png",
             'version' => Plugin::VERSION,
             'checks' => (new SystemCheckService)->getChecks(),

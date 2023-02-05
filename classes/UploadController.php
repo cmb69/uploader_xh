@@ -93,7 +93,7 @@ abstract class UploadController
             'resizeOptions' => $this->getResizeOptions(),
             'pluploadConfig' => $this->getJsonConfig(),
         ];
-        $view->render('widget', $data);
+        echo $view->render('widget', $data);
         exit;
     }
 
