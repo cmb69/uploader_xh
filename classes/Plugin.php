@@ -30,25 +30,11 @@ class Plugin
         global $adm;
 
         if ($adm) {
-            if (function_exists('XH_registerStandardPluginMenuItems')) {
-                XH_registerStandardPluginMenuItems(true);
-            }
-            if ($this->isAdministrationRequested()) {
+            XH_registerStandardPluginMenuItems(true);
+            if (XH_wantsPluginAdministration('uploader')) {
                 $this->handleAdministration();
             }
         }
-    }
-
-    /**
-     * @return bool
-     */
-    private function isAdministrationRequested()
-    {
-        global $uploader;
-
-        return function_exists('XH_wantsPluginAdministration')
-            && XH_wantsPluginAdministration('uploader')
-            || isset($uploader) && $uploader == 'true';
     }
 
     private function handleAdministration()
@@ -66,7 +52,7 @@ class Plugin
                 $o .= $this->handleMainAdministration();
                 break;
             default:
-                $o .= plugin_admin_common($action, $admin, $plugin);
+                $o .= plugin_admin_common();
         }
     }
 
