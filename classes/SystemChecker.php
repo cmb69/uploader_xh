@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2011-2017 Christoph M. Becker
+ * Copyright 2023 Christoph M. Becker
  *
  * This file is part of Uploader_XH.
  *
@@ -21,22 +21,25 @@
 
 namespace Uploader;
 
-class InfoController
+class SystemChecker
 {
-    /** @return void */
-    public function defaultAction()
+    public function checkVersion(string $actual, string $minimum): bool
     {
-        global $pth, $plugin_tx;
+        return version_compare($actual, $minimum) >= 0;
+    }
 
-        $systemCheckService = new SystemCheckService(
-            $pth['folder']['plugins'],
-            $plugin_tx['uploader'],
-            new SystemChecker()
-        );
-        $view = new View("{$pth['folder']['plugins']}uploader/views/", $plugin_tx['uploader']);
-        echo $view->render('info', [
-            'version' => Plugin::VERSION,
-            'checks' => $systemCheckService->getChecks(),
-        ]);
+    public function checkExtension(string $extension): bool
+    {
+        return extension_loaded($extension);
+    }
+
+    public function checkPlugin(string $folder): bool
+    {
+        return is_dir($folder);
+    }
+
+    public function checkWritability(string $path): bool
+    {
+        return is_writable($path);
     }
 }

@@ -21,6 +21,8 @@
 
 namespace Uploader;
 
+use Uploader\SystemChecker;
+
 class SystemCheckService
 {
     /**
@@ -38,12 +40,16 @@ class SystemCheckService
      */
     private $lang;
 
+    /** @var SystemChecker */
+    private $systemChecker;
+
     /** @param array<string,string> $lang */
-    public function __construct(string $pluginsFolder, array $lang)
+    public function __construct(string $pluginsFolder, array $lang, SystemChecker $systemChecker)
     {
         $this->pluginsFolder = $pluginsFolder;
         $this->pluginFolder = "{$this->pluginsFolder}uploader/";
         $this->lang = $lang;
+        $this->systemChecker = $systemChecker;
     }
 
     /**
@@ -68,7 +74,7 @@ class SystemCheckService
      */
     private function checkPhpVersion($version)
     {
-        $state = version_compare(PHP_VERSION, $version, 'ge') ? 'success' : 'fail';
+        $state = $this->systemChecker->checkVersion(PHP_VERSION, $version) ? 'success' : 'fail';
         return [
             'class' => "xh_$state",
             'label' => sprintf($this->lang['syscheck_phpversion'], $version),
@@ -83,7 +89,7 @@ class SystemCheckService
      */
     private function checkExtension($extension, $isMandatory = true)
     {
-        $state = extension_loaded($extension) ? 'success' : ($isMandatory ? 'fail' : 'warning');
+        $state = $this->systemChecker->checkExtension($extension) ? 'success' : ($isMandatory ? 'fail' : 'warning');
         return [
             'class' => "xh_$state",
             'label' => sprintf($this->lang['syscheck_extension'], $extension),
@@ -97,7 +103,7 @@ class SystemCheckService
      */
     private function checkXhVersion($version)
     {
-        $state = version_compare(CMSIMPLE_XH_VERSION, "CMSimple_XH $version", 'ge') ? 'success' : 'fail';
+        $state = $this->systemChecker->checkVersion(CMSIMPLE_XH_VERSION, "CMSimple_XH $version") ? 'success' : 'fail';
         return [
             'class' => "xh_$state",
             'label' => sprintf($this->lang['syscheck_xhversion'], $version),
@@ -111,7 +117,7 @@ class SystemCheckService
      */
     private function checkPlugin($plugin)
     {
-        $state = is_dir("{$this->pluginsFolder}{$plugin}") ? 'success' : 'fail';
+        $state = $this->systemChecker->checkPlugin("{$this->pluginsFolder}{$plugin}") ? 'success' : 'fail';
         return [
             'class' => "xh_$state",
             'label' => sprintf($this->lang['syscheck_plugin'], $plugin),
@@ -125,7 +131,7 @@ class SystemCheckService
      */
     private function checkWritability($folder)
     {
-        $state = is_writable($folder) ? 'success' : 'warning';
+        $state = $this->systemChecker->checkWritability($folder) ? 'success' : 'warning';
         return [
             'class' => "xh_$state",
             'label' => sprintf($this->lang['syscheck_writable'], $folder),
