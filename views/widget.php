@@ -1,22 +1,22 @@
-<div class="uploader_widget" data-config="<?=$this->pluploadConfig()?>">
+<div class="uploader_widget" data-config="<?=$this->escape($pluploadConfig)?>">
   <div class="uploader_controls">
-<?php if (!empty($this->typeOptions)):?>
-    <select class="uploader_type" title="<?=$this->text('label_type')?>" data-url="<?=$this->typeSelectChangeUrl()?>">
-<?php     foreach ($this->typeOptions as $type => $selected):?>
+<?php if (!empty($typeOptions)):?>
+    <select class="uploader_type" title="<?=$this->text('label_type')?>" data-url="<?=$this->escape($typeSelectChangeUrl)?>">
+<?php     foreach ($typeOptions as $type => $selected):?>
       <option value="<?=$this->escape($type)?>" <?=$this->escape($selected)?>><?=$this->escape($type)?></option>
 <?php     endforeach?>
     </select>
 <?php endif?>
-<?php if (!empty($this->subdirOptions)):?>
-    <select class="uploader_subdir" title="<?=$this->text('label_subdir')?>" data-url="<?=$this->subdirSelectChangeUrl()?>">
-<?php     foreach ($this->subdirOptions as $subdir => $selected):?>
+<?php if (!empty($subdirOptions)):?>
+    <select class="uploader_subdir" title="<?=$this->text('label_subdir')?>" data-url="<?=$this->escape($subdirSelectChangeUrl)?>">
+<?php     foreach ($subdirOptions as $subdir => $selected):?>
       <option value="<?=$this->escape($subdir)?>" <?=$this->escape($selected)?>><?=$this->escape($subdir)?></option>
 <?php     endforeach?>
     </select>
 <?php endif?>
-<?php if (!empty($this->resizeOptions)):?>
-    <select class="uploader_resize" title="<?=$this->text('label_resize')?>" data-url="<?=$this->resizeSelectChangeUrl()?>">
-<?php     foreach ($this->resizeOptions as $size => $selected):?>
+<?php if (!empty($resizeOptions)):?>
+    <select class="uploader_resize" title="<?=$this->text('label_resize')?>" data-url="<?=$this->escape($resizeSelectChangeUrl)?>">
+<?php     foreach ($resizeOptions as $size => $selected):?>
       <option value="<?=$this->escape($size)?>" <?=$this->escape($selected)?>><?=$this->escape($size)?></option>
 <?php     endforeach?>
     </select>

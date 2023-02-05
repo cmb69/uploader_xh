@@ -29,43 +29,11 @@ class View
     /** @var array<string,string> */
     private $lang;
 
-    /**
-     * @var array
-     */
-    private $data = array();
-
     /** @param array<string,string> $lang */
     public function __construct(string $templateFolder, array $lang)
     {
         $this->templateFolder = $templateFolder;
         $this->lang = $lang;
-    }
-
-    /**
-     * @param string $name
-     * @return string
-     */
-    public function __get($name)
-    {
-        return $this->data[$name];
-    }
-
-    /**
-     * @param string $name
-     * @return bool
-     */
-    public function __isset($name)
-    {
-        return isset($this->data[$name]);
-    }
-
-    /**
-     * @param string $name
-     * @return string
-     */
-    public function __call($name, array $args)
-    {
-        return $this->escape($this->data[$name]);
     }
 
     /**
@@ -101,7 +69,7 @@ class View
      */
     public function render(string $_template, array $_data)
     {
-        $this->data = $_data;
+        extract($_data);
         ob_start();
         include "{$this->templateFolder}{$_template}.php";
         return (string) ob_get_clean();

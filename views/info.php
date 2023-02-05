@@ -1,6 +1,6 @@
 <h1>Uploader – <?=$this->text('menu_info')?></h1>
-<img class="uploader_logo" src="<?=$this->logo()?>" alt="<?=$this->text('alt_logo')?>">
-<p>Version: <?=$this->version()?></p>
+<img class="uploader_logo" src="<?=$this->escape($logo)?>" alt="<?=$this->text('alt_logo')?>">
+<p>Version: <?=$this->escape($version)?></p>
 <p>Copyright © 2011-2017 Christoph M. Becker</p>
 <p>
   Uploader_XH is powered by <a target="_blank"
@@ -24,8 +24,8 @@
   href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.
 </p>
 <div class="uploader_syscheck">
-  <h2><?php echo $this->text('syscheck_title')?></h2>
-<?php foreach ($this->checks as $check):?>
-  <p class="xh_<?php echo $this->escape($check->state)?>"><?php echo $this->text('syscheck_message', $check->label, $check->stateLabel)?></p>
+  <h2><?=$this->text('syscheck_title')?></h2>
+<?php foreach ($checks as $check):?>
+  <p class="xh_<?=$this->escape($check->state)?>"><?=$this->text('syscheck_message', $check->label, $check->stateLabel)?></p>
 <?php endforeach?>
 </div>
