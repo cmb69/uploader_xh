@@ -69,7 +69,7 @@ class Receiver
         $this->chunks = $chunks;
         $this->chunk = $chunk;
         $this->maxFilesize = $maxFilesize;
-        $this->filename = $this->cleanFilename($filename);
+        $this->filename = $filename;
     }
 
     /**
@@ -97,15 +97,16 @@ class Receiver
      */
     public function handleUpload($filename)
     {
-        if ($out = fopen("$this->dir/$this->filename", $this->chunk == 0 ? 'wb' : 'ab')) {
+        $filename = "{$this->dir}/" . $this->cleanFilename($this->filename);
+        if ($out = fopen($filename, $this->chunk == 0 ? 'wb' : 'ab')) {
             if ($in = fopen($filename, 'rb')) {
                 while ($buff = fread($in, 4096)) {
                     fwrite($out, $buff);
                 }
                 fclose($in);
                 fclose($out);
-                if (filesize("$this->dir/$this->filename") > $this->maxFilesize) {
-                    unlink("$this->dir/$this->filename");
+                if (filesize($filename) > $this->maxFilesize) {
+                    unlink($filename);
                     throw new FilesizeException;
                 }
             } else {
