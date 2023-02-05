@@ -2,11 +2,6 @@
 
 <project name="Uploader" default="help">
 
-  <fileset id="php-sources" dir=".">
-    <include name="index.php"/>
-    <include name="classes/*.php"/>
-  </fileset>
-
   <fileset id="js-sources" dir=".">
     <include name="*.js"/>
   </fileset>
@@ -31,9 +26,9 @@
   </target>
 
   <target name="mess" description="detects code flaws">
-    <phpmd>
-      <fileset refid="php-sources"/>
-     </phpmd>
+    <exec executable="phpmd" passthru="true" checkreturn="true">
+      <arg line="classes,index.php ansi codesize,unusedcode --ignore-violations-on-exit"/>
+    </exec>
   </target>
 
   <target name="build" description="builds a distributable ZIP archive">
