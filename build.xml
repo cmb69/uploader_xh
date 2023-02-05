@@ -44,10 +44,11 @@
         </jsMin>
         <move todir="dist">
             <fileset dir="export">
+                <exclude name="tests/**"/>
+                <exlucde name="README.md"/>
                 <exclude name="build.xml"/>
                 <exclude name="composer.*"/>
-                <exclude name="README.md"/>
-                <exclude name="tests/**"/>
+                <exclude name="teplad.xml"/>
             </fileset>
         </move>
         <delete dir="export"/>
