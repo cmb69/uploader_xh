@@ -5,14 +5,14 @@ use Uploader\View;
 
 /**
  * @var View $this
- * @var string $pluploadConfig
+ * @var mixed $pluploadConfig
  * @var Url $typeSelectChangeUrl
  * @var Url $subdirSelectChangeUrl
  * @var Url $resizeSelectChangeUrl
  */
 ?>
 
-<div class="uploader_widget" data-config="<?=$this->escape($pluploadConfig)?>">
+<div class="uploader_widget" data-config='<?=$this->json($pluploadConfig)?>'>
   <div class="uploader_controls">
 <?php if (!empty($typeOptions)):?>
     <select class="uploader_type" title="<?=$this->text('label_type')?>" data-url="<?=$this->escape($typeSelectChangeUrl)?>">

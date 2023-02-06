@@ -234,7 +234,8 @@ class UploadController
         $bjs .= '<script type="text/javascript" src="' . XH_hsc($filename) . '"></script>';
     }
 
-    private function getJsonConfig(?string $type, ?string $subdir, ?string $resize): string
+    /** @return mixed */
+    private function getJsonConfig(?string $type, ?string $subdir, ?string $resize)
     {
         $type = $this->getType($type);
         $subdir = $this->getSubfolder($type, $subdir);
@@ -267,7 +268,7 @@ class UploadController
                 );
             }
         }
-        return json_encode($config);
+        return $config;
     }
 
     public function uploadAction(?string $type = null, ?string $subdir = null, ?string $resize = null): Response

@@ -25,6 +25,7 @@ require_once "../../cmsimple/functions.php";
 
 require_once "./classes/FilesizeException.php";
 require_once "./classes/FileSystemService.php";
+require_once "./classes/HtmlString.php";
 require_once "./classes/InfoController.php";
 require_once "./classes/Jquery.php";
 require_once "./classes/Plugin.php";
