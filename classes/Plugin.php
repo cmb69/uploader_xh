@@ -41,17 +41,12 @@ class Plugin
     /** @return void */
     private function handleAdministration()
     {
-        global $pth, $plugin_tx, $admin, $o;
+        global $admin, $o;
 
         $o .= print_plugin_admin('on');
         switch ($admin) {
             case '':
-                $controller = new InfoController(
-                    $pth['folder']['plugins'],
-                    $plugin_tx['uploader'],
-                    new SystemChecker()
-                );
-                $o .= $controller->defaultAction();
+                $o .= Dic::makeInfoController()->defaultAction();
                 break;
             case 'plugin_main':
                 $o .= $this->handleMainAdministration();

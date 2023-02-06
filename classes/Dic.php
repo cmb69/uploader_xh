@@ -47,4 +47,15 @@ class Dic
         }
         return $instance;
     }
+
+    public static function makeInfoController(): InfoController
+    {
+        global $pth, $plugin_tx;
+
+        return new InfoController(
+            $pth['folder']['plugins'],
+            $plugin_tx['uploader'],
+            new SystemChecker()
+        );
+    }
 }
