@@ -20,6 +20,7 @@
  */
 
 const CMSIMPLE_XH_VERSION = "CMSimple_XH 1.7.5";
+const UPLOADER_VERSION = "1.0beta2";
 
 require_once "../../cmsimple/functions.php";
 
@@ -28,7 +29,6 @@ require_once "./classes/FileSystemService.php";
 require_once "./classes/HtmlString.php";
 require_once "./classes/InfoController.php";
 require_once "./classes/Jquery.php";
-require_once "./classes/Plugin.php";
 require_once "./classes/Receiver.php";
 require_once "./classes/ReadException.php";
 require_once "./classes/Response.php";

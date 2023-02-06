@@ -48,7 +48,7 @@ class InfoController
     {
         $view = new View("{$this->pluginsFolder}uploader/views/", $this->lang);
         return $view->render('info', [
-            'version' => Plugin::VERSION,
+            'version' => UPLOADER_VERSION,
             'checks' => $this->getChecks(),
         ]);
     }

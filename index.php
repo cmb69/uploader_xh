@@ -21,6 +21,8 @@
 
 use Uploader\Dic;
 
+const UPLOADER_VERSION = "1.0beta2";
+
 /**
  * Returns the uploader widget.
  *
@@ -47,5 +49,3 @@ function uploader($type = 'images', $subdir = '', $resize = '')
     }
     return $controller->{$action}($type, $subdir, $resize)->trigger();
 }
-
-(new Uploader\Plugin)->run();
