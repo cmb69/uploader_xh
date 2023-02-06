@@ -21,34 +21,55 @@
 
 namespace Uploader;
 
+use ApprovalTests\Approvals;
 use PHPUnit\Framework\TestCase;
 
 class UploadControllerTest extends TestCase
 {
-    public function testDefaultActionRendersPlaceholder(): void
+    /** @var UploadController */
+    private $sut;
+
+    /** @var Jquery&MockObject */
+    private $jquery;
+
+    /** @var FileSystemService&MockObject */
+    private $fileSystemService;
+
+    public function setUp(): void
     {
         $plugin_cf = XH_includeVar("./config/config.php", 'plugin_cf');
         $conf = $plugin_cf['uploader'];
         $plugin_tx = XH_includeVar("./languages/en.php", 'plugin_tx');
         $lang = $plugin_tx['uploader'];
-        $jquery = $this->createStub(Jquery::class);
-        $fileSystemService = $this->createStub(FileSystemService::class);
-        $sut = new UploadController($conf, $lang, "./", [], "/", $jquery, $fileSystemService);
-        $response = $sut->defaultAction();
+        $fileFolders = [
+            'images' => 'irrelevant_images',
+            'downloads' => 'irrelevant_downloads',
+            'media' => 'irrelevant_media',
+            'userfiles' => 'irrelevant_userfiles',
+        ];
+        $this->jquery = $this->createStub(Jquery::class);
+        $this->fileSystemService = $this->createStub(FileSystemService::class);
+        $this->sut = new UploadController($conf, $lang, "./", $fileFolders, "/", $this->jquery, $this->fileSystemService);
+    }
+
+    public function testDefaultActionRendersPlaceholder(): void
+    {
+        $response = $this->sut->defaultAction();
         $this->assertEquals('<div class="uploader_placeholder" data-serial="1"></div>', $response->body());
     }
 
     public function testDefaultActionIncludesJqueryOnce(): void
     {
-        $plugin_cf = XH_includeVar("./config/config.php", 'plugin_cf');
-        $conf = $plugin_cf['uploader'];
-        $plugin_tx = XH_includeVar("./languages/en.php", 'plugin_tx');
-        $lang = $plugin_tx['uploader'];
-        $jquery = $this->createStub(Jquery::class);
-        $jquery->expects($this->once())->method('include');
-        $fileSystemService = $this->createStub(FileSystemService::class);
-        $sut = new UploadController($conf, $lang, "./", [], "/", $jquery, $fileSystemService);
-        $sut->defaultAction();
-        $sut->defaultAction();
+        $this->jquery->expects($this->once())->method('include');
+        $this->sut->defaultAction();
+        $this->sut->defaultAction();
+    }
+
+    public function testWidgetActionRendersWidget(): void
+    {
+        $_GET = ['uploader_serial' => 1];
+        $this->fileSystemService->method('getSubdirsOf')->willReturn(["/"]);
+        $response = $this->sut->widgetAction();
+        Approvals::verifyHtml($response->body());
     }
 }
