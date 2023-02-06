@@ -196,7 +196,7 @@ class UploadController
             ? preg_replace('/\.\.[\/\\\\]?/', '', $_GET['uploader_subdir'])
             : '';
         if (isset($_GET['uploader_subdir'])
-            && is_dir($this->fileFolders[$this->getType($type)] . $subdir)
+            && $this->fileSystemService->isDir($this->fileFolders[$this->getType($type)] . $subdir)
         ) {
             return $subdir;
         } else {

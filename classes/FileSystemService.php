@@ -40,4 +40,9 @@ class FileSystemService
         natcasesort($result);
         return array_values($result);
     }
+
+    public function isDir(string $filename): bool
+    {
+        return is_dir($filename);
+    }
 }
