@@ -67,6 +67,9 @@ class UploadController
     /** @var FileSystemService */
     private $fileSystemService;
 
+    /** @var string */
+    private $uploadMaxFilesize;
+
     /**
      * @param array<string,string> $config
      * @param array<string,string> $lang
@@ -79,7 +82,8 @@ class UploadController
         array $fileFolders,
         string $scriptName,
         Jquery $jquery,
-        FileSystemService $fileSystemService
+        FileSystemService $fileSystemService,
+        string $uploadMaxFilesize
     ) {
         $this->config = $config;
         $this->lang = $lang;
@@ -88,6 +92,7 @@ class UploadController
         $this->scriptName = $scriptName;
         $this->jquery = $jquery;
         $this->fileSystemService = $fileSystemService;
+        $this->uploadMaxFilesize = $uploadMaxFilesize;
     }
 
     public function defaultAction(?string $type = null, ?string $subdir = null, ?string $resize = null): Response
@@ -256,7 +261,7 @@ class UploadController
             'silverlight_xap_url' => "{$this->pluginFolder}lib/Moxie.xap",
             'file_data_name' => 'uploader_file'
         );
-        $config['chunk_size'] = strtolower(ini_get('upload_max_filesize')) . 'b';
+        $config['chunk_size'] = strtolower($this->uploadMaxFilesize) . 'b';
         if ($resize != '') {
             if (is_array($resize)) { // @phpstan-ignore-line
                 $config['resize'] = $resize;

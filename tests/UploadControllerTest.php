@@ -49,7 +49,16 @@ class UploadControllerTest extends TestCase
         ];
         $this->jquery = $this->createStub(Jquery::class);
         $this->fileSystemService = $this->createStub(FileSystemService::class);
-        $this->sut = new UploadController($conf, $lang, "./", $fileFolders, "/", $this->jquery, $this->fileSystemService);
+        $this->sut = new UploadController(
+            $conf,
+            $lang,
+            "./",
+            $fileFolders,
+            "/",
+            $this->jquery,
+            $this->fileSystemService,
+            "2M"
+        );
     }
 
     public function testDefaultActionRendersPlaceholder(): void
