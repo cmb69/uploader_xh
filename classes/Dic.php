@@ -42,7 +42,7 @@ class Dic
                 $sn,
                 new Jquery(),
                 new FileSystemService(),
-                ini_get('upload_max_filesize')
+                (string) ini_get('upload_max_filesize')
             );
         }
         return $instance;
