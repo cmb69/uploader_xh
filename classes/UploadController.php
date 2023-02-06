@@ -61,6 +61,9 @@ class UploadController
     /** @var string */
     private $scriptName;
 
+    /** @var Jquery */
+    private $jquery;
+
     /**
      * @param array<string,string> $config
      * @param array<string,string> $lang
@@ -71,13 +74,15 @@ class UploadController
         array $lang,
         string $pluginFolder,
         array $fileFolders,
-        string $scriptName
+        string $scriptName,
+        Jquery $jquery
     ) {
         $this->config = $config;
         $this->lang = $lang;
         $this->pluginFolder = $pluginFolder;
         $this->fileFolders = $fileFolders;
         $this->scriptName = $scriptName;
+        $this->jquery = $jquery;
     }
 
     public function defaultAction(?string $type = null, ?string $subdir = null, ?string $resize = null): Response
@@ -209,8 +214,7 @@ class UploadController
     private function requireScripts()
     {
         if (!$this->hasRequiredScripts) {
-            include_once "{$this->pluginFolder}../jquery/jquery.inc.php";
-            include_jQuery();
+            $this->jquery->include();
             $this->appendScript("{$this->pluginFolder}lib/plupload.full.min.js");
             $this->appendScript("{$this->pluginFolder}uploader.min.js");
             $this->hasRequiredScripts = true;

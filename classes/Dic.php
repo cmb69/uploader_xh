@@ -39,7 +39,8 @@ class Dic
                     'media' => $pth['folder']['media'],
                     'userfiles' => $pth['folder']['userfiles']
                 ],
-                $sn
+                $sn,
+                new Jquery()
             );
         }
         return $instance;
