@@ -64,6 +64,9 @@ class UploadController
     /** @var Jquery */
     private $jquery;
 
+    /** @var FileSystemService */
+    private $fileSystemService;
+
     /**
      * @param array<string,string> $config
      * @param array<string,string> $lang
@@ -75,7 +78,8 @@ class UploadController
         string $pluginFolder,
         array $fileFolders,
         string $scriptName,
-        Jquery $jquery
+        Jquery $jquery,
+        FileSystemService $fileSystemService
     ) {
         $this->config = $config;
         $this->lang = $lang;
@@ -83,6 +87,7 @@ class UploadController
         $this->fileFolders = $fileFolders;
         $this->scriptName = $scriptName;
         $this->jquery = $jquery;
+        $this->fileSystemService = $fileSystemService;
     }
 
     public function defaultAction(?string $type = null, ?string $subdir = null, ?string $resize = null): Response
@@ -129,7 +134,7 @@ class UploadController
     {
         $result = [];
         if (!isset($subdir) || $subdir === '*') {
-            $subdirs = (new FileSystemService)->getSubdirsOf($this->fileFolders[$this->getType($type)]);
+            $subdirs = $this->fileSystemService->getSubdirsOf($this->fileFolders[$this->getType($type)]);
             foreach ($subdirs as $dirname) {
                 $result[$dirname] = $dirname === $this->getSubfolder($type, $subdir) ? 'selected' : '';
             }

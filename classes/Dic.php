@@ -40,7 +40,8 @@ class Dic
                     'userfiles' => $pth['folder']['userfiles']
                 ],
                 $sn,
-                new Jquery()
+                new Jquery(),
+                new FileSystemService()
             );
         }
         return $instance;

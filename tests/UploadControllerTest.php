@@ -32,7 +32,8 @@ class UploadControllerTest extends TestCase
         $plugin_tx = XH_includeVar("./languages/en.php", 'plugin_tx');
         $lang = $plugin_tx['uploader'];
         $jquery = $this->createStub(Jquery::class);
-        $sut = new UploadController($conf, $lang, "./", [], "/", $jquery);
+        $fileSystemService = $this->createStub(FileSystemService::class);
+        $sut = new UploadController($conf, $lang, "./", [], "/", $jquery, $fileSystemService);
         $response = $sut->defaultAction();
         $this->assertEquals('<div class="uploader_placeholder" data-serial="1"></div>', $response->body());
     }
@@ -45,7 +46,8 @@ class UploadControllerTest extends TestCase
         $lang = $plugin_tx['uploader'];
         $jquery = $this->createStub(Jquery::class);
         $jquery->expects($this->once())->method('include');
-        $sut = new UploadController($conf, $lang, "./", [], "/", $jquery);
+        $fileSystemService = $this->createStub(FileSystemService::class);
+        $sut = new UploadController($conf, $lang, "./", [], "/", $jquery, $fileSystemService);
         $sut->defaultAction();
         $sut->defaultAction();
     }
