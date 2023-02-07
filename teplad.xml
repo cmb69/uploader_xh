@@ -45,7 +45,7 @@
   <!-- the name of the Plugin -->
   <name type="plugin">Uploader_XH</name>
   <!-- Date this xml-file was updated, yyyy.mm.dd -->
-  <date_update>2021.01.23</date_update>
+  <date_update>2023.02.07</date_update>
   <!-- version of Plugin -->
   <version>1.0beta2</version>
   <!-- date of publication, yyyy.mm.dd -->
@@ -76,7 +76,7 @@
   <!-- If there no specification, e.g. for templates, enter this follows! - <php_ver></php_ver> -->
   <php_ver>≥ 5.4.0</php_ver>
   <!-- the License for the Plugin, GPLv3, AGPL, LGPL, GPLv2 ... -->
-  <license>GPLv3</license>
+  <license>AGPLv3</license>
   <!-- Description in English is mandatory -->
   <descriptions>
     <!-- description of the plugin, ca. 200 characters, you can use <br/>, <ol></ol>, <ul></ul>, <li></li>, <b></b>, <i></i>. -->
