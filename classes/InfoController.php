@@ -27,9 +27,6 @@ use Plib\View;
 class InfoController
 {
     /** @var string */
-    private $pluginsFolder;
-
-    /** @var string */
     private $pluginFolder;
 
     /** @var SystemChecker */
@@ -38,10 +35,9 @@ class InfoController
     /** @var View */
     private $view;
 
-    public function __construct(string $pluginsFolder, SystemChecker $systemChecker, View $view)
+    public function __construct(string $pluginFolder, SystemChecker $systemChecker, View $view)
     {
-        $this->pluginsFolder = $pluginsFolder;
-        $this->pluginFolder = "{$pluginsFolder}uploader/";
+        $this->pluginFolder = $pluginFolder;
         $this->systemChecker = $systemChecker;
         $this->view = $view;
     }
@@ -119,7 +115,7 @@ class InfoController
      */
     private function checkPlugin($plugin)
     {
-        $state = $this->systemChecker->checkPlugin("{$this->pluginsFolder}{$plugin}") ? 'success' : 'fail';
+        $state = $this->systemChecker->checkPlugin("jquery") ? 'success' : 'fail';
         return [
             'class' => "xh_$state",
             'label' => $this->view->plain("syscheck_plugin", $plugin),

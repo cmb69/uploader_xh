@@ -57,7 +57,7 @@ class Dic
         global $pth;
 
         return new InfoController(
-            $pth['folder']['plugins'],
+            $pth["folder"]["plugins"] . "uploader/",
             new SystemChecker(),
             self::view()
         );

@@ -31,7 +31,7 @@ class InfoControllerTest extends TestCase
     public function testDefaultActionShowsPluginInfo(): void
     {
         $sut = new InfoController(
-            "../",
+            "./plugins/uploader/",
             new FakeSystemChecker(true),
             new View("./views/", XH_includeVar("./languages/en.php", "plugin_tx")["uploader"])
         );
