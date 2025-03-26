@@ -22,6 +22,7 @@
 namespace Uploader;
 
 use Plib\Jquery;
+use Plib\Response;
 use Plib\View;
 
 /**
@@ -98,7 +99,7 @@ class UploadController
     public function defaultAction(?string $type = null, ?string $subdir = null, ?string $resize = null): Response
     {
         $this->requireScripts();
-        return new Response(
+        return Response::create(
             '<div class="uploader_placeholder" data-serial="' . XH_hsc((string) ++$this->serial) . '"></div>'
         );
     }
@@ -106,7 +107,7 @@ class UploadController
     public function widgetAction(?string $type = null, ?string $subdir = null, ?string $resize = null): Response
     {
         if (++$this->serial != $_GET['uploader_serial']) {
-            return new Response("");
+            return Response::create();
         }
         $selectChangeUrl = $this->getSelectOnchangeUrl($type, $subdir, $resize);
         $data = [
@@ -118,7 +119,7 @@ class UploadController
             'resizeOptions' => $this->getResizeOptions($resize),
             'pluploadConfig' => $this->getJsonConfig($type, $subdir, $resize),
         ];
-        return new Response($this->view->render('widget', $data), "text/html");
+        return Response::create($this->view->render('widget', $data));
     }
 
     /** @return array<string,string> */
@@ -281,7 +282,7 @@ class UploadController
     public function uploadAction(?string $type = null, ?string $subdir = null, ?string $resize = null): Response
     {
         if (++$this->serial != $_GET['uploader_serial']) {
-            return new Response("");
+            return Response::create();
         }
         $dir = $this->fileFolders[$this->getType($type)] . $this->getSubfolder($type, $subdir);
         $filename = isset($_POST['name']) ? $_POST['name'] : '';
@@ -295,7 +296,7 @@ class UploadController
         ) {
             return $this->doUpload($receiver);
         } else {
-            return new Response($this->view->plain("error_forbidden"), "text/plain", 403);
+            return Response::error(403, $this->view->plain("error_forbidden"));
         }
     }
 
@@ -303,13 +304,13 @@ class UploadController
     {
         try {
             $receiver->handleUpload($_FILES['uploader_file']['tmp_name']);
-            return new Response($this->view->plain("label_done"), "text/plain");
+            return Response::create($this->view->plain("label_done"))->withContentType("text/plain");
         } catch (FilesizeException $ex) {
-            return new Response($this->view->plain("error_forbidden"), "text/plain", 403);
+            return Response::error(403, $this->view->plain("error_forbidden"));
         } catch (ReadException $ex) {
-            return new Response($this->view->plain("error_read"), "text/plain", 500);
+            return Response::error(500, $this->view->plain("error_read"));
         } catch (WriteException $ex) {
-            return new Response($this->view->plain("error_write"), "text/plain", 500);
+            return Response::error(500, $this->view->plain("error_write"));
         }
     }
 

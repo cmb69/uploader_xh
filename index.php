@@ -47,5 +47,5 @@ function uploader($type = 'images', $subdir = '', $resize = '')
     } else {
         $action = 'defaultAction';
     }
-    return $controller->{$action}($type, $subdir, $resize)->trigger();
+    return $controller->{$action}($type, $subdir, $resize)();
 }
