@@ -30,6 +30,7 @@ require_once "../plib/classes/SystemChecker.php";
 require_once "../plib/classes/View.php";
 require_once "../plib/classes/FakeSystemChecker.php";
 
+require_once "./classes/Dic.php";
 require_once "./classes/FilesizeException.php";
 require_once "./classes/FileSystemService.php";
 require_once "./classes/InfoController.php";
