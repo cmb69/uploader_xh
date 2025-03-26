@@ -36,10 +36,8 @@ class UploadController
 
     private const SIZES = ['', 'small', 'medium', 'large'];
 
-    /**
-     * @var int
-     */
-    private $serial = 0;
+    /** @var int */
+    private $serial;
 
     /**
      * @var array<string,string>
@@ -71,6 +69,7 @@ class UploadController
      * @param FileFolders $fileFolders
      */
     public function __construct(
+        int $serial,
         array $config,
         string $pluginFolder,
         array $fileFolders,
@@ -79,6 +78,7 @@ class UploadController
         string $uploadMaxFilesize,
         View $view
     ) {
+        $this->serial = $serial;
         $this->config = $config;
         $this->pluginFolder = $pluginFolder;
         $this->fileFolders = $fileFolders;
@@ -105,7 +105,7 @@ class UploadController
     {
         $this->jquery->include();
         return Response::create($this->view->render("main", [
-            "serial" => ++$this->serial,
+            "serial" => $this->serial,
             "plupload" => $this->pluginFolder . "lib/plupload.full.min.js",
             "uploader" => $this->pluginFolder . "uploader.min.js",
         ]));
@@ -113,7 +113,7 @@ class UploadController
 
     private function widgetAction(Request $request, ?string $type, ?string $subdir, ?string $resize): Response
     {
-        if (++$this->serial != $request->get("uploader_serial")) {
+        if ($this->serial != $request->get("uploader_serial")) {
             return Response::create();
         }
         $selectChangeUrl = $this->getSelectOnchangeUrl($request, $type, $subdir, $resize);
@@ -256,7 +256,7 @@ class UploadController
 
     private function uploadAction(Request $request, ?string $type, ?string $subdir, ?string $resize): Response
     {
-        if (++$this->serial != $request->get("uploader_serial")) {
+        if ($this->serial != $request->get("uploader_serial")) {
             return Response::create();
         }
         $dir = $this->fileFolders[$this->getType($request, $type)] . $this->getSubfolder($request, $type, $subdir);

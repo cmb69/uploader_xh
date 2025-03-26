@@ -30,25 +30,23 @@ class Dic
     public static function makeUploadController(): UploadController
     {
         global $pth, $plugin_cf;
-        static $instance = null;
+        static $serial = 0;
 
-        if ($instance === null) {
-            $instance = new UploadController(
-                $plugin_cf['uploader'],
-                "{$pth['folder']['plugins']}uploader/",
-                [
-                    'images' => $pth['folder']['images'],
-                    'downloads' => $pth['folder']['downloads'],
-                    'media' => $pth['folder']['media'],
-                    'userfiles' => $pth['folder']['userfiles']
-                ],
-                new Jquery($pth["folder"]["plugins"] . "jquery/"),
-                new FileSystemService(),
-                (string) ini_get('upload_max_filesize'),
-                self::view()
-            );
-        }
-        return $instance;
+        return new UploadController(
+            ++$serial,
+            $plugin_cf['uploader'],
+            "{$pth['folder']['plugins']}uploader/",
+            [
+                'images' => $pth['folder']['images'],
+                'downloads' => $pth['folder']['downloads'],
+                'media' => $pth['folder']['media'],
+                'userfiles' => $pth['folder']['userfiles']
+            ],
+            new Jquery($pth["folder"]["plugins"] . "jquery/"),
+            new FileSystemService(),
+            (string) ini_get('upload_max_filesize'),
+            self::view()
+        );
     }
 
     public static function makeInfoController(): InfoController

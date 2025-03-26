@@ -53,6 +53,7 @@ class UploadControllerTest extends TestCase
         $this->jquery = $this->createStub(Jquery::class);
         $this->fileSystemService = $this->createStub(FileSystemService::class);
         $this->sut = new UploadController(
+            1,
             $conf,
             "./",
             $fileFolders,
