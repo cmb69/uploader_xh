@@ -57,7 +57,6 @@ class InfoController
     {
         return array(
             $this->checkPhpVersion('7.1.0'),
-            $this->checkExtension('json'),
             $this->checkXhVersion('1.7.0'),
             $this->checkPlugin('jquery'),
             $this->checkWritability("{$this->pluginFolder}config/"),
@@ -76,21 +75,6 @@ class InfoController
         return [
             'class' => "xh_$state",
             'label' => $this->view->plain("syscheck_phpversion", $version),
-            'stateLabel' => $this->view->plain("syscheck_$state"),
-        ];
-    }
-
-    /**
-     * @param string $extension
-     * @param bool $isMandatory
-     * @return array{class:string,label:string,stateLabel:string}
-     */
-    private function checkExtension($extension, $isMandatory = true)
-    {
-        $state = $this->systemChecker->checkExtension($extension) ? 'success' : ($isMandatory ? 'fail' : 'warning');
-        return [
-            'class' => "xh_$state",
-            'label' => $this->view->plain("syscheck_extension", $extension),
             'stateLabel' => $this->view->plain("syscheck_$state"),
         ];
     }
