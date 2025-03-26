@@ -96,7 +96,20 @@ class UploadController
         $this->view = $view;
     }
 
-    public function defaultAction(?string $type = null, ?string $subdir = null, ?string $resize = null): Response
+    public function __invoke(?string $type = null, ?string $subdir = null, ?string $resize = null): Response
+    {
+        global $function;
+
+        if ($function === 'uploader_upload') {
+            return $this->uploadAction($type, $subdir, $resize);
+        }
+        if (isset($_GET['uploader_serial'])) {
+            return $this->widgetAction($type, $subdir, $resize);
+        }
+        return $this->defaultAction($type, $subdir, $resize);
+    }
+
+    private function defaultAction(?string $type = null, ?string $subdir = null, ?string $resize = null): Response
     {
         $this->requireScripts();
         return Response::create(
@@ -104,7 +117,7 @@ class UploadController
         );
     }
 
-    public function widgetAction(?string $type = null, ?string $subdir = null, ?string $resize = null): Response
+    private function widgetAction(?string $type = null, ?string $subdir = null, ?string $resize = null): Response
     {
         if (++$this->serial != $_GET['uploader_serial']) {
             return Response::create();
@@ -279,7 +292,7 @@ class UploadController
         return $config;
     }
 
-    public function uploadAction(?string $type = null, ?string $subdir = null, ?string $resize = null): Response
+    private function uploadAction(?string $type = null, ?string $subdir = null, ?string $resize = null): Response
     {
         if (++$this->serial != $_GET['uploader_serial']) {
             return Response::create();

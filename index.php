@@ -37,15 +37,5 @@ const UPLOADER_VERSION = "1.0beta2";
  */
 function uploader($type = 'images', $subdir = '', $resize = '')
 {
-    global $function;
-
-    $controller = Dic::makeUploadController();
-    if ($function === 'uploader_upload') {
-        $action = 'uploadAction';
-    } elseif (isset($_GET['uploader_serial'])) {
-        $action = 'widgetAction';
-    } else {
-        $action = 'defaultAction';
-    }
-    return $controller->{$action}($type, $subdir, $resize)();
+    return Dic::makeUploadController()($type, $subdir, $resize)();
 }

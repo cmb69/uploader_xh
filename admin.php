@@ -36,14 +36,7 @@ if (XH_wantsPluginAdministration('uploader')) {
             $o .= Dic::makeInfoController()->defaultAction();
             break;
         case 'plugin_main':
-            if ($function === 'uploader_upload') {
-                $temp = 'uploadAction';
-            } elseif (isset($_GET['uploader_serial'])) {
-                $temp = 'widgetAction';
-            } else {
-                $temp = 'defaultAction';
-            }
-            $o .=  Dic::makeUploadController()->{$temp}()();
+            $o .=  Dic::makeUploadController()()();
             break;
         default:
             $o .= plugin_admin_common();
