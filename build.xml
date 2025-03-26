@@ -3,7 +3,9 @@
 <project name="Uploader" default="help">
 
   <target name="help" description="lists available targets">
-    <exec command="phing -l" outputProperty="help"/>
+    <exec executable="phing" outputProperty="help">
+      <arg line="-l"/>
+    </exec>
     <echo>${help}</echo>
   </target>
 
@@ -45,7 +47,9 @@
 
   <target name="build" description="builds a distributable ZIP archive">
     <fail unless="version" message="version is not defined!"/>
-    <exec command="git archive -o export.zip HEAD" checkreturn="true"/>
+    <exec executable="git" checkreturn="true">
+      <arg line="archive -o export.zip HEAD"/>
+    </exec>
     <unzip file="export.zip" todir="export"/>
     <delete file="export.zip"/>
     <exec executable="uglifyjs" checkreturn="true">
@@ -58,6 +62,7 @@
     <move todir="dist">
       <fileset dir="export">
         <exclude name=".github/**"/>
+        <exclude name=".phive/**"/>
         <exclude name="help/template.htm"/>
         <exclude name="tests/**"/>
         <exclude name="README*.md"/>
