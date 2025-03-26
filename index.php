@@ -38,5 +38,5 @@ const UPLOADER_VERSION = "1.0beta2";
  */
 function uploader($type = 'images', $subdir = '', $resize = '')
 {
-    return Dic::makeUploadController()(Request::current(), $type, $subdir, $resize)();
+    return Dic::makeUploadController()(Request::current(), $type, $subdir, $resize, false)();
 }

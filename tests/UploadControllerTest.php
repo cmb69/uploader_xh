@@ -47,7 +47,8 @@ class UploadControllerTest extends TestCase
 
     public function testDefaultActionRendersPlaceholder(): void
     {
-        $response = ($this->sut)(new FakeRequest(), null, null, null);
+        $response = ($this->sut)(new FakeRequest(), null, null, null, true);
+        $this->assertSame("Uploader – Upload", $response->title());
         Approvals::verifyHtml($response->output());
     }
 
@@ -55,7 +56,7 @@ class UploadControllerTest extends TestCase
     {
         $this->fileSystemService->method('getSubdirsOf')->willReturn(["/"]);
         $request = new FakeRequest(["url" => "http://example.com/?&uploader_serial=1"]);
-        $response = ($this->sut)($request, null, null, null);
+        $response = ($this->sut)($request, null, null, null, false);
         Approvals::verifyHtml($response->output());
     }
 
@@ -63,7 +64,7 @@ class UploadControllerTest extends TestCase
     {
         $this->fileSystemService->method('getSubdirsOf')->willReturn(["/"]);
         $request = new FakeRequest(["url" => "http://example.com/?&uploader_serial=17"]);
-        $response = ($this->sut)($request, null, null, null);
+        $response = ($this->sut)($request, null, null, null, false);
         $this->assertSame("", $response->output());
     }
 
@@ -74,7 +75,7 @@ class UploadControllerTest extends TestCase
         $request = new FakeRequest([
             "url" => "http://example.com/?&uploader_type=downloads&uploader_subdir=%2Ffoo&uploader_serial=1",
         ]);
-        $response = ($this->sut)($request, null, null, null);
+        $response = ($this->sut)($request, null, null, null, false);
         Approvals::verifyHtml($response->output());
     }
 }

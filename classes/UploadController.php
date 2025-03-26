@@ -88,7 +88,7 @@ class UploadController
         $this->view = $view;
     }
 
-    public function __invoke(Request $request, ?string $type, ?string $subdir, ?string $resize): Response
+    public function __invoke(Request $request, ?string $type, ?string $subdir, ?string $resize, bool $admin): Response
     {
         global $function;
 
@@ -98,22 +98,27 @@ class UploadController
         if ($request->get("uploader_serial") !== null) {
             return $this->widgetAction($request, $type, $subdir, $resize);
         }
-        return $this->defaultAction($request, $type, $subdir, $resize);
+        return $this->defaultAction($request, $admin);
     }
 
-    private function defaultAction(Request $request, ?string $type, ?string $subdir, ?string $resize): Response
+    private function defaultAction(Request $request, bool $admin): Response
     {
         $this->jquery->include();
         $uploader = $this->pluginFolder . "uploader.min.js";
         if (!is_file($uploader)) {
             $uploader = $this->pluginFolder . "uploader.js";
         }
-        return Response::create($this->view->render("main", [
+        $response = Response::create($this->view->render("main", [
+            "admin" => $admin,
             "serial" => $this->serial,
             "plupload" => $request->url()->path($this->pluginFolder . "lib/plupload.full.min.js")
                 ->with("v", "2.3.9")->relative(),
             "uploader" => $request->url()->path($uploader)->with("v", "1.0beta2")->relative(),
         ]));
+        if ($admin) {
+            $response = $response->withTitle("Uploader – " . $this->view->text("menu_main"));
+        }
+        return $response;
     }
 
     private function widgetAction(Request $request, ?string $type, ?string $subdir, ?string $resize): Response
