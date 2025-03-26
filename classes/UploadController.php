@@ -98,10 +98,10 @@ class UploadController
         if ($request->get("uploader_serial") !== null) {
             return $this->widgetAction($request, $type, $subdir, $resize);
         }
-        return $this->defaultAction($type, $subdir, $resize);
+        return $this->defaultAction($request, $type, $subdir, $resize);
     }
 
-    private function defaultAction(?string $type, ?string $subdir, ?string $resize): Response
+    private function defaultAction(Request $request, ?string $type, ?string $subdir, ?string $resize): Response
     {
         $this->jquery->include();
         $uploader = $this->pluginFolder . "uploader.min.js";
@@ -110,8 +110,9 @@ class UploadController
         }
         return Response::create($this->view->render("main", [
             "serial" => $this->serial,
-            "plupload" => $this->pluginFolder . "lib/plupload.full.min.js",
-            "uploader" => $uploader,
+            "plupload" => $request->url()->path($this->pluginFolder . "lib/plupload.full.min.js")
+                ->with("v", "2.3.9")->relative(),
+            "uploader" => $request->url()->path($uploader)->with("v", "1.0beta2")->relative(),
         ]));
     }
 
