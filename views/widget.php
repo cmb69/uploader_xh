@@ -1,7 +1,7 @@
 <?php
 
+use Plib\View;
 use Uploader\Url;
-use Uploader\View;
 
 /**
  * @var View $this
@@ -15,23 +15,23 @@ use Uploader\View;
 <div class="uploader_widget" data-config='<?=$this->json($pluploadConfig)?>'>
   <div class="uploader_controls">
 <?php if (!empty($typeOptions)):?>
-    <select class="uploader_type" title="<?=$this->text('label_type')?>" data-url="<?=$this->escape($typeSelectChangeUrl)?>">
+    <select class="uploader_type" title="<?=$this->text('label_type')?>" data-url="<?=$this->esc($typeSelectChangeUrl)?>">
 <?php     foreach ($typeOptions as $type => $selected):?>
-      <option value="<?=$this->escape($type)?>" <?=$this->escape($selected)?>><?=$this->escape($type)?></option>
+      <option value="<?=$this->esc($type)?>" <?=$this->esc($selected)?>><?=$this->esc($type)?></option>
 <?php     endforeach?>
     </select>
 <?php endif?>
 <?php if (!empty($subdirOptions)):?>
-    <select class="uploader_subdir" title="<?=$this->text('label_subdir')?>" data-url="<?=$this->escape($subdirSelectChangeUrl)?>">
+    <select class="uploader_subdir" title="<?=$this->text('label_subdir')?>" data-url="<?=$this->esc($subdirSelectChangeUrl)?>">
 <?php     foreach ($subdirOptions as $subdir => $selected):?>
-      <option value="<?=$this->escape($subdir)?>" <?=$this->escape($selected)?>><?=$this->escape($subdir)?></option>
+      <option value="<?=$this->esc($subdir)?>" <?=$this->esc($selected)?>><?=$this->esc($subdir)?></option>
 <?php     endforeach?>
     </select>
 <?php endif?>
 <?php if (!empty($resizeOptions)):?>
-    <select class="uploader_resize" title="<?=$this->text('label_resize')?>" data-url="<?=$this->escape($resizeSelectChangeUrl)?>">
+    <select class="uploader_resize" title="<?=$this->text('label_resize')?>" data-url="<?=$this->esc($resizeSelectChangeUrl)?>">
 <?php     foreach ($resizeOptions as $size => $selected):?>
-      <option value="<?=$this->escape($size)?>" <?=$this->escape($selected)?>><?=$this->escape($size)?></option>
+      <option value="<?=$this->esc($size)?>" <?=$this->esc($selected)?>><?=$this->esc($size)?></option>
 <?php     endforeach?>
     </select>
 <?php endif?>

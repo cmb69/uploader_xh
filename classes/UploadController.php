@@ -21,6 +21,8 @@
 
 namespace Uploader;
 
+use Plib\View;
+
 /**
  * @phpstan-type FileFolders array{images:string,downloads:string,media:string,userfiles:string}
  */

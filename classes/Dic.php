@@ -21,6 +21,8 @@
 
 namespace Uploader;
 
+use Plib\View;
+
 class Dic
 {
     public static function makeUploadController(): UploadController

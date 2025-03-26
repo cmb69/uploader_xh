@@ -1,6 +1,6 @@
 <?php
 
-use Uploader\View;
+use Plib\View;
 
 /**
  * @var View $this
@@ -10,10 +10,10 @@ use Uploader\View;
  */
 ?>
 
-<h1>Uploader – <?=$this->escape($version)?></h1>
+<h1>Uploader – <?=$this->esc($version)?></h1>
 <div>
   <h2><?=$this->text('syscheck_title')?></h2>
 <?php foreach ($checks as $check):?>
-  <p class="<?=$this->escape($check['class'])?>"><?=$this->text('syscheck_message', $check['label'], $check['stateLabel'])?></p>
+  <p class="<?=$this->esc($check['class'])?>"><?=$this->text('syscheck_message', $check['label'], $check['stateLabel'])?></p>
 <?php endforeach?>
 </div>
