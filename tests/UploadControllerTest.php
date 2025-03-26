@@ -78,9 +78,9 @@ class UploadControllerTest extends TestCase
 
     public function testWidgetActionRendersWidget(): void
     {
-        $_GET = ['uploader_serial' => 1];
         $this->fileSystemService->method('getSubdirsOf')->willReturn(["/"]);
-        $response = ($this->sut)(new FakeRequest(), null, null, null);
+        $request = new FakeRequest(["url" => "http://example.com/?&uploader_serial=1"]);
+        $response = ($this->sut)($request, null, null, null);
         Approvals::verifyHtml($response->output());
     }
 }
