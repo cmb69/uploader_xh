@@ -24,6 +24,7 @@ namespace Uploader;
 use Plib\Jquery;
 use Plib\Request;
 use Plib\Response;
+use Plib\UploadedFile;
 use Plib\Url;
 use Plib\View;
 
@@ -265,19 +266,13 @@ class UploadController
         $filename = $request->post("name") ?? "";
         $chunks = (int) ($request->post("chunks") ?? "0");
         $chunk = (int) ($request->post("chunk") ?? "0");
+        $upload = $request->file("uploader_file");
         if (
-            isset($_FILES['uploader_file']['tmp_name'])
-            && is_uploaded_file($_FILES['uploader_file']['tmp_name'])
+            $upload !== null
+            && $upload->size() <= $this->config['size_max']
             && $this->isUploadAllowed($request, $type, $subdir, $resize)
         ) {
-            return $this->doUpload(
-                $this->receiver,
-                $dir,
-                $filename,
-                $_FILES['uploader_file']['tmp_name'],
-                $chunks,
-                $chunk
-            );
+            return $this->doUpload($this->receiver, $dir, $filename, $upload->temp(), $chunks, $chunk);
         } else {
             return Response::error(403, $this->view->plain("error_forbidden"));
         }
@@ -309,9 +304,7 @@ class UploadController
             return ($type === '*' || $this->getType($request, $type) === $type)
                 && ($subdir === '*' || $this->getSubfolder($request, $type, $subdir) === $subdir)
                 && $request->post("name") !== null
-                && $this->isExtensionAllowed($request, $request->post("name"), $type)
-                && isset($_FILES['uploader_file']['tmp_name'])
-                && filesize($_FILES['uploader_file']['tmp_name']) <= $this->config['size_max'];
+                && $this->isExtensionAllowed($request, $request->post("name"), $type);
         }
         return true;
     }

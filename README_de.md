@@ -25,7 +25,7 @@ Uploader_XH kein alternativer Filemanager.
 Uploader_XH ist ein Plugin für [CMSimple_XH](https://www.cmsimple-xh.org/de/).
 Es benötigt CMSimple_XH ≥ 1.7.0, PHP ≥ 7.1.0,
 und einen Browser, der von der verwendeten jQuery-Version unterstützt wird.
-Uploader_XH benötigt weiterhin [Plib_XH](https://github.com/cmb69/plib_xh) ≥ 1.4;
+Uploader_XH benötigt weiterhin [Plib_XH](https://github.com/cmb69/plib_xh) ≥ 1.5;
 ist dieses noch nicht installiert (siehe `Einstellungen` → `Info`),
 laden Sie das [aktuelle Release](https://github.com/cmb69/plib_xh/releases/latest)
 herunter, und installieren Sie es.
