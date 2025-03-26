@@ -28,13 +28,12 @@ class Dic
 {
     public static function makeUploadController(): UploadController
     {
-        global $pth, $sn, $plugin_cf, $plugin_tx;
+        global $pth, $sn, $plugin_cf;
         static $instance = null;
 
         if ($instance === null) {
             $instance = new UploadController(
                 $plugin_cf['uploader'],
-                $plugin_tx['uploader'],
                 "{$pth['folder']['plugins']}uploader/",
                 [
                     'images' => $pth['folder']['images'],
@@ -54,11 +53,10 @@ class Dic
 
     public static function makeInfoController(): InfoController
     {
-        global $pth, $plugin_tx;
+        global $pth;
 
         return new InfoController(
             $pth['folder']['plugins'],
-            $plugin_tx['uploader'],
             new SystemChecker(),
             self::view()
         );

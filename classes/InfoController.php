@@ -31,21 +31,16 @@ class InfoController
     /** @var string */
     private $pluginFolder;
 
-    /** @var array<string,string> */
-    private $lang;
-
     /** @var SystemChecker */
     private $systemChecker;
 
     /** @var View */
     private $view;
 
-    /** @param array<string,string> $lang */
-    public function __construct(string $pluginsFolder, array $lang, SystemChecker $systemChecker, View $view)
+    public function __construct(string $pluginsFolder, SystemChecker $systemChecker, View $view)
     {
         $this->pluginsFolder = $pluginsFolder;
         $this->pluginFolder = "{$pluginsFolder}uploader/";
-        $this->lang = $lang;
         $this->systemChecker = $systemChecker;
         $this->view = $view;
     }
@@ -83,8 +78,8 @@ class InfoController
         $state = $this->systemChecker->checkVersion(PHP_VERSION, $version) ? 'success' : 'fail';
         return [
             'class' => "xh_$state",
-            'label' => sprintf($this->lang['syscheck_phpversion'], $version),
-            'stateLabel' => $this->lang["syscheck_$state"],
+            'label' => $this->view->plain("syscheck_phpversion", $version),
+            'stateLabel' => $this->view->plain("syscheck_$state"),
         ];
     }
 
@@ -98,8 +93,8 @@ class InfoController
         $state = $this->systemChecker->checkExtension($extension) ? 'success' : ($isMandatory ? 'fail' : 'warning');
         return [
             'class' => "xh_$state",
-            'label' => sprintf($this->lang['syscheck_extension'], $extension),
-            'stateLabel' => $this->lang["syscheck_$state"],
+            'label' => $this->view->plain("syscheck_extension", $extension),
+            'stateLabel' => $this->view->plain("syscheck_$state"),
         ];
     }
 
@@ -112,8 +107,8 @@ class InfoController
         $state = $this->systemChecker->checkVersion(CMSIMPLE_XH_VERSION, "CMSimple_XH $version") ? 'success' : 'fail';
         return [
             'class' => "xh_$state",
-            'label' => sprintf($this->lang['syscheck_xhversion'], $version),
-            'stateLabel' => $this->lang["syscheck_$state"],
+            'label' => $this->view->plain("syscheck_xhversion", $version),
+            'stateLabel' => $this->view->plain("syscheck_$state"),
         ];
     }
 
@@ -126,8 +121,8 @@ class InfoController
         $state = $this->systemChecker->checkPlugin("{$this->pluginsFolder}{$plugin}") ? 'success' : 'fail';
         return [
             'class' => "xh_$state",
-            'label' => sprintf($this->lang['syscheck_plugin'], $plugin),
-            'stateLabel' => $this->lang["syscheck_$state"],
+            'label' => $this->view->plain("syscheck_plugin", $plugin),
+            'stateLabel' => $this->view->plain("syscheck_$state"),
         ];
     }
 
@@ -140,8 +135,8 @@ class InfoController
         $state = $this->systemChecker->checkWritability($folder) ? 'success' : 'warning';
         return [
             'class' => "xh_$state",
-            'label' => sprintf($this->lang['syscheck_writable'], $folder),
-            'stateLabel' => $this->lang["syscheck_$state"],
+            'label' => $this->view->plain("syscheck_writable", $folder),
+            'stateLabel' => $this->view->plain("syscheck_$state"),
         ];
     }
 }

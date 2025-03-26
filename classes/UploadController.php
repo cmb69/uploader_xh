@@ -49,11 +49,6 @@ class UploadController
     private $config;
 
     /**
-     * @var array<string,string>
-     */
-    private $lang;
-
-    /**
      * @var string
      */
     private $pluginFolder;
@@ -78,12 +73,10 @@ class UploadController
 
     /**
      * @param array<string,string> $config
-     * @param array<string,string> $lang
      * @param FileFolders $fileFolders
      */
     public function __construct(
         array $config,
-        array $lang,
         string $pluginFolder,
         array $fileFolders,
         string $scriptName,
@@ -93,7 +86,6 @@ class UploadController
         View $view
     ) {
         $this->config = $config;
-        $this->lang = $lang;
         $this->pluginFolder = $pluginFolder;
         $this->fileFolders = $fileFolders;
         $this->scriptName = $scriptName;
@@ -263,7 +255,7 @@ class UploadController
             'filters' => [
                 'max_file_size' => "{$this->config['size_max']}b",
                 'mime_types' => [[
-                    'title' => $this->lang['title_' . $type],
+                    'title' => $this->view->plain("title_" . $type),
                     'extensions' => $this->config['ext_' . $type]
                 ]],
             ],
@@ -303,7 +295,7 @@ class UploadController
         ) {
             return $this->doUpload($receiver);
         } else {
-            return new Response($this->lang['error_forbidden'], "text/plain", 403);
+            return new Response($this->view->plain("error_forbidden"), "text/plain", 403);
         }
     }
 
@@ -311,13 +303,13 @@ class UploadController
     {
         try {
             $receiver->handleUpload($_FILES['uploader_file']['tmp_name']);
-            return new Response($this->lang['label_done'], "text/plain");
+            return new Response($this->view->plain("label_done"), "text/plain");
         } catch (FilesizeException $ex) {
-            return new Response($this->lang['error_forbidden'], "text/plain", 403);
+            return new Response($this->view->plain("error_forbidden"), "text/plain", 403);
         } catch (ReadException $ex) {
-            return new Response($this->lang['error_read'], "text/plain", 500);
+            return new Response($this->view->plain("error_read"), "text/plain", 500);
         } catch (WriteException $ex) {
-            return new Response($this->lang['error_write'], "text/plain", 500);
+            return new Response($this->view->plain("error_write"), "text/plain", 500);
         }
     }
 

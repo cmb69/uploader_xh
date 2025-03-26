@@ -38,7 +38,6 @@ class InfoControllerTest extends TestCase
         $systemChecker->method('checkWritability')->willReturn(true);
         $sut = new InfoController(
             "../",
-            $lang,
             $systemChecker,
             new View("./views/", $lang)
         );

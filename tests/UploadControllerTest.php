@@ -53,7 +53,6 @@ class UploadControllerTest extends TestCase
         $this->fileSystemService = $this->createStub(FileSystemService::class);
         $this->sut = new UploadController(
             $conf,
-            $lang,
             "./",
             $fileFolders,
             "/",
