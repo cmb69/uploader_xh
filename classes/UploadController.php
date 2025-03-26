@@ -104,10 +104,14 @@ class UploadController
     private function defaultAction(?string $type, ?string $subdir, ?string $resize): Response
     {
         $this->jquery->include();
+        $uploader = $this->pluginFolder . "uploader.min.js";
+        if (!is_file($uploader)) {
+            $uploader = $this->pluginFolder . "uploader.js";
+        }
         return Response::create($this->view->render("main", [
             "serial" => $this->serial,
             "plupload" => $this->pluginFolder . "lib/plupload.full.min.js",
-            "uploader" => $this->pluginFolder . "uploader.min.js",
+            "uploader" => $uploader,
         ]));
     }
 
