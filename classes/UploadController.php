@@ -119,7 +119,7 @@ class UploadController
             'resizeOptions' => $this->getResizeOptions($resize),
             'pluploadConfig' => $this->getJsonConfig($type, $subdir, $resize),
         ];
-        return Response::create($this->view->render('widget', $data));
+        return Response::create($this->view->render('widget', $data))->withContentType("text/html");
     }
 
     /** @return array<string,string> */
