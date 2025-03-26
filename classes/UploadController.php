@@ -39,14 +39,10 @@ class UploadController
     /** @var int */
     private $serial;
 
-    /**
-     * @var array<string,string>
-     */
+    /** @var array<string,string> */
     private $config;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $pluginFolder;
 
     /** @var FileFolders */
@@ -184,10 +180,7 @@ class UploadController
             ->with('uploader_resize', $this->getResizeMode($request, $redir));
     }
 
-    /**
-     * @return string
-     */
-    private function getType(Request $request, ?string $type)
+    private function getType(Request $request, ?string $type): string
     {
         if ($type !== null && $type !== '*') {
             return $type;
@@ -198,10 +191,7 @@ class UploadController
             : "images";
     }
 
-    /**
-     * @return string
-     */
-    private function getSubfolder(Request $request, ?string $type, ?string $subdir)
+    private function getSubfolder(Request $request, ?string $type, ?string $subdir): string
     {
         if ($subdir !== null && $subdir !== '*') {
             return $subdir;
@@ -213,10 +203,7 @@ class UploadController
             : "/";
     }
 
-    /**
-     * @return string
-     */
-    private function getResizeMode(Request $request, ?string $resize)
+    private function getResizeMode(Request $request, ?string $resize): string
     {
         if ($resize !== null && $resize !== '*') {
             return $resize;
@@ -299,8 +286,7 @@ class UploadController
         }
     }
 
-    /** @return bool */
-    private function isUploadAllowed(Request $request, ?string $type, ?string $subdir, ?string $resize)
+    private function isUploadAllowed(Request $request, ?string $type, ?string $subdir, ?string $resize): bool
     {
         if ($type !== null && $subdir !== null && $resize !== null) {
             return ($type === '*' || $this->getType($request, $type) === $type)
@@ -313,11 +299,7 @@ class UploadController
         return true;
     }
 
-    /**
-     * @param string $filename
-     * @return bool
-     */
-    private function isExtensionAllowed(Request $request, $filename, ?string $type)
+    private function isExtensionAllowed(Request $request, string $filename, ?string $type): bool
     {
         return in_array(
             strtolower(pathinfo($filename, PATHINFO_EXTENSION)),

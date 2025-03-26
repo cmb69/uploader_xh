@@ -24,19 +24,8 @@ use Uploader\Dic;
 
 const UPLOADER_VERSION = "1.0beta2";
 
-/**
- * Returns the uploader widget.
- *
- * @param string $type      The upload type ('images', 'downloads', 'media' or
- *                          'userfiles'). '*' displays a selectbox.
- * @param string $subdir    The subfolder of the configured folder of the type.
- *                          '*' displays a selectbox.
- * @param string $resize    The resize mode ('', 'small', 'medium' or 'large').
- *                          '*' displays a selectbox.
- *
- * @return string|never
- */
-function uploader($type = 'images', $subdir = '', $resize = '')
+/** @return string|never */
+function uploader(string $type = "images", ?string $subdir = null, ?string $resize = null)
 {
     return Dic::makeUploadController()(Request::current(), $type, $subdir, $resize, false)();
 }

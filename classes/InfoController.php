@@ -51,10 +51,8 @@ class InfoController
         ]))->withTitle($this->view->esc("Uploader " . UPLOADER_VERSION));
     }
 
-    /**
-     * @return list<array{class:string,label:string,stateLabel:string}>
-     */
-    private function getChecks()
+    /** @return list<array{class:string,label:string,stateLabel:string}> */
+    private function getChecks(): array
     {
         return array(
             $this->checkPhpVersion('7.1.0'),
@@ -67,11 +65,8 @@ class InfoController
         );
     }
 
-    /**
-     * @param string $version
-     * @return array{class:string,label:string,stateLabel:string}
-     */
-    private function checkPhpVersion($version)
+    /** @return array{class:string,label:string,stateLabel:string} */
+    private function checkPhpVersion(string $version): array
     {
         $state = $this->systemChecker->checkVersion(PHP_VERSION, $version) ? 'success' : 'fail';
         return [
@@ -81,11 +76,8 @@ class InfoController
         ];
     }
 
-    /**
-     * @param string $version
-     * @return array{class:string,label:string,stateLabel:string}
-     */
-    private function checkXhVersion($version)
+    /** @return array{class:string,label:string,stateLabel:string} */
+    private function checkXhVersion(string $version): array
     {
         $state = $this->systemChecker->checkVersion(CMSIMPLE_XH_VERSION, "CMSimple_XH $version") ? 'success' : 'fail';
         return [
@@ -95,11 +87,8 @@ class InfoController
         ];
     }
 
-    /**
-     * @param string $version
-     * @return array{class:string,label:string,stateLabel:string}
-     */
-    private function checkPlibVersion($version)
+    /** @return array{class:string,label:string,stateLabel:string} */
+    private function checkPlibVersion(string $version): array
     {
         $state = $this->systemChecker->checkPlugin("plib", $version) ? 'success' : 'fail';
         return [
@@ -109,11 +98,8 @@ class InfoController
         ];
     }
 
-    /**
-     * @param string $plugin
-     * @return array{class:string,label:string,stateLabel:string}
-     */
-    private function checkPlugin($plugin)
+    /** @return array{class:string,label:string,stateLabel:string} */
+    private function checkPlugin(string $plugin): array
     {
         $state = $this->systemChecker->checkPlugin("jquery") ? 'success' : 'fail';
         return [
@@ -123,11 +109,8 @@ class InfoController
         ];
     }
 
-    /**
-     * @param string $folder
-     * @return array{class:string,label:string,stateLabel:string}
-     */
-    private function checkWritability($folder)
+    /** @return array{class:string,label:string,stateLabel:string} */
+    private function checkWritability(string $folder): array
     {
         $state = $this->systemChecker->checkWritability($folder) ? 'success' : 'warning';
         return [

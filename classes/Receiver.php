@@ -23,47 +23,22 @@ namespace Uploader;
 
 class Receiver
 {
-    /**
-     * The path of the destination folder.
-     *
-     * @var string
-     */
+    /** @var string */
     private $dir;
 
-    /**
-     * The name of the destination file.
-     *
-     * @var string
-     */
+    /** @var string */
     private $filename;
 
-    /**
-     * The number of chunks of the upload.
-     *
-     * @var int
-     */
+    /** @var int */
     private $chunks;
 
-    /**
-     * The number of the currently uploaded chunk.
-     *
-     * @var int
-     */
+    /** @var int */
     private $chunk;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private $maxFilesize;
 
-    /**
-     * @param string $dir      Path of the destination folder.
-     * @param string $filename Name of the destination file.
-     * @param int    $chunks   The number of chunks of the upload.
-     * @param int    $chunk    The number of the currently uploaded chunk.
-     * @param int    $maxFilesize
-     */
-    public function __construct($dir, $filename, $chunks, $chunk, $maxFilesize)
+    public function __construct(string $dir, string $filename, int $chunks, int $chunk, int $maxFilesize)
     {
         $this->dir = $dir;
         $this->chunks = $chunks;
@@ -72,11 +47,7 @@ class Receiver
         $this->filename = $filename;
     }
 
-    /**
-     * @param string $filename
-     * @return string
-     */
-    private function cleanFilename($filename)
+    private function cleanFilename(string $filename): string
     {
         $filename = (string) preg_replace('/[^a-z0-9_\.-]+/i', '', $filename);
         if ($this->chunks <= 1 && file_exists($this->dir . $filename)) {
@@ -92,11 +63,7 @@ class Receiver
         return $filename;
     }
 
-    /**
-     * @param string $filename Name of the input file.
-     * @return void
-     */
-    public function handleUpload($filename)
+    public function handleUpload(string $filename): void
     {
         $destFilename = "{$this->dir}/" . $this->cleanFilename($this->filename);
         if ($out = @fopen($destFilename, $this->chunk == 0 ? 'wb' : 'ab')) {
