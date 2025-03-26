@@ -23,6 +23,7 @@ namespace Uploader;
 
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
+use SplFileInfo;
 
 class FileSystemService
 {
@@ -32,6 +33,7 @@ class FileSystemService
         $result = [];
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dirname));
         foreach ($files as $file) {
+            assert($file instanceof SplFileInfo);
             if ($file->getFilename() === '.') {
                 $dir = str_replace('\\', '/', rtrim(substr($file->getPathname(), strlen($dirname) - 1), '.'));
                 $result[] = $dir;
