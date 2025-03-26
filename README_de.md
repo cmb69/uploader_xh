@@ -163,11 +163,11 @@ bestimmten Zweck*. Details finden Sie in der GNU Affero General Public License.
 Sie sollten ein Exemplar der GNU Affero General Public License zusammen mit
 Uploader_XH erhalten haben. Falls nicht, siehe <https://www.gnu.org/licenses/>.
 
-© 2011-2017 Christoph M. Becker
+Copyright © Christoph M. Becker
 
-Slovakische Übersetzung © 2012 Dr. Martin Sereday  
-Tschechische Übersetzung © 2012 Josef Němec  
-Dänische Übersetzung © 2012 Jens Maegard
+Slovakische Übersetzung © Dr. Martin Sereday<br>
+Tschechische Übersetzung © Josef Němec<br>
+Dänische Übersetzung © Jens Maegard
 
 ## Danksagung
 

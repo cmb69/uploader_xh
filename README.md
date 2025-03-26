@@ -158,11 +158,11 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with Uploader_XH.  If not, see <http://www.gnu.org/licenses/>.
 
-© 2011-2017 Christoph M. Becker
+Copyright © Christoph M. Becker
 
-Slovak translation © 2012 Dr. Martin Sereday  
-Czech translation © 2012 Josef Němec  
-Danish translation © 2012 Jens Maegard
+Slovak translation © Dr. Martin Sereday<br>
+Czech translation © Josef Němec<br>
+Danish translation © Jens Maegard
 
 ## Credits
 
