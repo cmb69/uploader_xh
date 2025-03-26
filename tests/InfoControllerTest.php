@@ -16,7 +16,8 @@ class InfoControllerTest extends TestCase
             new FakeSystemChecker(true),
             new View("./views/", XH_includeVar("./languages/en.php", "plugin_tx")["uploader"])
         );
-        $response = $sut->defaultAction();
-        Approvals::verifyHtml($response);
+        $response = $sut();
+        $this->assertSame("Uploader 1.0beta2", $response->title());
+        Approvals::verifyHtml($response->output());
     }
 }
