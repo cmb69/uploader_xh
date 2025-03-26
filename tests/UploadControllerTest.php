@@ -23,6 +23,7 @@ namespace Uploader;
 
 use ApprovalTests\Approvals;
 use PHPUnit\Framework\TestCase;
+use Plib\Jquery;
 use Plib\View;
 
 class UploadControllerTest extends TestCase

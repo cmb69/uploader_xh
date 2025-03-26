@@ -21,6 +21,7 @@
 
 namespace Uploader;
 
+use Plib\Jquery;
 use Plib\View;
 
 class Dic
@@ -42,7 +43,7 @@ class Dic
                     'userfiles' => $pth['folder']['userfiles']
                 ],
                 $sn,
-                new Jquery(),
+                new Jquery($pth["folder"]["plugins"] . "jquery/"),
                 new FileSystemService(),
                 (string) ini_get('upload_max_filesize'),
                 self::view()

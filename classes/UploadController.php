@@ -21,6 +21,7 @@
 
 namespace Uploader;
 
+use Plib\Jquery;
 use Plib\View;
 
 /**
