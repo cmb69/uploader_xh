@@ -262,9 +262,9 @@ class UploadController
             return Response::create();
         }
         $dir = $this->fileFolders[$this->getType($request, $type)] . $this->getSubfolder($request, $type, $subdir);
-        $filename = isset($_POST['name']) ? $_POST['name'] : '';
-        $chunks = isset($_POST['chunks']) ? $_POST['chunks'] : 0;
-        $chunk = isset($_POST['chunk']) ? $_POST['chunk'] : 0;
+        $filename = $request->post("name") ?? "";
+        $chunks = (int) ($request->post("chunks") ?? "0");
+        $chunk = (int) ($request->post("chunk") ?? "0");
         if (
             isset($_FILES['uploader_file']['tmp_name'])
             && is_uploaded_file($_FILES['uploader_file']['tmp_name'])
@@ -308,8 +308,8 @@ class UploadController
         if ($type !== null && $subdir !== null && $resize !== null) {
             return ($type === '*' || $this->getType($request, $type) === $type)
                 && ($subdir === '*' || $this->getSubfolder($request, $type, $subdir) === $subdir)
-                && isset($_POST['name'])
-                && $this->isExtensionAllowed($request, $_POST['name'], $type)
+                && $request->post("name") !== null
+                && $this->isExtensionAllowed($request, $request->post("name"), $type)
                 && isset($_FILES['uploader_file']['tmp_name'])
                 && filesize($_FILES['uploader_file']['tmp_name']) <= $this->config['size_max'];
         }
