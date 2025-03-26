@@ -108,14 +108,14 @@ class Receiver
                 fclose($out);
                 if (filesize($destFilename) > $this->maxFilesize) {
                     unlink($destFilename);
-                    throw new FilesizeException;
+                    throw new FilesizeException();
                 }
             } else {
                 fclose($out);
-                throw new ReadException;
+                throw new ReadException();
             }
         } else {
-            throw new WriteException;
+            throw new WriteException();
         }
     }
 }

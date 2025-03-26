@@ -174,7 +174,8 @@ class UploadController
     {
         if (isset($type) && $type !== '*') {
             return $type;
-        } elseif (isset($_GET['uploader_type'])
+        } elseif (
+            isset($_GET['uploader_type'])
             && in_array($_GET['uploader_type'], self::TYPES)
             && isset($this->fileFolders[$_GET['uploader_type']])
         ) {
@@ -195,7 +196,8 @@ class UploadController
         $subdir = isset($_GET['uploader_subdir'])
             ? preg_replace('/\.\.[\/\\\\]?/', '', $_GET['uploader_subdir'])
             : '';
-        if (isset($_GET['uploader_subdir'])
+        if (
+            isset($_GET['uploader_subdir'])
             && $this->fileSystemService->isDir($this->fileFolders[$this->getType($type)] . $subdir)
         ) {
             return $subdir;
@@ -211,7 +213,8 @@ class UploadController
     {
         if (isset($resize) && $resize !== '*') {
             return $resize;
-        } elseif (isset($_GET['uploader_resize'])
+        } elseif (
+            isset($_GET['uploader_resize'])
             && in_array($_GET['uploader_resize'], self::SIZES)
         ) {
             return $_GET['uploader_resize'];
@@ -286,7 +289,8 @@ class UploadController
         $chunks = isset($_POST['chunks']) ? $_POST['chunks'] : 0;
         $chunk = isset($_POST['chunk']) ? $_POST['chunk'] : 0;
         $receiver = new Receiver($dir, $filename, $chunks, $chunk, (int) $this->config['size_max']);
-        if (isset($_FILES['uploader_file']['tmp_name'])
+        if (
+            isset($_FILES['uploader_file']['tmp_name'])
             && is_uploaded_file($_FILES['uploader_file']['tmp_name'])
             && $this->isUploadAllowed($type, $subdir, $resize)
         ) {
