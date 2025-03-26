@@ -29,7 +29,7 @@ class Dic
 {
     public static function makeUploadController(): UploadController
     {
-        global $pth, $sn, $plugin_cf;
+        global $pth, $plugin_cf;
         static $instance = null;
 
         if ($instance === null) {
@@ -42,7 +42,6 @@ class Dic
                     'media' => $pth['folder']['media'],
                     'userfiles' => $pth['folder']['userfiles']
                 ],
-                $sn,
                 new Jquery($pth["folder"]["plugins"] . "jquery/"),
                 new FileSystemService(),
                 (string) ini_get('upload_max_filesize'),

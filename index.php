@@ -19,6 +19,7 @@
  * along with Uploader_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Plib\Request;
 use Uploader\Dic;
 
 const UPLOADER_VERSION = "1.0beta2";
@@ -37,5 +38,5 @@ const UPLOADER_VERSION = "1.0beta2";
  */
 function uploader($type = 'images', $subdir = '', $resize = '')
 {
-    return Dic::makeUploadController()($type, $subdir, $resize)();
+    return Dic::makeUploadController()(Request::current(), $type, $subdir, $resize)();
 }

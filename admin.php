@@ -19,6 +19,7 @@
  * along with Uploader_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Plib\Request;
 use Uploader\Dic;
 
 /**
@@ -36,7 +37,7 @@ if (XH_wantsPluginAdministration('uploader')) {
             $o .= Dic::makeInfoController()->defaultAction();
             break;
         case 'plugin_main':
-            $o .=  Dic::makeUploadController()()();
+            $o .=  Dic::makeUploadController()(Request::current())();
             break;
         default:
             $o .= plugin_admin_common();

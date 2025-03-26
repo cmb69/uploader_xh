@@ -22,7 +22,9 @@
 namespace Uploader;
 
 use Plib\Jquery;
+use Plib\Request;
 use Plib\Response;
+use Plib\Url;
 use Plib\View;
 
 /**
@@ -57,9 +59,6 @@ class UploadController
     /** @var FileFolders */
     private $fileFolders;
 
-    /** @var string */
-    private $scriptName;
-
     /** @var Jquery */
     private $jquery;
 
@@ -80,7 +79,6 @@ class UploadController
         array $config,
         string $pluginFolder,
         array $fileFolders,
-        string $scriptName,
         Jquery $jquery,
         FileSystemService $fileSystemService,
         string $uploadMaxFilesize,
@@ -89,14 +87,13 @@ class UploadController
         $this->config = $config;
         $this->pluginFolder = $pluginFolder;
         $this->fileFolders = $fileFolders;
-        $this->scriptName = $scriptName;
         $this->jquery = $jquery;
         $this->fileSystemService = $fileSystemService;
         $this->uploadMaxFilesize = $uploadMaxFilesize;
         $this->view = $view;
     }
 
-    public function __invoke(?string $type = null, ?string $subdir = null, ?string $resize = null): Response
+    public function __invoke(Request $request, ?string $type = null, ?string $subdir = null, ?string $resize = null): Response
     {
         global $function;
 
@@ -104,7 +101,7 @@ class UploadController
             return $this->uploadAction($type, $subdir, $resize);
         }
         if (isset($_GET['uploader_serial'])) {
-            return $this->widgetAction($type, $subdir, $resize);
+            return $this->widgetAction($request, $type, $subdir, $resize);
         }
         return $this->defaultAction($type, $subdir, $resize);
     }
@@ -117,12 +114,12 @@ class UploadController
         );
     }
 
-    private function widgetAction(?string $type = null, ?string $subdir = null, ?string $resize = null): Response
+    private function widgetAction(Request $request, ?string $type = null, ?string $subdir = null, ?string $resize = null): Response
     {
         if (++$this->serial != $_GET['uploader_serial']) {
             return Response::create();
         }
-        $selectChangeUrl = $this->getSelectOnchangeUrl($type, $subdir, $resize);
+        $selectChangeUrl = $this->getSelectOnchangeUrl($request, $type, $subdir, $resize);
         $data = [
             'typeSelectChangeUrl' => $selectChangeUrl->with('uploader_type', 'FIXME'),
             'typeOptions' => $this->getTypeOptions($type),
@@ -130,7 +127,7 @@ class UploadController
             'subdirOptions' => $this->getSubdirOptions($type, $subdir),
             'resizeSelectChangeUrl' => $selectChangeUrl->with('uploader_resize', 'FIXME'),
             'resizeOptions' => $this->getResizeOptions($resize),
-            'pluploadConfig' => $this->getJsonConfig($type, $subdir, $resize),
+            'pluploadConfig' => $this->getJsonConfig($request, $type, $subdir, $resize),
         ];
         return Response::create($this->view->render('widget', $data))->withContentType("text/html");
     }
@@ -172,9 +169,9 @@ class UploadController
         return $result;
     }
 
-    private function getSelectOnchangeUrl(?string $type, ?string $subdir, ?string $redir): Url
+    private function getSelectOnchangeUrl(Request $request, ?string $type, ?string $subdir, ?string $redir): Url
     {
-        return (new Url($this->scriptName, $_GET))
+        return $request->url()
             ->with('uploader_type', $this->getType($type))
             ->with('uploader_subdir', $this->getSubfolder($type, $subdir))
             ->with('uploader_resize', $this->getResizeMode($redir));
@@ -256,16 +253,16 @@ class UploadController
     }
 
     /** @return mixed */
-    private function getJsonConfig(?string $type, ?string $subdir, ?string $resize)
+    private function getJsonConfig(Request $request, ?string $type, ?string $subdir, ?string $resize)
     {
         $type = $this->getType($type);
         $subdir = $this->getSubfolder($type, $subdir);
         $resize = $this->getResizeMode($resize);
-        $url = (new Url($this->scriptName, $_GET))->with('function', 'uploader_upload')
+        $url = $request->url()->with('function', 'uploader_upload')
             ->with('uploader_type', $type)->with('uploader_subdir', $subdir)
             ->with('uploader_resize', $resize);
         $config = array(
-            'url' => (string) $url,
+            'url' => $url->relative(),
             'filters' => [
                 'max_file_size' => "{$this->config['size_max']}b",
                 'mime_types' => [[

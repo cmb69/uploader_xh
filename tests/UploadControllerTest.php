@@ -23,6 +23,7 @@ namespace Uploader;
 
 use ApprovalTests\Approvals;
 use PHPUnit\Framework\TestCase;
+use Plib\FakeRequest;
 use Plib\Jquery;
 use Plib\View;
 
@@ -55,7 +56,6 @@ class UploadControllerTest extends TestCase
             $conf,
             "./",
             $fileFolders,
-            "/",
             $this->jquery,
             $this->fileSystemService,
             "2M",
@@ -65,22 +65,22 @@ class UploadControllerTest extends TestCase
 
     public function testDefaultActionRendersPlaceholder(): void
     {
-        $response = ($this->sut)();
+        $response = ($this->sut)(new FakeRequest());
         $this->assertEquals('<div class="uploader_placeholder" data-serial="1"></div>', $response->output());
     }
 
     public function testDefaultActionIncludesJqueryOnce(): void
     {
         $this->jquery->expects($this->once())->method('include');
-        ($this->sut)();
-        ($this->sut)();
+        ($this->sut)(new FakeRequest());
+        ($this->sut)(new FakeRequest());
     }
 
     public function testWidgetActionRendersWidget(): void
     {
         $_GET = ['uploader_serial' => 1];
         $this->fileSystemService->method('getSubdirsOf')->willReturn(["/"]);
-        $response = ($this->sut)();
+        $response = ($this->sut)(new FakeRequest());
         Approvals::verifyHtml($response->output());
     }
 }
