@@ -22,6 +22,7 @@
 namespace Uploader;
 
 use Plib\Jquery;
+use Plib\SystemChecker;
 use Plib\View;
 
 class Dic

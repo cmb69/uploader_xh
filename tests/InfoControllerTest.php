@@ -23,23 +23,17 @@ namespace Uploader;
 
 use ApprovalTests\Approvals;
 use PHPUnit\Framework\TestCase;
+use Plib\FakeSystemChecker;
 use Plib\View;
 
 class InfoControllerTest extends TestCase
 {
     public function testDefaultActionShowsPluginInfo(): void
     {
-        $plugin_tx = XH_includeVar("./languages/en.php", 'plugin_tx');
-        $lang = $plugin_tx['uploader'];
-        $systemChecker = $this->createStub(SystemChecker::class);
-        $systemChecker->method('checkVersion')->willReturn(true);
-        $systemChecker->method('checkExtension')->willReturn(true);
-        $systemChecker->method('checkPlugin')->willReturn(true);
-        $systemChecker->method('checkWritability')->willReturn(true);
         $sut = new InfoController(
             "../",
-            $systemChecker,
-            new View("./views/", $lang)
+            new FakeSystemChecker(true),
+            new View("./views/", XH_includeVar("./languages/en.php", "plugin_tx")["uploader"])
         );
         $response = $sut->defaultAction();
         Approvals::verifyHtml($response);

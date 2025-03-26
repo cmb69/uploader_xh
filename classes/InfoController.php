@@ -21,6 +21,7 @@
 
 namespace Uploader;
 
+use Plib\SystemChecker;
 use Plib\View;
 
 class InfoController
