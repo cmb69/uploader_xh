@@ -42,11 +42,6 @@ class UploadController
     private $serial = 0;
 
     /**
-     * @var bool
-     */
-    private $hasRequiredScripts = false;
-
-    /**
      * @var array<string,string>
      */
     private $config;
@@ -108,9 +103,11 @@ class UploadController
 
     private function defaultAction(?string $type, ?string $subdir, ?string $resize): Response
     {
-        $this->requireScripts();
+        $this->jquery->include();
         return Response::create($this->view->render("main", [
             "serial" => ++$this->serial,
+            "plupload" => $this->pluginFolder . "lib/plupload.full.min.js",
+            "uploader" => $this->pluginFolder . "uploader.min.js",
         ]));
     }
 
@@ -218,25 +215,6 @@ class UploadController
         return in_array($resize, self::SIZES, true)
             ? $resize
             : $this->config['resize_default'];
-    }
-
-    /** @return void */
-    private function requireScripts()
-    {
-        if (!$this->hasRequiredScripts) {
-            $this->jquery->include();
-            $this->appendScript("{$this->pluginFolder}lib/plupload.full.min.js");
-            $this->appendScript("{$this->pluginFolder}uploader.min.js");
-            $this->hasRequiredScripts = true;
-        }
-    }
-
-    /** @return void */
-    private function appendScript(string $filename)
-    {
-        global $bjs;
-
-        $bjs .= '<script type="text/javascript" src="' . XH_hsc($filename) . '"></script>';
     }
 
     /** @return mixed */

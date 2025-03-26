@@ -69,13 +69,6 @@ class UploadControllerTest extends TestCase
         Approvals::verifyHtml($response->output());
     }
 
-    public function testDefaultActionIncludesJqueryOnce(): void
-    {
-        $this->jquery->expects($this->once())->method('include');
-        ($this->sut)(new FakeRequest(), null, null, null);
-        ($this->sut)(new FakeRequest(), null, null, null);
-    }
-
     public function testWidgetActionRendersWidget(): void
     {
         $this->fileSystemService->method('getSubdirsOf')->willReturn(["/"]);
