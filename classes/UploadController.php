@@ -109,9 +109,9 @@ class UploadController
     private function defaultAction(?string $type, ?string $subdir, ?string $resize): Response
     {
         $this->requireScripts();
-        return Response::create(
-            '<div class="uploader_placeholder" data-serial="' . XH_hsc((string) ++$this->serial) . '"></div>'
-        );
+        return Response::create($this->view->render("main", [
+            "serial" => ++$this->serial,
+        ]));
     }
 
     private function widgetAction(Request $request, ?string $type, ?string $subdir, ?string $resize): Response

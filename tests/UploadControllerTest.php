@@ -66,7 +66,7 @@ class UploadControllerTest extends TestCase
     public function testDefaultActionRendersPlaceholder(): void
     {
         $response = ($this->sut)(new FakeRequest(), null, null, null);
-        $this->assertEquals('<div class="uploader_placeholder" data-serial="1"></div>', $response->output());
+        Approvals::verifyHtml($response->output());
     }
 
     public function testDefaultActionIncludesJqueryOnce(): void
