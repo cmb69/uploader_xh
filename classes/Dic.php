@@ -42,7 +42,8 @@ class Dic
                 $sn,
                 new Jquery(),
                 new FileSystemService(),
-                (string) ini_get('upload_max_filesize')
+                (string) ini_get('upload_max_filesize'),
+                self::view()
             );
         }
         return $instance;
@@ -55,7 +56,15 @@ class Dic
         return new InfoController(
             $pth['folder']['plugins'],
             $plugin_tx['uploader'],
-            new SystemChecker()
+            new SystemChecker(),
+            self::view()
         );
+    }
+
+    private static function view(): View
+    {
+        global $pth, $plugin_tx;
+
+        return new View($pth["folder"]["plugins"] . "uploader/views/", $plugin_tx["uploader"]);
     }
 }

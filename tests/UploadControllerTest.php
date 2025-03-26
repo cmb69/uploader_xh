@@ -57,7 +57,8 @@ class UploadControllerTest extends TestCase
             "/",
             $this->jquery,
             $this->fileSystemService,
-            "2M"
+            "2M",
+            new View("./views/", $lang)
         );
     }
 

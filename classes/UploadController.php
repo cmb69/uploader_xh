@@ -70,6 +70,9 @@ class UploadController
     /** @var string */
     private $uploadMaxFilesize;
 
+    /** @var View */
+    private $view;
+
     /**
      * @param array<string,string> $config
      * @param array<string,string> $lang
@@ -83,7 +86,8 @@ class UploadController
         string $scriptName,
         Jquery $jquery,
         FileSystemService $fileSystemService,
-        string $uploadMaxFilesize
+        string $uploadMaxFilesize,
+        View $view
     ) {
         $this->config = $config;
         $this->lang = $lang;
@@ -93,6 +97,7 @@ class UploadController
         $this->jquery = $jquery;
         $this->fileSystemService = $fileSystemService;
         $this->uploadMaxFilesize = $uploadMaxFilesize;
+        $this->view = $view;
     }
 
     public function defaultAction(?string $type = null, ?string $subdir = null, ?string $resize = null): Response
@@ -108,7 +113,6 @@ class UploadController
         if (++$this->serial != $_GET['uploader_serial']) {
             return new Response("");
         }
-        $view = new View("{$this->pluginFolder}views/", $this->lang);
         $selectChangeUrl = $this->getSelectOnchangeUrl($type, $subdir, $resize);
         $data = [
             'typeSelectChangeUrl' => $selectChangeUrl->with('uploader_type', 'FIXME'),
@@ -119,7 +123,7 @@ class UploadController
             'resizeOptions' => $this->getResizeOptions($resize),
             'pluploadConfig' => $this->getJsonConfig($type, $subdir, $resize),
         ];
-        return new Response($view->render('widget', $data), "text/html");
+        return new Response($this->view->render('widget', $data), "text/html");
     }
 
     /** @return array<string,string> */

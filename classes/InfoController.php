@@ -35,19 +35,22 @@ class InfoController
     /** @var SystemChecker */
     private $systemChecker;
 
+    /** @var View */
+    private $view;
+
     /** @param array<string,string> $lang */
-    public function __construct(string $pluginsFolder, array $lang, SystemChecker $systemChecker)
+    public function __construct(string $pluginsFolder, array $lang, SystemChecker $systemChecker, View $view)
     {
         $this->pluginsFolder = $pluginsFolder;
         $this->pluginFolder = "{$pluginsFolder}uploader/";
         $this->lang = $lang;
         $this->systemChecker = $systemChecker;
+        $this->view = $view;
     }
 
     public function defaultAction(): string
     {
-        $view = new View("{$this->pluginsFolder}uploader/views/", $this->lang);
-        return $view->render('info', [
+        return $this->view->render('info', [
             'version' => UPLOADER_VERSION,
             'checks' => $this->getChecks(),
         ]);

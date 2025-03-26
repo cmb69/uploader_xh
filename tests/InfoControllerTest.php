@@ -35,7 +35,12 @@ class InfoControllerTest extends TestCase
         $systemChecker->method('checkExtension')->willReturn(true);
         $systemChecker->method('checkPlugin')->willReturn(true);
         $systemChecker->method('checkWritability')->willReturn(true);
-        $sut = new InfoController("../", $lang, $systemChecker);
+        $sut = new InfoController(
+            "../",
+            $lang,
+            $systemChecker,
+            new View("./views/", $lang)
+        );
         $response = $sut->defaultAction();
         Approvals::verifyHtml($response);
     }
