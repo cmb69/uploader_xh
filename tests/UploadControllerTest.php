@@ -83,4 +83,23 @@ class UploadControllerTest extends TestCase
         $response = ($this->sut)($request, null, null, null);
         Approvals::verifyHtml($response->output());
     }
+
+    public function testIgnoresUnrelatedRequests(): void
+    {
+        $this->fileSystemService->method('getSubdirsOf')->willReturn(["/"]);
+        $request = new FakeRequest(["url" => "http://example.com/?&uploader_serial=17"]);
+        $response = ($this->sut)($request, null, null, null);
+        $this->assertSame("", $response->output());
+    }
+
+    public function testRendersDynamicWidget(): void
+    {
+        $this->fileSystemService->method('getSubdirsOf')->willReturn(["/foo"]);
+        $this->fileSystemService->method("isDir")->willReturn(true);
+        $request = new FakeRequest([
+            "url" => "http://example.com/?&uploader_type=downloads&uploader_subdir=%2Ffoo&uploader_serial=1",
+        ]);
+        $response = ($this->sut)($request, null, null, null);
+        Approvals::verifyHtml($response->output());
+    }
 }

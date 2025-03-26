@@ -1,0 +1,38 @@
+
+<div class="uploader_widget" data-config='{"url":"/?&uploader_type=downloads&uploader_subdir=%2Ffoo&uploader_serial=1&function=uploader_upload&uploader_resize","filters":{"max_file_size":"20000000b","mime_types":[{"title":"Downloads","extensions":"pdf,zip"}]},"flash_swf_url":"./lib/Moxie.swf","silverlight_xap_url":"./lib/Moxie.xap","file_data_name":"uploader_file","chunk_size":"2mb"}'>
+  <div class="uploader_controls">
+    <select class="uploader_type" title="Type" data-url="/?&amp;uploader_type=FIXME&amp;uploader_subdir=%2Ffoo&amp;uploader_serial=1&amp;uploader_resize">
+      <option value="images" >images</option>
+      <option value="downloads" selected>downloads</option>
+      <option value="media" >media</option>
+      <option value="userfiles" >userfiles</option>
+    </select>
+    <select class="uploader_subdir" title="Sub-Folder" data-url="/?&amp;uploader_type=downloads&amp;uploader_subdir=FIXME&amp;uploader_serial=1&amp;uploader_resize">
+      <option value="/foo" selected>/foo</option>
+    </select>
+    <select class="uploader_resize" title="Resize" data-url="/?&amp;uploader_type=downloads&amp;uploader_subdir=%2Ffoo&amp;uploader_serial=1&amp;uploader_resize=FIXME">
+      <option value="" selected></option>
+      <option value="small" >small</option>
+      <option value="medium" >medium</option>
+      <option value="large" >large</option>
+    </select>
+  </div>
+  <table class="uploader_filelist">
+    <tr>
+      <th>Filename</th>
+      <th>Size</th>
+      <th>State</th>
+      <th></th>
+    </tr>
+    <tr class="uploader_row_template">
+      <td class="uploader_filename"></td>
+      <td class="uploader_size"></td>
+      <td class="uploader_progress"></td>
+      <td><button class="uploader_remove">Remove</button></td>
+    </tr>
+  </table>
+  <div class="uploader_buttons">
+    <button class="uploader_pickfiles">Select files</button>
+    <button class="uploader_uploadfiles">Upload files</button>
+  </div>
+</div>
