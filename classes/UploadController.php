@@ -54,6 +54,9 @@ class UploadController
     /** @var FileSystemService */
     private $fileSystemService;
 
+    /** @var Receiver */
+    private $receiver;
+
     /** @var string */
     private $uploadMaxFilesize;
 
@@ -71,6 +74,7 @@ class UploadController
         array $fileFolders,
         Jquery $jquery,
         FileSystemService $fileSystemService,
+        Receiver $receiver,
         string $uploadMaxFilesize,
         View $view
     ) {
@@ -80,6 +84,7 @@ class UploadController
         $this->fileFolders = $fileFolders;
         $this->jquery = $jquery;
         $this->fileSystemService = $fileSystemService;
+        $this->receiver = $receiver;
         $this->uploadMaxFilesize = $uploadMaxFilesize;
         $this->view = $view;
     }
@@ -260,22 +265,34 @@ class UploadController
         $filename = isset($_POST['name']) ? $_POST['name'] : '';
         $chunks = isset($_POST['chunks']) ? $_POST['chunks'] : 0;
         $chunk = isset($_POST['chunk']) ? $_POST['chunk'] : 0;
-        $receiver = new Receiver($dir, $filename, $chunks, $chunk, (int) $this->config['size_max']);
         if (
             isset($_FILES['uploader_file']['tmp_name'])
             && is_uploaded_file($_FILES['uploader_file']['tmp_name'])
             && $this->isUploadAllowed($request, $type, $subdir, $resize)
         ) {
-            return $this->doUpload($receiver);
+            return $this->doUpload(
+                $this->receiver,
+                $dir,
+                $filename,
+                $_FILES['uploader_file']['tmp_name'],
+                $chunks,
+                $chunk
+            );
         } else {
             return Response::error(403, $this->view->plain("error_forbidden"));
         }
     }
 
-    private function doUpload(Receiver $receiver): Response
-    {
+    private function doUpload(
+        Receiver $receiver,
+        string $dir,
+        string $filename,
+        string $tmpName,
+        int $chunks,
+        int $chunk
+    ): Response {
         try {
-            $receiver->handleUpload($_FILES['uploader_file']['tmp_name']);
+            $receiver->handleUpload($dir, $filename, $tmpName, $chunks, $chunk);
             return Response::create($this->view->plain("label_done"))->withContentType("text/plain");
         } catch (FilesizeException $ex) {
             return Response::error(403, $this->view->plain("error_forbidden"));

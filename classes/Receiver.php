@@ -23,51 +23,35 @@ namespace Uploader;
 
 class Receiver
 {
-    /** @var string */
-    private $dir;
-
-    /** @var string */
-    private $filename;
-
-    /** @var int */
-    private $chunks;
-
-    /** @var int */
-    private $chunk;
-
     /** @var int */
     private $maxFilesize;
 
-    public function __construct(string $dir, string $filename, int $chunks, int $chunk, int $maxFilesize)
+    public function __construct(int $maxFilesize)
     {
-        $this->dir = $dir;
-        $this->chunks = $chunks;
-        $this->chunk = $chunk;
         $this->maxFilesize = $maxFilesize;
-        $this->filename = $filename;
     }
 
-    private function cleanFilename(string $filename): string
+    private function cleanFilename(string $dir, string $filename, int $chunks): string
     {
         $filename = (string) preg_replace('/[^a-z0-9_\.-]+/i', '', $filename);
-        if ($this->chunks <= 1 && file_exists($this->dir . $filename)) {
+        if ($chunks <= 1 && file_exists($dir . $filename)) {
             $pathinfo = pathinfo($filename);
             $extension = isset($pathinfo['extension']) ? ".{$pathinfo['extension']}" : "";
             $count = 0;
             do {
                 $count++;
-                $path = "{$this->dir}{$pathinfo['filename']}_{$count}{$extension}";
+                $path = "{$dir}{$pathinfo['filename']}_{$count}{$extension}";
             } while (file_exists($path));
             $filename = basename($path);
         }
         return $filename;
     }
 
-    public function handleUpload(string $filename): void
+    public function handleUpload(string $dir, string $filename, string $tmpName, int $chunks, int $chunk): void
     {
-        $destFilename = "{$this->dir}/" . $this->cleanFilename($this->filename);
-        if ($out = @fopen($destFilename, $this->chunk == 0 ? 'wb' : 'ab')) {
-            if ($in = @fopen($filename, 'rb')) {
+        $destFilename = "{$dir}/" . $this->cleanFilename($dir, $filename, $chunks);
+        if ($out = @fopen($destFilename, $chunk == 0 ? 'wb' : 'ab')) {
+            if ($in = @fopen($tmpName, 'rb')) {
                 while ($buff = fread($in, 4096)) {
                     fwrite($out, $buff);
                 }

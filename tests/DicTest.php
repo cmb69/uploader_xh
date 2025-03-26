@@ -11,7 +11,7 @@ class DicTest extends TestCase
         global $pth, $plugin_cf, $plugin_tx;
 
         $pth = ["folder" => ["downloads" => "", "images" => "", "media" => "", "plugins" => "", "userfiles" => ""]];
-        $plugin_cf = ["uploader" => []];
+        $plugin_cf = ["uploader" => ["size_max" => ""]];
         $plugin_tx = ["uploader" => []];
     }
 

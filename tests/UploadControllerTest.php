@@ -19,6 +19,9 @@ class UploadControllerTest extends TestCase
     /** @var FileSystemService&MockObject */
     private $fileSystemService;
 
+    /** @var Receiver&MockObject */
+    private $receiver;
+
     public function setUp(): void
     {
         $plugin_cf = XH_includeVar("./config/config.php", 'plugin_cf');
@@ -33,6 +36,7 @@ class UploadControllerTest extends TestCase
         ];
         $this->jquery = $this->createStub(Jquery::class);
         $this->fileSystemService = $this->createStub(FileSystemService::class);
+        $this->receiver = $this->createStub(Receiver::class);
         $this->sut = new UploadController(
             1,
             $conf,
@@ -40,6 +44,7 @@ class UploadControllerTest extends TestCase
             $fileFolders,
             $this->jquery,
             $this->fileSystemService,
+            $this->receiver,
             "2M",
             new View("./views/", $lang)
         );

@@ -44,6 +44,7 @@ class Dic
             ],
             new Jquery($pth["folder"]["plugins"] . "jquery/"),
             new FileSystemService(),
+            new Receiver((int) $plugin_cf["uploader"]["size_max"]),
             (string) ini_get('upload_max_filesize'),
             self::view()
         );
