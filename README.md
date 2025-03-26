@@ -135,7 +135,8 @@ Separate upload widgets for images and media files on the same page:
 
 The full feature set of Uploader_XH is only supported on contemporary
 browsers. Older browsers may not offer all features, such as chunked
-uploading, image resizing etc.
+uploading, image resizing etc.,
+or may not be supported at all.
 
 ## Troubleshooting
 

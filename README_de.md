@@ -139,7 +139,8 @@ Separate Upload-Widgets für Bilder und Mediadateien auf der selben Seite:
 
 Der volle Funktionsumfang von Uploader_XH steht nur in zeitgemäßen Browsern
 zur Verfügung. Ältere Browser bieten unter Umständen nicht alle Features an,
-wie beispielsweise gestückeltes Uploaden, Bild-Skalierung etc.
+wie beispielsweise gestückeltes Uploaden, Bild-Skalierung etc.,
+oder werden überhaupt nicht unterstützt.
 
 ## Problembehebung
 
