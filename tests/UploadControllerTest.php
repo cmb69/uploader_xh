@@ -65,22 +65,22 @@ class UploadControllerTest extends TestCase
 
     public function testDefaultActionRendersPlaceholder(): void
     {
-        $response = ($this->sut)(new FakeRequest());
+        $response = ($this->sut)(new FakeRequest(), null, null, null);
         $this->assertEquals('<div class="uploader_placeholder" data-serial="1"></div>', $response->output());
     }
 
     public function testDefaultActionIncludesJqueryOnce(): void
     {
         $this->jquery->expects($this->once())->method('include');
-        ($this->sut)(new FakeRequest());
-        ($this->sut)(new FakeRequest());
+        ($this->sut)(new FakeRequest(), null, null, null);
+        ($this->sut)(new FakeRequest(), null, null, null);
     }
 
     public function testWidgetActionRendersWidget(): void
     {
         $_GET = ['uploader_serial' => 1];
         $this->fileSystemService->method('getSubdirsOf')->willReturn(["/"]);
-        $response = ($this->sut)(new FakeRequest());
+        $response = ($this->sut)(new FakeRequest(), null, null, null);
         Approvals::verifyHtml($response->output());
     }
 }

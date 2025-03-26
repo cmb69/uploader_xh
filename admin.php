@@ -37,7 +37,7 @@ if (XH_wantsPluginAdministration('uploader')) {
             $o .= Dic::makeInfoController()->defaultAction();
             break;
         case 'plugin_main':
-            $o .=  Dic::makeUploadController()(Request::current())();
+            $o .=  Dic::makeUploadController()(Request::current(), null, null, null)();
             break;
         default:
             $o .= plugin_admin_common();
