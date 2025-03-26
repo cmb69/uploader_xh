@@ -14,27 +14,27 @@ use Plib\View;
 
 <div class="uploader_widget" data-config='<?=$this->json($pluploadConfig)?>'>
   <div class="uploader_controls">
-<?php if (!empty($typeOptions)):?>
+<?if (!empty($typeOptions)):?>
     <select class="uploader_type" title="<?=$this->text('label_type')?>" data-url="<?=$this->esc($typeSelectChangeUrl->relative())?>">
-<?php     foreach ($typeOptions as $type => $selected):?>
+<?  foreach ($typeOptions as $type => $selected):?>
       <option value="<?=$this->esc($type)?>" <?=$this->esc($selected)?>><?=$this->esc($type)?></option>
-<?php     endforeach?>
+<?  endforeach?>
     </select>
-<?php endif?>
-<?php if (!empty($subdirOptions)):?>
+<?endif?>
+<?if (!empty($subdirOptions)):?>
     <select class="uploader_subdir" title="<?=$this->text('label_subdir')?>" data-url="<?=$this->esc($subdirSelectChangeUrl->relative())?>">
-<?php     foreach ($subdirOptions as $subdir => $selected):?>
+<?  foreach ($subdirOptions as $subdir => $selected):?>
       <option value="<?=$this->esc($subdir)?>" <?=$this->esc($selected)?>><?=$this->esc($subdir)?></option>
-<?php     endforeach?>
+<?  endforeach?>
     </select>
-<?php endif?>
-<?php if (!empty($resizeOptions)):?>
+<?endif?>
+<?if (!empty($resizeOptions)):?>
     <select class="uploader_resize" title="<?=$this->text('label_resize')?>" data-url="<?=$this->esc($resizeSelectChangeUrl->relative())?>">
-<?php     foreach ($resizeOptions as $size => $selected):?>
+<?  foreach ($resizeOptions as $size => $selected):?>
       <option value="<?=$this->esc($size)?>" <?=$this->esc($selected)?>><?=$this->esc($size)?></option>
-<?php     endforeach?>
+<?  endforeach?>
     </select>
-<?php endif?>
+<?endif?>
   </div>
   <table class="uploader_filelist">
     <tr>
