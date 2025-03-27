@@ -143,11 +143,11 @@ class UploadController
         }
         $selectChangeUrl = $this->getSelectOnchangeUrl($request, $type, $subdir, $resize);
         $data = [
-            'typeSelectChangeUrl' => $selectChangeUrl->with('uploader_type', 'FIXME'),
+            'typeSelectChangeUrl' => $selectChangeUrl->with('uploader_type', 'FIXME')->relative(),
             'typeOptions' => $this->getTypeOptions($request, $type),
-            'subdirSelectChangeUrl' => $selectChangeUrl->with('uploader_subdir', 'FIXME'),
+            'subdirSelectChangeUrl' => $selectChangeUrl->with('uploader_subdir', 'FIXME')->relative(),
             'subdirOptions' => $this->getSubdirOptions($request, $type, $subdir),
-            'resizeSelectChangeUrl' => $selectChangeUrl->with('uploader_resize', 'FIXME'),
+            'resizeSelectChangeUrl' => $selectChangeUrl->with('uploader_resize', 'FIXME')->relative(),
             'resizeOptions' => $this->getResizeOptions($request, $resize),
             'pluploadConfig' => $this->getJsonConfig($request, $type, $subdir, $resize),
         ];
