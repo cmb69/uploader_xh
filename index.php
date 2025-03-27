@@ -22,7 +22,7 @@
 use Plib\Request;
 use Uploader\Dic;
 
-const UPLOADER_VERSION = "1.0";
+const UPLOADER_VERSION = "1.1-dev";
 
 /** @return string|never */
 function uploader(string $type = "images", ?string $subdir = "", ?string $resize = "")

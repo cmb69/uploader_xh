@@ -92,14 +92,14 @@
     <copy file="dist/config/config.php"
         tofile="dist/config/defaultconfig.php"/>
     <copy file="dist/languages/en.php" tofile="dist/languages/default.php"/>
-    <zip destfile="Uploader_XH-1.0.zip" basedir="dist"
+    <zip destfile="Uploader_XH-1.1-dev.zip" basedir="dist"
        prefix="uploader/"/>
     <delete dir="dist"/>
   </target>
 
   <target name="build-patch" description="builds a distributable update package">
     <fail unless="patchee" message="patchee is not defined!"/>
-    <unzip file="Uploader_XH-1.0.zip" todir="current"/>
+    <unzip file="Uploader_XH-1.1-dev.zip" todir="current"/>
     <unzip file="${patchee}" todir="patchee"/>
     <copy todir="dist">
       <fileset dir="current">
@@ -113,7 +113,7 @@
         <include name="css/stylesheet.css"/>
       </fileset>
     </delete>
-    <zip destfile="Uploader_XH-1.0-update-from-1.x.zip" basedir="dist"
+    <zip destfile="Uploader_XH-1.1-dev-update-from-1.x.zip" basedir="dist"
        includeemptydirs="false"/>
     <delete dir="patchee" quiet="true"/>
     <delete dir="current" quiet="true"/>

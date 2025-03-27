@@ -125,7 +125,7 @@ class UploadController
             "serial" => $this->serial,
             "plupload" => $request->url()->path($this->pluginFolder . "lib/plupload.full.min.js")
                 ->with("v", "2.3.9")->relative(),
-            "uploader" => $request->url()->path($uploader)->with("v", "1.0")->relative(),
+            "uploader" => $request->url()->path($uploader)->with("v", "1.1-dev")->relative(),
         ]));
         if ($administration) {
             $response = $response->withTitle("Uploader – " . $this->view->text("menu_main"));
