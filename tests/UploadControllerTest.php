@@ -171,6 +171,20 @@ class UploadControllerTest extends TestCase
         $this->assertSame(500, $response->status());
     }
 
+    public function testCatchesUploadOfForbiddenFileExtension(): void
+    {
+        $this->receiver->method("handleUpload")->willThrowException(new WriteException());
+        $request = new FakeRequest([
+            "url" => "http://example.com/?&uploader_action=upload&uploader_serial=1",
+            "header" => ["X-CMSimple-XH-Request" => "uploader"],
+            "post" => ["name" => "foo.jpeg"],
+            "files" => ["uploader_file" => $this->fooJpeg()],
+        ]);
+        $response = ($this->sut)($request, "downloads", "*", "*", false);
+        $this->assertSame("Forbidden", $response->output());
+        $this->assertSame(403, $response->status());
+    }
+
     private function fooJpeg(): UploadedFile
     {
         return new UploadedFile("foo.jpeg", "image/jpeg", 1234, "/tmp/123.jpeg", 0);
