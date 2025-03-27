@@ -1,11 +1,14 @@
-/**
- * Uploader widget
- */
+/* Uploader widget */
 .uploader_widget {
     margin: 1em 0;
 }
+.uploader_filelist {
+    margin: 1em 0;
+}
 .uploader_controls {}
-.uploader_filelist {}
+th.uploader_filename, th.uploader_size, th.uploader_progress {
+    text-align: center;
+}
 .uploader_row_template {
     display: none !important;
 }
@@ -13,7 +16,15 @@
 .uploader_filename, .uploader_size, .uploader_progress {
     padding-right: 1em;
 }
-.uploader_size, .uploader_progress {
+.uploader_filename {
+    min-width: 12em;
+}
+.uploader_size {
+    min-width: 5em;
+    text-align: center;
+}
+.uploader_progress {
+    min-width: 5em;
     text-align: right;
 }
 .uploader_buttons {}
