@@ -78,7 +78,7 @@
 <ul>
 <li><p><code>%TYPE%</code>: The upload type, i.e. <code>images</code>, <code>downloads</code>, <code>media</code> or <code>userfiles</code>. <code>*</code> will display a selectbox to the user. Defaults to <code>images</code>.</p></li>
 <li><p><code>%SUBDIR%</code>: The subfolder (terminated by <code>/</code>) relative to the folder of that type (set in the configuration of CMSimple_XH) where the files should be uploaded to. Note that the subfolder has to exist. <code>*</code> will display a selectbox to the user. Defaults to <code>/</code>.</p></li>
-<li><p><code>%RESIZE%</code>: The resize mode for uploaded JPEG or PNG images, i.e. <code>blank</code> (no resizing), <code>small</code>, <code>medium</code>, <code>large</code>. <code>*</code> will display a selectbox to the user. Defaults to <code>blank</code>. The exact sizes can be set in the configuration of Uploader_XH.</p></li>
+<li><p><code>%RESIZE%</code>: The resize mode for uploaded JPEG or PNG images, i.e. <code>blank</code> (no resizing), <code>small</code>, <code>medium</code>, <code>large</code>. <code>*</code> will display a selectbox to the user. Defaults to <code>blank</code>. The desired sizes can be set in the configuration of Uploader_XH. Note that this will not upscale images, but the sizes are rather a maximum, where the image ratio will be maintained. Also note that the images are resized in the browser, so bandwidth can be saved during the upload. However, this resizing may not yield the best quality, so check for yourself whether you want to apply any resize options.</p></li>
 </ul>
 <h4 id="examples">Examples</h4>
 <p>Uploading images directly to the configured image folder:</p>

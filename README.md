@@ -102,7 +102,13 @@ The placeholders have the following meaning:
   The resize mode for uploaded JPEG or PNG images, i.e. `blank` (no resizing),
   `small`, `medium`, `large`.
   `*` will display a selectbox to the user. Defaults to `blank`.
-  The exact sizes can be set in the configuration of Uploader_XH.
+  The desired sizes can be set in the configuration of Uploader_XH.
+  Note that this will not upscale images, but the sizes are rather a maximum,
+  where the image ratio will be maintained.
+  Also note that the images are resized in the browser, so bandwidth can be
+  saved during the upload.
+  However, this resizing may not yield the best quality,
+  so check for yourself whether you want to apply any resize options.
 
 #### Examples
 

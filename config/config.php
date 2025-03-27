@@ -1,14 +1,14 @@
 <?php
 
 $plugin_cf['uploader']['resize_default']="";
-$plugin_cf['uploader']['resize-small_width']="256";
-$plugin_cf['uploader']['resize-small_height']="256";
+$plugin_cf['uploader']['resize-small_width']="640";
+$plugin_cf['uploader']['resize-small_height']="640";
 $plugin_cf['uploader']['resize-small_quality']="75";
-$plugin_cf['uploader']['resize-medium_width']="512";
-$plugin_cf['uploader']['resize-medium_height']="512";
+$plugin_cf['uploader']['resize-medium_width']="1280";
+$plugin_cf['uploader']['resize-medium_height']="1280";
 $plugin_cf['uploader']['resize-medium_quality']="75";
-$plugin_cf['uploader']['resize-large_width']="1024";
-$plugin_cf['uploader']['resize-large_height']="1024";
+$plugin_cf['uploader']['resize-large_width']="2560";
+$plugin_cf['uploader']['resize-large_height']="2560";
 $plugin_cf['uploader']['resize-large_quality']="75";
 
 $plugin_cf['uploader']['size_max']="20000000";

@@ -106,7 +106,14 @@ Die Platzhalter haben die folgende Bedeutung:
   Der Größenmodus für hoch zu ladende JPEG oder PNG Bilder, d.h. `leer`
   (keine Skalierung), `small` (klein), `medium` (mittel) oder `large` (groß).
   `*` präsentiert dem User eine Auswahlliste. Voreinstellung ist `leer`.
-  Die genauen Größen können in der Konfiguration von Uploader_XH eingestellt werden.
+  Die gwünschten Größen können in der Konfiguration von Uploader_XH eingestellt werden.
+  Es ist zu beachten, dass dies Bilder nicht hochskaliert,
+  sondern dass die Größen nur ein Maximum angeben,
+  wobei das Bildseitenverhältnis beibehalten wird.
+  Beachten Sie weiterhin, dass die Bilder im Browser skaliert werden,
+  so dass Bandbreite während des Hochladens gespart wird.
+  Allerdings liefert diese Skalierung nicht unbedingt die bestmögliche Qualität,
+  so dass Sie selbst prüfen sollten, ob Sie die Skalierung nutzen möchten.
 
 #### Beispiele
 
