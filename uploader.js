@@ -32,15 +32,21 @@ jQuery(function ($) {
         }
 
         $(".uploader_type, .uploader_subdir, .uploader_resize", element).change(function () {
-            $.get($(this).data("url").replace("FIXME", encodeURIComponent(this.value)), {}, function (data) {
-                replaceWidget(element, data);
+            $.ajax({
+                url: $(this).data("url").replace("FIXME", encodeURIComponent(this.value)),
+                data: {},
+                success: function (data) {
+                    replaceWidget(element, data);
+                },
+                headers: {"X-CMSimple-XH-Request": "uploader"},
             });
         });
 
         var config = $.extend($(element).data("config"), {
             browse_button: $(".uploader_pickfiles", element).get(0),
             container: $(".uploader_buttons", element).get(0),
-            drop_element: element
+            drop_element: element,
+            headers: {"X-CMSimple-XH-Request": "uploader"},
         });
 
         var uploader = new plupload.Uploader(config);
@@ -90,8 +96,13 @@ jQuery(function ($) {
 
     $(".uploader_placeholder").each(function () {
         var placeholder = this;
-        $.get(location.href, {uploader_serial: $(this).data("serial")}, function (data) {
-            replaceWidget(placeholder, data);
+        $.ajax({
+            url: location.href,
+            data: {uploader_serial: $(this).data("serial")},
+            success: function (data) {
+                replaceWidget(placeholder, data);
+            },
+            headers: {"X-CMSimple-XH-Request": "uploader"},
         });
     });
 });

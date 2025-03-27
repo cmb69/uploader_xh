@@ -6,6 +6,7 @@ use ApprovalTests\Approvals;
 use PHPUnit\Framework\TestCase;
 use Plib\FakeRequest;
 use Plib\Jquery;
+use Plib\UploadedFile;
 use Plib\View;
 
 class UploadControllerTest extends TestCase
@@ -60,7 +61,10 @@ class UploadControllerTest extends TestCase
     public function testWidgetActionRendersWidget(): void
     {
         $this->fileSystemService->method('getSubdirsOf')->willReturn(["/"]);
-        $request = new FakeRequest(["url" => "http://example.com/?&uploader_serial=1"]);
+        $request = new FakeRequest([
+            "url" => "http://example.com/?&uploader_serial=1",
+            "header" => ["X-CMSimple-XH-Request" => "uploader"],
+        ]);
         $response = ($this->sut)($request, null, null, null, false);
         Approvals::verifyHtml($response->output());
     }
@@ -79,6 +83,7 @@ class UploadControllerTest extends TestCase
         $this->fileSystemService->method("isDir")->willReturn(true);
         $request = new FakeRequest([
             "url" => "http://example.com/?&uploader_type=downloads&uploader_subdir=%2Ffoo&uploader_serial=1",
+            "header" => ["X-CMSimple-XH-Request" => "uploader"],
         ]);
         $response = ($this->sut)($request, null, null, null, false);
         Approvals::verifyHtml($response->output());

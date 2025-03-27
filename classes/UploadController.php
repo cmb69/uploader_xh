@@ -125,6 +125,9 @@ class UploadController
 
     private function widgetAction(Request $request, ?string $type, ?string $subdir, ?string $resize): Response
     {
+        if ($request->header("X-CMSimple-XH-Request") !== "uploader") {
+            return Response::create();
+        }
         if ($this->serial != $request->get("uploader_serial")) {
             return Response::create();
         }
@@ -259,6 +262,9 @@ class UploadController
 
     private function uploadAction(Request $request, ?string $type, ?string $subdir, ?string $resize): Response
     {
+        if ($request->header("X-CMSimple-XH-Request") !== "uploader") {
+            return Response::create();
+        }
         if ($this->serial != $request->get("uploader_serial")) {
             return Response::create();
         }
