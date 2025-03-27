@@ -21,6 +21,7 @@
 
 namespace Uploader;
 
+use Plib\CsrfProtector;
 use Plib\Jquery;
 use Plib\SystemChecker;
 use Plib\View;
@@ -47,6 +48,7 @@ class Dic
             new Jquery($pth["folder"]["plugins"] . "jquery/"),
             new FileSystemService(),
             new Receiver((int) $plugin_cf["uploader"]["size_max"]),
+            new CsrfProtector(),
             (string) ini_get('upload_max_filesize'),
             self::view()
         );

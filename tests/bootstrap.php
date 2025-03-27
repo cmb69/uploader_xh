@@ -5,6 +5,7 @@ const UPLOADER_VERSION = "1.0beta2";
 
 require_once "../../cmsimple/functions.php";
 
+require_once "../plib/classes/CsrfProtector.php";
 require_once "../plib/classes/Jquery.php";
 require_once "../plib/classes/Request.php";
 require_once "../plib/classes/Response.php";

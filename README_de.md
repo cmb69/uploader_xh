@@ -85,6 +85,9 @@ Es ist möglich Uploader_XH auf einer CMSimple_XH Seite zu verwenden.
 Andernfalls könnte sich der Disk-Space Ihres Servers schnell mit
 nutzlosen oder gar gefährlichen Dateien füllen.
 
+Beachten Sie, dass jegliche Uploads verboten sind,
+wenn keine Benutzersitzung gestartet wurde.
+
 Um das Upload-Widget anzuzeigen, fügen Sie im Inhalt ein:
 
     {{{uploader('%TYP%', '%UNTERORDNER%', '%GRÖßE%')}}}

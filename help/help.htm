@@ -72,6 +72,7 @@
 <p>In the back-end under <code>Plugins</code> → <code>Uploader</code> → <code>Upload</code> you can find the upload form. Its usage is pretty much self-explaining. Use the select-boxes to choose the type of upload, the subfolder and the size for JPEG and PNG images.</p>
 <h3 id="front-end">Front-End</h3>
 <p>It is possible to use Uploader_XH on a CMSimple_XH page. <strong>You are strongly advised to make use of this feature only on pages that are <em>not</em> publicly available</strong> (e.g. pages protected by <a href="https://github.com/cmb69/register_xh">Register_XH</a> or <a href="https://github.com/cmsimple-xh/memberpages">Memberpages</a>). Otherwise the disk space of your server might be quickly filled up with useless or even dangerous files.</p>
+<p>Note that without a user session having been started, any file upload is forbidden.</p>
 <p>To display the upload widget insert in the content:</p>
 <pre><code>{{{uploader(&#39;%TYPE%&#39;, &#39;%SUBDIR%&#39;, &#39;%RESIZE%&#39;)}}}</code></pre>
 <p>The placeholders have the following meaning:</p>

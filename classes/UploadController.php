@@ -21,6 +21,7 @@
 
 namespace Uploader;
 
+use Plib\CsrfProtector;
 use Plib\Jquery;
 use Plib\Request;
 use Plib\Response;
@@ -62,6 +63,9 @@ class UploadController
     /** @var Receiver */
     private $receiver;
 
+    /** @var CsrfProtector */
+    private $csrfProtector;
+
     /** @var string */
     private $uploadMaxFilesize;
 
@@ -80,6 +84,7 @@ class UploadController
         Jquery $jquery,
         FileSystemService $fileSystemService,
         Receiver $receiver,
+        CsrfProtector $csrfProtector,
         string $uploadMaxFilesize,
         View $view
     ) {
@@ -90,6 +95,7 @@ class UploadController
         $this->jquery = $jquery;
         $this->fileSystemService = $fileSystemService;
         $this->receiver = $receiver;
+        $this->csrfProtector = $csrfProtector;
         $this->uploadMaxFilesize = $uploadMaxFilesize;
         $this->view = $view;
     }
@@ -247,7 +253,8 @@ class UploadController
             ],
             'flash_swf_url' => "{$this->pluginFolder}lib/Moxie.swf",
             'silverlight_xap_url' => "{$this->pluginFolder}lib/Moxie.xap",
-            'file_data_name' => 'uploader_file'
+            'file_data_name' => 'uploader_file',
+            'multipart_params' => ["uploader_token" => $this->csrfProtector->token()],
         );
         $config['chunk_size'] = strtolower($this->uploadMaxFilesize) . 'b';
         if ($resize != '') {
@@ -271,6 +278,9 @@ class UploadController
         }
         if ($this->serial != $request->get("uploader_serial")) {
             return Response::create();
+        }
+        if (!$this->csrfProtector->check($request->post("uploader_token"))) {
+            return Response::error(403, $this->view->plain("error_forbidden"));
         }
         $dir = $this->fileFolders[$this->getType($request, $type)] . $this->getSubfolder($request, $type, $subdir);
         $filename = $request->post("name") ?? "";

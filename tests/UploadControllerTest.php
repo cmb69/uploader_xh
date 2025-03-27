@@ -3,7 +3,9 @@
 namespace Uploader;
 
 use ApprovalTests\Approvals;
+use PHPUnit\Framework\MockObject;
 use PHPUnit\Framework\TestCase;
+use Plib\CsrfProtector;
 use Plib\FakeRequest;
 use Plib\Jquery;
 use Plib\UploadedFile;
@@ -28,6 +30,9 @@ class UploadControllerTest extends TestCase
     /** @var Receiver&MockObject */
     private $receiver;
 
+    /** @var CsrfProtector&MockObject */
+    private $csrfProtector;
+
     public function setUp(): void
     {
         $plugin_cf = XH_includeVar("./config/config.php", 'plugin_cf');
@@ -41,8 +46,10 @@ class UploadControllerTest extends TestCase
             'userfiles' => 'irrelevant_userfiles',
         ];
         $this->jquery = $this->createStub(Jquery::class);
-        $this->fileSystemService = $this->createStub(FileSystemService::class);
+        $this->fileSystemService = $this->createMock(FileSystemService::class);
         $this->receiver = $this->createStub(Receiver::class);
+        $this->csrfProtector = $this->createStub(CsrfProtector::class);
+        $this->csrfProtector->method("token")->willReturn("the_csrf_token");
         $this->sut = new UploadController(
             1,
             $conf,
@@ -51,6 +58,7 @@ class UploadControllerTest extends TestCase
             $this->jquery,
             $this->fileSystemService,
             $this->receiver,
+            $this->csrfProtector,
             "2M",
             new View("./views/", $lang)
         );
@@ -127,6 +135,7 @@ class UploadControllerTest extends TestCase
 
     public function testUploadsAChunkSuccessfully(): void
     {
+        $this->csrfProtector->method("check")->willReturn(true);
         $request = new FakeRequest([
             "url" => "http://example.com/?&uploader_action=upload&uploader_serial=1",
             "header" => ["X-CMSimple-XH-Request" => "uploader"],
@@ -137,8 +146,23 @@ class UploadControllerTest extends TestCase
         $this->assertSame("text/plain", $response->contentType());
     }
 
+    public function testProtectsUploadAgainstCsrf(): void
+    {
+        $this->receiver->method("handleUpload")->willThrowException(new ReadException());
+        $this->csrfProtector->method("check")->willReturn(false);
+        $request = new FakeRequest([
+            "url" => "http://example.com/?&uploader_action=upload&uploader_serial=1",
+            "header" => ["X-CMSimple-XH-Request" => "uploader"],
+            "files" => ["uploader_file" => $this->fooJpeg()],
+        ]);
+        $response = ($this->sut)($request, null, null, null, false);
+        $this->assertSame("Forbidden", $response->output());
+        $this->assertSame(403, $response->status());
+    }
+
     public function testReportsTooLargeFilesOnUpload(): void
     {
+        $this->csrfProtector->method("check")->willReturn(true);
         $this->receiver->method("handleUpload")->willThrowException(new FilesizeException());
         $request = new FakeRequest([
             "url" => "http://example.com/?&uploader_action=upload&uploader_serial=1",
@@ -150,9 +174,10 @@ class UploadControllerTest extends TestCase
         $this->assertSame(403, $response->status());
     }
 
-    public function testReportsFailureToRead(): void
+    public function testUploadReportsFailureToRead(): void
     {
         $this->receiver->method("handleUpload")->willThrowException(new ReadException());
+        $this->csrfProtector->method("check")->willReturn(true);
         $request = new FakeRequest([
             "url" => "http://example.com/?&uploader_action=upload&uploader_serial=1",
             "header" => ["X-CMSimple-XH-Request" => "uploader"],
@@ -163,9 +188,10 @@ class UploadControllerTest extends TestCase
         $this->assertSame(500, $response->status());
     }
 
-    public function testReportsFailureToWrite(): void
+    public function testUploadReportsFailureToWrite(): void
     {
         $this->receiver->method("handleUpload")->willThrowException(new WriteException());
+        $this->csrfProtector->method("check")->willReturn(true);
         $request = new FakeRequest([
             "url" => "http://example.com/?&uploader_action=upload&uploader_serial=1",
             "header" => ["X-CMSimple-XH-Request" => "uploader"],
@@ -178,6 +204,7 @@ class UploadControllerTest extends TestCase
 
     public function testCatchesUploadOfForbiddenFileExtension(): void
     {
+        $this->csrfProtector->method("check")->willReturn(true);
         $this->receiver->method("handleUpload")->willThrowException(new WriteException());
         $request = new FakeRequest([
             "url" => "http://example.com/?&uploader_action=upload&uploader_serial=1",

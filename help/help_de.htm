@@ -72,6 +72,7 @@
 <p>Im Backend unter <code>Plugins</code> → <code>Uploader</code> → <code>Upload</code> finden Sie das Uploadformular. Dessen Verwendung ist weitgehend selbst erklärend. Verwenden Sie die Auswahllisten um den Typ des Uploads, den Unterordner und die Größe von JPEG und PNG Bildern festzulegen.</p>
 <h3 id="frontend">Frontend</h3>
 <p>Es ist möglich Uploader_XH auf einer CMSimple_XH Seite zu verwenden. <strong>Es wird dringend empfohlen diese Möglichkeit nur auf Seiten zu nutzen, die <em>nicht öffentlich zugänglich</em> sind</strong> (z.B. Seiten, die durch <a href="https://github.com/cmb69/register_xh">Register_XH</a> oder <a href="https://github.com/cmsimple-xh/memberpages">Memberpages</a> geschützt sind). Andernfalls könnte sich der Disk-Space Ihres Servers schnell mit nutzlosen oder gar gefährlichen Dateien füllen.</p>
+<p>Beachten Sie, dass jegliche Uploads verboten sind, wenn keine Benutzersitzung gestartet wurde.</p>
 <p>Um das Upload-Widget anzuzeigen, fügen Sie im Inhalt ein:</p>
 <pre><code>{{{uploader(&#39;%TYP%&#39;, &#39;%UNTERORDNER%&#39;, &#39;%GRÖßE%&#39;)}}}</code></pre>
 <p>Die Platzhalter haben die folgende Bedeutung:</p>

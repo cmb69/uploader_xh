@@ -82,6 +82,9 @@ or [Memberpages](https://github.com/cmsimple-xh/memberpages)).
 Otherwise the disk space of your server might be quickly filled up with useless
 or even dangerous files.
 
+Note that without a user session having been started,
+any file upload is forbidden.
+
 To display the upload widget insert in the content:
 
     {{{uploader('%TYPE%', '%SUBDIR%', '%RESIZE%')}}}
