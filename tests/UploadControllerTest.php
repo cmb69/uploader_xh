@@ -8,6 +8,11 @@ use Plib\FakeRequest;
 use Plib\Jquery;
 use Plib\UploadedFile;
 use Plib\View;
+use Uploader\Model\FilesizeException;
+use Uploader\Model\FileSystemService;
+use Uploader\Model\ReadException;
+use Uploader\Model\Receiver;
+use Uploader\Model\WriteException;
 
 class UploadControllerTest extends TestCase
 {

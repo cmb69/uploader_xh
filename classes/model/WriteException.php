@@ -19,10 +19,10 @@
  * along with Uploader_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Uploader;
+namespace Uploader\Model;
 
 use Exception;
 
-class ReadException extends Exception
+class WriteException extends Exception
 {
 }

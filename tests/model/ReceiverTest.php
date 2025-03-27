@@ -1,6 +1,6 @@
 <?php
 
-namespace Uploader;
+namespace Uploader\Model;
 
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;

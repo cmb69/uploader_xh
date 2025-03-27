@@ -24,6 +24,8 @@ namespace Uploader;
 use Plib\Jquery;
 use Plib\SystemChecker;
 use Plib\View;
+use Uploader\Model\FileSystemService;
+use Uploader\Model\Receiver;
 
 class Dic
 {

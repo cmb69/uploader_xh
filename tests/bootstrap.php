@@ -15,11 +15,11 @@ require_once "../plib/classes/View.php";
 require_once "../plib/classes/FakeRequest.php";
 require_once "../plib/classes/FakeSystemChecker.php";
 
+require_once "./classes/model/FilesizeException.php";
+require_once "./classes/model/FileSystemService.php";
+require_once "./classes/model/Receiver.php";
+require_once "./classes/model/ReadException.php";
+require_once "./classes/model/WriteException.php";
 require_once "./classes/Dic.php";
-require_once "./classes/FilesizeException.php";
-require_once "./classes/FileSystemService.php";
 require_once "./classes/InfoController.php";
-require_once "./classes/Receiver.php";
-require_once "./classes/ReadException.php";
 require_once "./classes/UploadController.php";
-require_once "./classes/WriteException.php";
