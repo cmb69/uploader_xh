@@ -25,7 +25,7 @@ use Uploader\Dic;
 const UPLOADER_VERSION = "1.0beta2";
 
 /** @return string|never */
-function uploader(string $type = "images", ?string $subdir = null, ?string $resize = null)
+function uploader(string $type = "images", ?string $subdir = "", ?string $resize = "")
 {
-    return Dic::makeUploadController()(Request::current(), $type, $subdir, $resize, false)();
+    return Dic::makeUploadController()(Request::current(), $type, $subdir, $resize)();
 }

@@ -90,11 +90,11 @@ class UploadController
         $this->view = $view;
     }
 
-    public function __invoke(Request $request, ?string $type, ?string $subdir, ?string $resize, bool $admin): Response
+    public function __invoke(Request $request, ?string $type, ?string $subdir, ?string $resize): Response
     {
         switch ($request->get("uploader_action")) {
             default:
-                return $this->defaultAction($request, $admin);
+                return $this->defaultAction($request, $type, $subdir, $resize);
             case "widget":
                 return $this->widgetAction($request, $type, $subdir, $resize);
             case "upload":
@@ -102,21 +102,22 @@ class UploadController
         }
     }
 
-    private function defaultAction(Request $request, bool $admin): Response
+    private function defaultAction(Request $request, ?string $type, ?string $subdir, ?string $resize): Response
     {
         $this->jquery->include();
         $uploader = $this->pluginFolder . "uploader.min.js";
         if (!is_file($uploader)) {
             $uploader = $this->pluginFolder . "uploader.js";
         }
+        $administration = $this->administration($type, $subdir, $resize);
         $response = Response::create($this->view->render("main", [
-            "admin" => $admin,
+            "admin" => $administration,
             "serial" => $this->serial,
             "plupload" => $request->url()->path($this->pluginFolder . "lib/plupload.full.min.js")
                 ->with("v", "2.3.9")->relative(),
             "uploader" => $request->url()->path($uploader)->with("v", "1.0beta2")->relative(),
         ]));
-        if ($admin) {
+        if ($administration) {
             $response = $response->withTitle("Uploader – " . $this->view->text("menu_main"));
         }
         return $response;
@@ -305,13 +306,18 @@ class UploadController
 
     private function isUploadAllowed(Request $request, ?string $type, ?string $subdir, ?string $resize): bool
     {
-        if ($type !== null && $subdir !== null && $resize !== null) {
+        if (!$this->administration($type, $subdir, $resize)) {
             return ($type === '*' || $this->getType($request, $type) === $type)
                 && ($subdir === '*' || $this->getSubfolder($request, $type, $subdir) === $subdir)
                 && $request->post("name") !== null
                 && $this->isExtensionAllowed($request, $request->post("name"), $type);
         }
         return true;
+    }
+
+    private function administration(?string $type, ?string $subdir, ?string $resize): bool
+    {
+        return $type === null || $subdir === null || $resize === null;
     }
 
     private function isExtensionAllowed(Request $request, string $filename, ?string $type): bool
