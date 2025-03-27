@@ -1,7 +1,7 @@
 <?php
 
 const CMSIMPLE_XH_VERSION = "CMSimple_XH 1.7.5";
-const UPLOADER_VERSION = "1.0beta2";
+const UPLOADER_VERSION = "1.0";
 
 require_once "../../cmsimple/functions.php";
 
