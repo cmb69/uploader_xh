@@ -92,15 +92,14 @@ class UploadController
 
     public function __invoke(Request $request, ?string $type, ?string $subdir, ?string $resize, bool $admin): Response
     {
-        global $function;
-
-        if ($function === 'uploader_upload') {
-            return $this->uploadAction($request, $type, $subdir, $resize);
+        switch ($request->get("uploader_action")) {
+            default:
+                return $this->defaultAction($request, $admin);
+            case "widget":
+                return $this->widgetAction($request, $type, $subdir, $resize);
+            case "upload":
+                return $this->uploadAction($request, $type, $subdir, $resize);
         }
-        if ($request->get("uploader_serial") !== null) {
-            return $this->widgetAction($request, $type, $subdir, $resize);
-        }
-        return $this->defaultAction($request, $admin);
     }
 
     private function defaultAction(Request $request, bool $admin): Response
@@ -229,7 +228,7 @@ class UploadController
         $type = $this->getType($request, $type);
         $subdir = $this->getSubfolder($request, $type, $subdir);
         $resize = $this->getResizeMode($request, $resize);
-        $url = $request->url()->with('function', 'uploader_upload')
+        $url = $request->url()->with('uploader_action', 'upload')
             ->with('uploader_type', $type)->with('uploader_subdir', $subdir)
             ->with('uploader_resize', $resize);
         $config = array(

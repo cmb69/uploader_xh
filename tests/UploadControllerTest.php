@@ -62,7 +62,7 @@ class UploadControllerTest extends TestCase
     {
         $this->fileSystemService->method('getSubdirsOf')->willReturn(["/"]);
         $request = new FakeRequest([
-            "url" => "http://example.com/?&uploader_serial=1",
+            "url" => "http://example.com/?&uploader_action=widget&uploader_serial=1",
             "header" => ["X-CMSimple-XH-Request" => "uploader"],
         ]);
         $response = ($this->sut)($request, null, null, null, false);
@@ -72,7 +72,7 @@ class UploadControllerTest extends TestCase
     public function testIgnoresUnrelatedRequests(): void
     {
         $this->fileSystemService->method('getSubdirsOf')->willReturn(["/"]);
-        $request = new FakeRequest(["url" => "http://example.com/?&uploader_serial=17"]);
+        $request = new FakeRequest(["url" => "http://example.com/?&uploader_action=widget&uploader_serial=17"]);
         $response = ($this->sut)($request, null, null, null, false);
         $this->assertSame("", $response->output());
     }
@@ -82,7 +82,8 @@ class UploadControllerTest extends TestCase
         $this->fileSystemService->method('getSubdirsOf')->willReturn(["/foo"]);
         $this->fileSystemService->method("isDir")->willReturn(true);
         $request = new FakeRequest([
-            "url" => "http://example.com/?&uploader_type=downloads&uploader_subdir=%2Ffoo&uploader_serial=1",
+            "url" => "http://example.com/?&uploader_action=widget&uploader_type=downloads&uploader_subdir=%2Ffoo"
+                . "&uploader_serial=1",
             "header" => ["X-CMSimple-XH-Request" => "uploader"],
         ]);
         $response = ($this->sut)($request, null, null, null, false);

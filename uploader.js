@@ -98,7 +98,7 @@ jQuery(function ($) {
         var placeholder = this;
         $.ajax({
             url: location.href,
-            data: {uploader_serial: $(this).data("serial")},
+            data: {uploader_action: "widget", uploader_serial: $(this).data("serial")},
             success: function (data) {
                 replaceWidget(placeholder, data);
             },
