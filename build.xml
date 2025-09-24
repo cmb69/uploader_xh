@@ -31,6 +31,16 @@
     <exec executable="phpunit" passthru="true" checkreturn="true"/>
   </target>
 
+  <target name="js" description="formats and checks JavaScript">
+    <exec executable="prettier" passthru="true" checkreturn="true">
+      <arg line="--write --print-width 100 --tab-width 4 --trailing-comma es5 uploader.js"/>
+    </exec>
+    <exec executable="jshint" passthru="true" checkreturn="true">
+      <arg line="uploader.js"/>
+    </exec>
+    <exec executable="tsc" passthru="true" checkreturn="true"/>
+  </target>
+
   <target name="check" description="runs all checks" depends="sniff,stan,test"/>
 
   <target name="coverage" description="generates coverage report">

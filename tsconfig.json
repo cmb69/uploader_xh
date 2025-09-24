@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "lib": ["es6", "dom"],
+        "checkJs": true,
+        "noEmit": true,
+        "strictBindCallApply": true
+    },
+    "files": [
+        "uploader.js",
+        "js/jquery.d.ts",
+        "js/plupload.d.ts"
+    ]
+}
