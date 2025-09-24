@@ -17,6 +17,8 @@
  * along with Uploader_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* global alert,jQuery,plupload */
+
 jQuery(function ($) {
 
     function replaceWidget(element, html) {
