@@ -20,16 +20,18 @@
 /* global alert,jQuery,plupload */
 
 jQuery(function ($) {
-
     function replaceWidget(element, html) {
         initWidget($(html).replaceAll($(element)).filter(".uploader_widget").get(0));
     }
 
     function initWidget(element) {
-
         function updateControls(uploader) {
-            var hasPendingUploads = uploader.files.length > uploader.total.uploaded + uploader.total.failed;
-            $(".uploader_type, .uploader_subdir, .uploader_resize", element).prop("disabled", hasPendingUploads);
+            var hasPendingUploads =
+                uploader.files.length > uploader.total.uploaded + uploader.total.failed;
+            $(".uploader_type, .uploader_subdir, .uploader_resize", element).prop(
+                "disabled",
+                hasPendingUploads
+            );
             $(".uploader_uploadfiles", element).prop("disabled", !hasPendingUploads);
         }
 
@@ -40,7 +42,7 @@ jQuery(function ($) {
                 success: function (data) {
                     replaceWidget(element, data);
                 },
-                headers: {"X-CMSimple-XH-Request": "uploader"},
+                headers: { "X-CMSimple-XH-Request": "uploader" },
             });
         });
 
@@ -48,7 +50,7 @@ jQuery(function ($) {
             browse_button: $(".uploader_pickfiles", element).get(0),
             container: $(".uploader_buttons", element).get(0),
             drop_element: element,
-            headers: {"X-CMSimple-XH-Request": "uploader"},
+            headers: { "X-CMSimple-XH-Request": "uploader" },
         });
 
         var uploader = new plupload.Uploader(config);
@@ -56,29 +58,45 @@ jQuery(function ($) {
         uploader.bind("FilesAdded", function (uploader, files) {
             $.each(files, function () {
                 var file = this;
-                $(".uploader_row_template", element).clone()
-                    .removeClass("uploader_row_template").addClass("uploader_row")
+                $(".uploader_row_template", element)
+                    .clone()
+                    .removeClass("uploader_row_template")
+                    .addClass("uploader_row")
                     .prop("id", this.id)
-                    .find(".uploader_filename").text(this.name).end()
-                    .find(".uploader_size").text(plupload.formatSize(this.size)).end()
-                    .find(".uploader_progress").text("0%").end()
-                    .find(".uploader_remove").click(function () {
+                    .find(".uploader_filename")
+                    .text(this.name)
+                    .end()
+                    .find(".uploader_size")
+                    .text(plupload.formatSize(this.size))
+                    .end()
+                    .find(".uploader_progress")
+                    .text("0%")
+                    .end()
+                    .find(".uploader_remove")
+                    .click(function () {
                         uploader.removeFile(file);
                         $(this).parents(".uploader_row").remove();
-                    }).end()
+                    })
+                    .end()
                     .appendTo($(".uploader_filelist", element));
             });
         });
         uploader.bind("QueueChanged", updateControls);
         uploader.bind("UploadProgress", function (uploader, file) {
-            $("#" + file.id).find(".uploader_progress").text(file.percent + "%");
+            $("#" + file.id)
+                .find(".uploader_progress")
+                .text(file.percent + "%");
         });
         uploader.bind("FileUploaded", function (uploader, file, result) {
-            $("#" + file.id).find(".uploader_progress").text(result.response);
+            $("#" + file.id)
+                .find(".uploader_progress")
+                .text(result.response);
         });
         uploader.bind("Error", function (uploader, error) {
             if (error.code === plupload.HTTP_ERROR && error.response) {
-                $("#" + error.file.id).find(".uploader_progress").text(error.response);
+                $("#" + error.file.id)
+                    .find(".uploader_progress")
+                    .text(error.response);
             } else {
                 var message = error.message;
                 if (error.file) {
@@ -100,11 +118,11 @@ jQuery(function ($) {
         var placeholder = this;
         $.ajax({
             url: location.href,
-            data: {uploader_action: "widget", uploader_serial: $(this).data("serial")},
+            data: { uploader_action: "widget", uploader_serial: $(this).data("serial") },
             success: function (data) {
                 replaceWidget(placeholder, data);
             },
-            headers: {"X-CMSimple-XH-Request": "uploader"},
+            headers: { "X-CMSimple-XH-Request": "uploader" },
         });
     });
 });
