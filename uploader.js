@@ -67,6 +67,7 @@ jQuery(function ($) {
                     .text(this.name)
                     .end()
                     .find(".uploader_size")
+                    // @ts-ignore
                     .text(plupload.formatSize(this.size))
                     .end()
                     .find(".uploader_progress")
