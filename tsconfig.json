@@ -2,8 +2,7 @@
     "compilerOptions": {
         "lib": ["es6", "dom"],
         "checkJs": true,
-        "noEmit": true,
-        "strictBindCallApply": true
+        "noEmit": true
     },
     "files": [
         "uploader.js",

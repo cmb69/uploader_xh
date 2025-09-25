@@ -19,37 +19,41 @@
 
 /* global alert,plupload */
 
+/** @type {(element: Element, html: string) => void} */
 function replaceWidget(element, html) {
     element.innerHTML = html;
     initWidget(element.querySelector(".uploader_widget"));
 }
 
+/** @type {(element: HTMLElement) => void} */
 function initWidget(element) {
+    /** @type {(uploader: plupload) => void} */
     function updateControls(uploader) {
         var hasPendingUploads =
             uploader.files.length > uploader.total.uploaded + uploader.total.failed;
-        element
-            .querySelectorAll(".uploader_type, .uploader_subdir, .uploader_resize")
-            .forEach(function (el) {
-                el.disabled = hasPendingUploads;
-            });
-        element.querySelector(".uploader_uploadfiles").disabled = !hasPendingUploads;
+        /** @type {NodeListOf<HTMLInputElement>} */ (
+            element.querySelectorAll(".uploader_type, .uploader_subdir, .uploader_resize")
+        ).forEach(function (el) {
+            el.disabled = hasPendingUploads;
+        });
+        /** @type {HTMLButtonElement} */ (element.querySelector(".uploader_uploadfiles")).disabled =
+            !hasPendingUploads;
     }
 
-    element
-        .querySelectorAll(".uploader_type, .uploader_subdir, .uploader_resize")
-        .forEach(function (el) {
-            el.onchange = function () {
-                var url = el.dataset.url.replace("FIXME", encodeURIComponent(el.value));
-                var request = new XMLHttpRequest();
-                request.open("GET", url);
-                request.setRequestHeader("X-CMSimple-XH-Request", "uploader");
-                request.onload = function () {
-                    replaceWidget(element, request.responseText);
-                };
-                request.send();
+    /** @type {NodeListOf<HTMLInputElement>} */ (
+        element.querySelectorAll(".uploader_type, .uploader_subdir, .uploader_resize")
+    ).forEach(function (el) {
+        el.onchange = function () {
+            var url = el.dataset.url.replace("FIXME", encodeURIComponent(el.value));
+            var request = new XMLHttpRequest();
+            request.open("GET", url);
+            request.setRequestHeader("X-CMSimple-XH-Request", "uploader");
+            request.onload = function () {
+                replaceWidget(element, request.responseText);
             };
-        });
+            request.send();
+        };
+    });
 
     var config = Object.assign(JSON.parse(element.dataset.config), {
         browse_button: element.querySelector(".uploader_pickfiles"),
@@ -62,7 +66,9 @@ function initWidget(element) {
     uploader.init();
     uploader.bind("FilesAdded", function (uploader, files) {
         files.forEach(function (file) {
-            var clone = element.querySelector(".uploader_row_template").cloneNode(true);
+            var clone = /** @type {HTMLTableRowElement} */ (
+                element.querySelector(".uploader_row_template").cloneNode(true)
+            );
             clone.classList.remove("uploader_row_template");
             clone.classList.add("uploader_row");
             clone.id = file.id;
@@ -101,7 +107,9 @@ function initWidget(element) {
         }
     });
     uploader.bind("UploadComplete", updateControls);
-    var uploadFilesButton = element.querySelector(".uploader_uploadfiles");
+    var uploadFilesButton = /** @type {HTMLButtonElement} */ (
+        element.querySelector(".uploader_uploadfiles")
+    );
     uploadFilesButton.disabled = true;
     uploadFilesButton.onclick = function (event) {
         uploader.start();
