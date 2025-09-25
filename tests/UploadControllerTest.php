@@ -7,7 +7,6 @@ use PHPUnit\Framework\MockObject;
 use PHPUnit\Framework\TestCase;
 use Plib\CsrfProtector;
 use Plib\FakeRequest;
-use Plib\Jquery;
 use Plib\UploadedFile;
 use Plib\View;
 use Uploader\Model\FilesizeException;
@@ -20,9 +19,6 @@ class UploadControllerTest extends TestCase
 {
     /** @var UploadController */
     private $sut;
-
-    /** @var Jquery&MockObject */
-    private $jquery;
 
     /** @var FileSystemService&MockObject */
     private $fileSystemService;
@@ -45,7 +41,6 @@ class UploadControllerTest extends TestCase
             'media' => 'irrelevant_media',
             'userfiles' => 'irrelevant_userfiles',
         ];
-        $this->jquery = $this->createStub(Jquery::class);
         $this->fileSystemService = $this->createMock(FileSystemService::class);
         $this->receiver = $this->createStub(Receiver::class);
         $this->csrfProtector = $this->createStub(CsrfProtector::class);
@@ -55,7 +50,6 @@ class UploadControllerTest extends TestCase
             $conf,
             "./",
             $fileFolders,
-            $this->jquery,
             $this->fileSystemService,
             $this->receiver,
             $this->csrfProtector,
