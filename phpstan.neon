@@ -8,7 +8,6 @@ parameters:
   bootstrapFiles:
     - phpstan.php
   scanFiles:
-    - ../jquery/jquery.inc.php
     - ../../cmsimple/adminfuncs.php
     - ../../cmsimple/functions.php
   scanDirectories:

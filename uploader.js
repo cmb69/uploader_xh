@@ -17,113 +17,109 @@
  * along with Uploader_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* global alert,jQuery,plupload */
+/* global alert,plupload */
 
-jQuery(function ($) {
-    function replaceWidget(element, html) {
-        initWidget($(html).replaceAll($(element)).filter(".uploader_widget").get(0));
+function replaceWidget(element, html) {
+    element.innerHTML = html;
+    initWidget(element.querySelector(".uploader_widget"));
+}
+
+function initWidget(element) {
+    function updateControls(uploader) {
+        var hasPendingUploads =
+            uploader.files.length > uploader.total.uploaded + uploader.total.failed;
+        element
+            .querySelectorAll(".uploader_type, .uploader_subdir, .uploader_resize")
+            .forEach(function (el) {
+                el.disabled = hasPendingUploads;
+            });
+        element.querySelector(".uploader_uploadfiles").disabled = !hasPendingUploads;
     }
 
-    function initWidget(element) {
-        function updateControls(uploader) {
-            var hasPendingUploads =
-                uploader.files.length > uploader.total.uploaded + uploader.total.failed;
-            $(".uploader_type, .uploader_subdir, .uploader_resize", element).prop(
-                "disabled",
-                hasPendingUploads
-            );
-            $(".uploader_uploadfiles", element).prop("disabled", !hasPendingUploads);
-        }
-
-        $(".uploader_type, .uploader_subdir, .uploader_resize", element).change(function () {
-            $.ajax({
-                url: $(this).data("url").replace("FIXME", encodeURIComponent(this.value)),
-                data: {},
-                success: function (data) {
-                    replaceWidget(element, data);
-                },
-                headers: { "X-CMSimple-XH-Request": "uploader" },
-            });
+    element
+        .querySelectorAll(".uploader_type, .uploader_subdir, .uploader_resize")
+        .forEach(function (el) {
+            el.onchange = function () {
+                var url = el.dataset.url.replace("FIXME", encodeURIComponent(el.value));
+                var request = new XMLHttpRequest();
+                request.open("GET", url);
+                request.setRequestHeader("X-CMSimple-XH-Request", "uploader");
+                request.onload = function () {
+                    replaceWidget(element, request.responseText);
+                };
+                request.send();
+            };
         });
 
-        var config = $.extend($(element).data("config"), {
-            browse_button: $(".uploader_pickfiles", element).get(0),
-            container: $(".uploader_buttons", element).get(0),
-            drop_element: element,
-            headers: { "X-CMSimple-XH-Request": "uploader" },
-        });
+    var config = Object.assign(JSON.parse(element.dataset.config), {
+        browse_button: element.querySelector(".uploader_pickfiles"),
+        container: element.querySelector(".uploader_buttons"),
+        drop_element: element,
+        headers: { "X-CMSimple-XH-Request": "uploader" },
+    });
 
-        var uploader = new plupload.Uploader(config);
-        uploader.init();
-        uploader.bind("FilesAdded", function (uploader, files) {
-            $.each(files, function () {
-                var file = this;
-                $(".uploader_row_template", element)
-                    .clone()
-                    .removeClass("uploader_row_template")
-                    .addClass("uploader_row")
-                    .prop("id", this.id)
-                    .find(".uploader_filename")
-                    .text(this.name)
-                    .end()
-                    .find(".uploader_size")
-                    // @ts-ignore
-                    .text(plupload.formatSize(this.size))
-                    .end()
-                    .find(".uploader_progress")
-                    .text("0%")
-                    .end()
-                    .find(".uploader_remove")
-                    .click(function () {
-                        uploader.removeFile(file);
-                        $(this).parents(".uploader_row").remove();
-                    })
-                    .end()
-                    .appendTo($(".uploader_filelist", element));
-            });
-        });
-        uploader.bind("QueueChanged", updateControls);
-        uploader.bind("UploadProgress", function (uploader, file) {
-            $("#" + file.id)
-                .find(".uploader_progress")
-                .text(file.percent + "%");
-        });
-        uploader.bind("FileUploaded", function (uploader, file, result) {
-            $("#" + file.id)
-                .find(".uploader_progress")
-                .text(result.response);
-        });
-        uploader.bind("Error", function (uploader, error) {
-            if (error.code === plupload.HTTP_ERROR && error.response) {
-                $("#" + error.file.id)
-                    .find(".uploader_progress")
-                    .text(error.response);
-            } else {
-                var message = error.message;
-                if (error.file) {
-                    message = error.file.name + ": " + message;
-                }
-                alert(message);
-            }
-        });
-        uploader.bind("UploadComplete", updateControls);
-        $(".uploader_uploadfiles", element)
-            .prop("disabled", true)
-            .click(function () {
-                uploader.start();
-                return false;
-            });
-    }
-
-    $(".uploader_placeholder").each(function () {
-        var placeholder = this;
-        $.ajax({
-            url: location.href,
-            data: { uploader_action: "widget", uploader_serial: $(this).data("serial") },
-            success: function (data) {
-                replaceWidget(placeholder, data);
-            },
-            headers: { "X-CMSimple-XH-Request": "uploader" },
+    var uploader = new plupload.Uploader(config);
+    uploader.init();
+    uploader.bind("FilesAdded", function (uploader, files) {
+        files.forEach(function (file) {
+            var clone = element.querySelector(".uploader_row_template").cloneNode(true);
+            clone.classList.remove("uploader_row_template");
+            clone.classList.add("uploader_row");
+            clone.id = file.id;
+            clone.querySelector(".uploader_filename").textContent = file.name;
+            // @ts-ignore
+            var size = plupload.formatSize(file.size);
+            clone.querySelector(".uploader_size").textContent = size;
+            clone.querySelector(".uploader_progress").textContent = "0%";
+            /** @type {HTMLButtonElement} */ (clone.querySelector(".uploader_remove")).onclick =
+                function (event) {
+                    uploader.removeFile(file);
+                    var button = /** @type {HTMLButtonElement} */ (event.currentTarget);
+                    button.closest(".uploader_row").remove();
+                };
+            element.querySelector(".uploader_filelist").append(clone);
         });
     });
-});
+    uploader.bind("QueueChanged", updateControls);
+    uploader.bind("UploadProgress", function (uploader, file) {
+        document.querySelector("#" + file.id + " .uploader_progress").textContent =
+            file.percent + "%";
+    });
+    uploader.bind("FileUploaded", function (uploader, file, result) {
+        document.querySelector("#" + file.id + " .uploader_progress").textContent = result.response;
+    });
+    uploader.bind("Error", function (uploader, error) {
+        if (error.code === plupload.HTTP_ERROR && error.response) {
+            document.querySelector("#" + error.file.id + " .uploader_progress").textContent =
+                error.response;
+        } else {
+            var message = error.message;
+            if (error.file) {
+                message = error.file.name + ": " + message;
+            }
+            alert(message);
+        }
+    });
+    uploader.bind("UploadComplete", updateControls);
+    var uploadFilesButton = element.querySelector(".uploader_uploadfiles");
+    uploadFilesButton.disabled = true;
+    uploadFilesButton.onclick = function (event) {
+        uploader.start();
+        event.stopPropagation();
+    };
+}
+
+/** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll(".uploader_placeholder")).forEach(
+    function (el) {
+        var params = new URLSearchParams();
+        params.append("uploader_action", "widget");
+        params.append("uploader_serial", el.dataset.serial);
+        var request = new XMLHttpRequest();
+        request.open("GET", location.href + "&" + params.toString());
+        request.setRequestHeader("X-CMSimple-XH-Request", "uploader");
+        request.onload = function () {
+            replaceWidget(el, request.responseText);
+        };
+        request.send();
+    }
+);

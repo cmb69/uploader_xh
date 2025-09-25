@@ -58,7 +58,6 @@ class InfoController
             $this->checkPhpVersion('7.1.0'),
             $this->checkXhVersion('1.7.0'),
             $this->checkPlibVersion("1.5"),
-            $this->checkPlugin('jquery'),
             $this->checkWritability("{$this->pluginFolder}config/"),
             $this->checkWritability("{$this->pluginFolder}css/"),
             $this->checkWritability("{$this->pluginFolder}languages/")
@@ -94,17 +93,6 @@ class InfoController
         return [
             'class' => "xh_$state",
             'label' => $this->view->plain("syscheck_plibversion", $version),
-            'stateLabel' => $this->view->plain("syscheck_$state"),
-        ];
-    }
-
-    /** @return array{class:string,label:string,stateLabel:string} */
-    private function checkPlugin(string $plugin): array
-    {
-        $state = $this->systemChecker->checkPlugin("jquery") ? 'success' : 'fail';
-        return [
-            'class' => "xh_$state",
-            'label' => $this->view->plain("syscheck_plugin", $plugin),
             'stateLabel' => $this->view->plain("syscheck_$state"),
         ];
     }

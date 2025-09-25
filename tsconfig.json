@@ -7,7 +7,6 @@
     },
     "files": [
         "uploader.js",
-        "js/jquery.d.ts",
         "js/plupload.d.ts"
     ]
 }

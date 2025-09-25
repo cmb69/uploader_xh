@@ -22,7 +22,6 @@
 namespace Uploader;
 
 use Plib\CsrfProtector;
-use Plib\Jquery;
 use Plib\SystemChecker;
 use Plib\View;
 use Uploader\Model\FileSystemService;
@@ -45,7 +44,6 @@ class Dic
                 'media' => $pth['folder']['media'],
                 'userfiles' => $pth['folder']['userfiles']
             ],
-            new Jquery($pth["folder"]["plugins"] . "jquery/"),
             new FileSystemService(),
             new Receiver((int) $plugin_cf["uploader"]["size_max"]),
             new CsrfProtector(),

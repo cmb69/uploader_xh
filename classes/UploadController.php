@@ -22,7 +22,6 @@
 namespace Uploader;
 
 use Plib\CsrfProtector;
-use Plib\Jquery;
 use Plib\Request;
 use Plib\Response;
 use Plib\Url;
@@ -54,9 +53,6 @@ class UploadController
     /** @var FileFolders */
     private $fileFolders;
 
-    /** @var Jquery */
-    private $jquery;
-
     /** @var FileSystemService */
     private $fileSystemService;
 
@@ -81,7 +77,6 @@ class UploadController
         array $config,
         string $pluginFolder,
         array $fileFolders,
-        Jquery $jquery,
         FileSystemService $fileSystemService,
         Receiver $receiver,
         CsrfProtector $csrfProtector,
@@ -92,7 +87,6 @@ class UploadController
         $this->config = $config;
         $this->pluginFolder = $pluginFolder;
         $this->fileFolders = $fileFolders;
-        $this->jquery = $jquery;
         $this->fileSystemService = $fileSystemService;
         $this->receiver = $receiver;
         $this->csrfProtector = $csrfProtector;
@@ -114,7 +108,6 @@ class UploadController
 
     private function defaultAction(Request $request, ?string $type, ?string $subdir, ?string $resize): Response
     {
-        $this->jquery->include();
         $uploader = $this->pluginFolder . "uploader.min.js";
         if (!is_file($uploader)) {
             $uploader = $this->pluginFolder . "uploader.js";

@@ -8,7 +8,6 @@ $plugin_tx['uploader']['syscheck_title']="Kontrola systému";
 $plugin_tx['uploader']['syscheck_phpversion']="PHP verze &ge; %s";
 $plugin_tx['uploader']['syscheck_extension']="Rozšíření '%s' načteno";
 $plugin_tx['uploader']['syscheck_encoding']="Kodovaní 'UTF-8' nastaveno";
-$plugin_tx['uploader']['syscheck_jquery']="<a href=\"http://www.cmsimple-xh.org/wiki/doku.php/extend:jquery4cmsimple\">jQuery4CMSimple plugin</a> instalováno";
 $plugin_tx['uploader']['syscheck_writable']="Adresář '%s' umožňuje zápis";
 $plugin_tx['uploader']['cf_resize-small_width']="Maximální šířka pro změnu malých.";
 $plugin_tx['uploader']['cf_resize-small_height']="Maximální výška pro změnu malých";
