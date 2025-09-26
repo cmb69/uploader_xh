@@ -38,18 +38,22 @@ if (!defined("CMSIMPLE_XH_VERSION")) {http_response_code(403); exit;}
 <?endif?>
   </div>
   <table class="uploader_filelist">
-    <tr>
-      <th class="uploader_filename"><?=$this->text('label_filename')?></th>
-      <th class="uploader_size"><?=$this->text('label_size')?></th>
-      <th class="uploader_progress"><?=$this->text('label_state')?></th>
-      <th></th>
-    </tr>
-    <tr class="uploader_row_template">
-      <td class="uploader_filename"></td>
-      <td class="uploader_size"></td>
-      <td class="uploader_progress"></td>
-      <td><button type="button" class="uploader_remove"><?=$this->text('label_remove')?></button></td>
-    </tr>
+    <tbody>
+      <tr>
+        <th class="uploader_filename"><?=$this->text('label_filename')?></th>
+        <th class="uploader_size"><?=$this->text('label_size')?></th>
+        <th class="uploader_progress"><?=$this->text('label_state')?></th>
+        <th></th>
+      </tr>
+    </tbody>
+    <template class="uploader_row_template">
+      <tr class="uploader_row">
+        <td class="uploader_filename"></td>
+        <td class="uploader_size"></td>
+        <td class="uploader_progress"></td>
+        <td><button type="button" class="uploader_remove"><?=$this->text('label_remove')?></button></td>
+      </tr>
+    </template>
   </table>
   <div class="uploader_buttons">
     <button type="button" class="uploader_pickfiles"><?=$this->text('label_select_files')?></button>

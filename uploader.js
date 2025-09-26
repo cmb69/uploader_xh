@@ -56,7 +56,7 @@ class Widget {
         return this.element.querySelectorAll(".uploader_type, .uploader_subdir, .uploader_resize");
     }
 
-    /** @type {HTMLTableRowElement} */
+    /** @type {HTMLTemplateElement} */
     get rowTemplate() {
         return this.element.querySelector(".uploader_row_template");
     }
@@ -116,11 +116,9 @@ class Widget {
 
     /** @type {(file: File) => void} */
     addFile(file) {
-        let clone = /** @type {HTMLTableRowElement} */ (this.rowTemplate.cloneNode(true));
-        clone.classList.remove("uploader_row_template");
-        clone.classList.add("uploader_row");
+        let clone = /** @type {DocumentFragment} */ (this.rowTemplate.content.cloneNode(true));
         // @ts-ignore
-        clone.id = file.id;
+        clone.querySelector("tr").id = file.id;
         clone.querySelector(".uploader_filename").textContent = file.name;
         // @ts-ignore
         let size = plupload.formatSize(file.size);
@@ -131,7 +129,7 @@ class Widget {
             let button = /** @type {HTMLButtonElement} */ (event.currentTarget);
             this.removeFile(button.closest(".uploader_row").id);
         };
-        this.element.querySelector(".uploader_filelist").append(clone);
+        this.element.querySelector(".uploader_filelist tbody").append(clone);
     }
 
     /** @type {(id: string) => void} */
