@@ -137,24 +137,20 @@ class Widget {
     updateControls() {
         let hasPendingUploads =
             this.uploader.files.length > this.uploader.total.uploaded + this.uploader.total.failed;
-        this.selects.forEach(function (el) {
-            el.disabled = hasPendingUploads;
-        });
+        this.selects.forEach((el) => (el.disabled = hasPendingUploads));
         this.uploadFilesButton.disabled = !hasPendingUploads;
     }
 }
 
 /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll(".uploader_placeholder")).forEach(
-    function (el) {
+    (el) => {
         let params = new URLSearchParams();
         params.append("uploader_action", "widget");
         params.append("uploader_serial", el.dataset.serial);
         let request = new XMLHttpRequest();
         request.open("GET", location.href + "&" + params.toString());
         request.setRequestHeader("X-CMSimple-XH-Request", "uploader");
-        request.onload = function () {
-            replaceWidget(el, request.responseText);
-        };
+        request.onload = () => replaceWidget(el, request.responseText);
         request.send();
     }
 );
