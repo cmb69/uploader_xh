@@ -28,9 +28,7 @@ function replaceWidget(element, html) {
 class Widget {
     constructor(/** @type {HTMLElement} */ element) {
         this.element = element;
-        /** @type {NodeListOf<HTMLInputElement>} */ (
-            element.querySelectorAll(".uploader_type, .uploader_subdir, .uploader_resize")
-        ).forEach(function (el) {
+        this.selects.forEach(function (el) {
             el.onchange = function () {
                 var url = el.dataset.url.replace("FIXME", encodeURIComponent(el.value));
                 var request = new XMLHttpRequest();
@@ -85,6 +83,11 @@ class Widget {
         });
     }
 
+    /** @type {NodeListOf<HTMLInputElement>} */
+    get selects() {
+        return this.element.querySelectorAll(".uploader_type, .uploader_subdir, .uploader_resize");
+    }
+
     /** @type {HTMLButtonElement} */
     get uploadFilesButton() {
         return this.element.querySelector(".uploader_uploadfiles");
@@ -128,9 +131,7 @@ class Widget {
     updateControls() {
         var hasPendingUploads =
             this.uploader.files.length > this.uploader.total.uploaded + this.uploader.total.failed;
-        /** @type {NodeListOf<HTMLInputElement>} */ (
-            this.element.querySelectorAll(".uploader_type, .uploader_subdir, .uploader_resize")
-        ).forEach(function (el) {
+        this.selects.forEach(function (el) {
             el.disabled = hasPendingUploads;
         });
         /** @type {HTMLButtonElement} */ (
