@@ -134,9 +134,7 @@ class Widget {
         this.selects.forEach(function (el) {
             el.disabled = hasPendingUploads;
         });
-        /** @type {HTMLButtonElement} */ (
-            this.element.querySelector(".uploader_uploadfiles")
-        ).disabled = !hasPendingUploads;
+        this.uploadFilesButton.disabled = !hasPendingUploads;
     }
 }
 
