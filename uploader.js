@@ -61,10 +61,7 @@ class Widget {
         this.uploader.bind("UploadComplete", () => this.updateControls());
         let uploadFilesButton = this.uploadFilesButton;
         uploadFilesButton.disabled = true;
-        uploadFilesButton.onclick = (event) => {
-            this.uploader.start();
-            event.stopPropagation();
-        };
+        uploadFilesButton.onclick = () => this.uploader.start();
     }
 
     /** @type {object} */
