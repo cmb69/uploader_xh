@@ -22,112 +22,142 @@
 /** @type {(element: Element, html: string) => void} */
 function replaceWidget(element, html) {
     element.innerHTML = html;
-    initWidget(element.querySelector(".uploader_widget"));
+    new Widget(element.querySelector(".uploader_widget"));
 }
 
-/** @type {(element: HTMLElement) => void} */
-function initWidget(element) {
-    /** @type {(uploader: plupload) => void} */
-    function updateControls(uploader) {
-        var hasPendingUploads =
-            uploader.files.length > uploader.total.uploaded + uploader.total.failed;
-        /** @type {NodeListOf<HTMLInputElement>} */ (
-            element.querySelectorAll(".uploader_type, .uploader_subdir, .uploader_resize")
-        ).forEach(function (el) {
-            el.disabled = hasPendingUploads;
+class Widget {
+    constructor(/** @type {HTMLElement} */ element) {
+        this.element = element;
+        this.uploader = /** @type {plupload} */ (new plupload.Uploader(this.config));
+        this.setUpUploader();
+        this.selects.forEach((el) => {
+            el.onchange = () => {
+                let url = el.dataset.url.replace("FIXME", encodeURIComponent(el.value));
+                this.fetchWidget(url);
+            };
         });
-        /** @type {HTMLButtonElement} */ (element.querySelector(".uploader_uploadfiles")).disabled =
-            !hasPendingUploads;
+        let uploadFilesButton = this.uploadFilesButton;
+        uploadFilesButton.disabled = true;
+        uploadFilesButton.onclick = () => this.uploader.start();
     }
 
-    /** @type {NodeListOf<HTMLInputElement>} */ (
-        element.querySelectorAll(".uploader_type, .uploader_subdir, .uploader_resize")
-    ).forEach(function (el) {
-        el.onchange = function () {
-            var url = el.dataset.url.replace("FIXME", encodeURIComponent(el.value));
-            var request = new XMLHttpRequest();
-            request.open("GET", url);
-            request.setRequestHeader("X-CMSimple-XH-Request", "uploader");
-            request.onload = function () {
-                replaceWidget(element, request.responseText);
-            };
-            request.send();
-        };
-    });
-
-    var config = Object.assign(JSON.parse(element.dataset.config), {
-        browse_button: element.querySelector(".uploader_pickfiles"),
-        container: element.querySelector(".uploader_buttons"),
-        drop_element: element,
-        headers: { "X-CMSimple-XH-Request": "uploader" },
-    });
-
-    var uploader = new plupload.Uploader(config);
-    uploader.init();
-    uploader.bind("FilesAdded", function (uploader, files) {
-        files.forEach(function (file) {
-            var clone = /** @type {HTMLTableRowElement} */ (
-                element.querySelector(".uploader_row_template").cloneNode(true)
-            );
-            clone.classList.remove("uploader_row_template");
-            clone.classList.add("uploader_row");
-            clone.id = file.id;
-            clone.querySelector(".uploader_filename").textContent = file.name;
-            // @ts-ignore
-            var size = plupload.formatSize(file.size);
-            clone.querySelector(".uploader_size").textContent = size;
-            clone.querySelector(".uploader_progress").textContent = "0%";
-            /** @type {HTMLButtonElement} */ (clone.querySelector(".uploader_remove")).onclick =
-                function (event) {
-                    uploader.removeFile(file);
-                    var button = /** @type {HTMLButtonElement} */ (event.currentTarget);
-                    button.closest(".uploader_row").remove();
-                };
-            element.querySelector(".uploader_filelist").append(clone);
+    /** @type {object} */
+    get config() {
+        return Object.assign(JSON.parse(this.element.dataset.config), {
+            browse_button: this.element.querySelector(".uploader_pickfiles"),
+            container: this.element.querySelector(".uploader_buttons"),
+            drop_element: this.element,
+            headers: { "X-CMSimple-XH-Request": "uploader" },
         });
-    });
-    uploader.bind("QueueChanged", updateControls);
-    uploader.bind("UploadProgress", function (uploader, file) {
-        document.querySelector("#" + file.id + " .uploader_progress").textContent =
-            file.percent + "%";
-    });
-    uploader.bind("FileUploaded", function (uploader, file, result) {
-        document.querySelector("#" + file.id + " .uploader_progress").textContent = result.response;
-    });
-    uploader.bind("Error", function (uploader, error) {
-        if (error.code === plupload.HTTP_ERROR && error.response) {
-            document.querySelector("#" + error.file.id + " .uploader_progress").textContent =
-                error.response;
-        } else {
-            var message = error.message;
-            if (error.file) {
-                message = error.file.name + ": " + message;
+    }
+
+    /** @type {NodeListOf<HTMLInputElement>} */
+    get selects() {
+        return this.element.querySelectorAll(".uploader_type, .uploader_subdir, .uploader_resize");
+    }
+
+    /** @type {HTMLTableRowElement} */
+    get rowTemplate() {
+        return this.element.querySelector(".uploader_row_template");
+    }
+
+    /** @type {HTMLButtonElement} */
+    get uploadFilesButton() {
+        return this.element.querySelector(".uploader_uploadfiles");
+    }
+
+    /** @type {() => void} */
+    setUpUploader() {
+        this.uploader.init();
+        this.uploader.bind("FilesAdded", (uploader, files) => {
+            files.forEach((file) => this.addFile(file));
+        });
+        this.uploader.bind("QueueChanged", () => this.updateControls());
+        this.uploader.bind("UploadProgress", (uploader, file) => {
+            this.setUploadProgress(file.id, file.percent + "%");
+        });
+        this.uploader.bind("FileUploaded", (uploader, file, result) => {
+            this.setUploadProgress(file.id, result.response);
+        });
+        this.uploader.bind("Error", (uploader, error) => {
+            if (error.code === plupload.HTTP_ERROR && error.response) {
+                this.setUploadProgress(error.file.id, error.response);
+            } else {
+                this.reportError(error);
             }
-            alert(message);
+        });
+        this.uploader.bind("UploadComplete", () => this.updateControls());
+    }
+
+    /** @type {(url: string) => void} */
+    fetchWidget(url) {
+        let request = new XMLHttpRequest();
+        request.open("GET", url);
+        request.setRequestHeader("X-CMSimple-XH-Request", "uploader");
+        request.onload = () => {
+            replaceWidget(this.element, request.responseText);
+        };
+        request.send();
+    }
+
+    /** @type {(id: string, text: string) => void} */
+    setUploadProgress(id, text) {
+        document.getElementById(id).querySelector(".uploader_progress").textContent = text;
+    }
+
+    /** @type {(error: object) => void} */
+    reportError(error) {
+        let message = error.message;
+        if (error.file) {
+            message = error.file.name + ": " + message;
         }
-    });
-    uploader.bind("UploadComplete", updateControls);
-    var uploadFilesButton = /** @type {HTMLButtonElement} */ (
-        element.querySelector(".uploader_uploadfiles")
-    );
-    uploadFilesButton.disabled = true;
-    uploadFilesButton.onclick = function (event) {
-        uploader.start();
-        event.stopPropagation();
-    };
+        alert(message);
+    }
+
+    /** @type {(file: File) => void} */
+    addFile(file) {
+        let clone = /** @type {HTMLTableRowElement} */ (this.rowTemplate.cloneNode(true));
+        clone.classList.remove("uploader_row_template");
+        clone.classList.add("uploader_row");
+        // @ts-ignore
+        clone.id = file.id;
+        clone.querySelector(".uploader_filename").textContent = file.name;
+        // @ts-ignore
+        let size = plupload.formatSize(file.size);
+        clone.querySelector(".uploader_size").textContent = size;
+        clone.querySelector(".uploader_progress").textContent = "0%";
+        let button = /** @type {HTMLButtonElement} */ (clone.querySelector(".uploader_remove"));
+        button.onclick = (event) => {
+            let button = /** @type {HTMLButtonElement} */ (event.currentTarget);
+            this.removeFile(button.closest(".uploader_row").id);
+        };
+        this.element.querySelector(".uploader_filelist").append(clone);
+    }
+
+    /** @type {(id: string) => void} */
+    removeFile(id) {
+        this.uploader.removeFile(id);
+        document.getElementById(id).remove();
+    }
+
+    /** @type {() => void} */
+    updateControls() {
+        let total = this.uploader.total;
+        let hasPendingUploads = this.uploader.files.length > total.uploaded + total.failed;
+        this.selects.forEach((el) => (el.disabled = hasPendingUploads));
+        this.uploadFilesButton.disabled = !hasPendingUploads;
+    }
 }
 
 /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll(".uploader_placeholder")).forEach(
-    function (el) {
-        var params = new URLSearchParams();
+    (el) => {
+        let params = new URLSearchParams();
         params.append("uploader_action", "widget");
         params.append("uploader_serial", el.dataset.serial);
-        var request = new XMLHttpRequest();
+        let request = new XMLHttpRequest();
         request.open("GET", location.href + "&" + params.toString());
         request.setRequestHeader("X-CMSimple-XH-Request", "uploader");
-        request.onload = function () {
-            replaceWidget(el, request.responseText);
-        };
+        request.onload = () => replaceWidget(el, request.responseText);
         request.send();
     }
 );
