@@ -4,6 +4,7 @@
 }
 .uploader_filelist {
     margin: 1em 0;
+    width: 100%;
 }
 .uploader_controls {}
 th.uploader_filename, th.uploader_size, th.uploader_progress {
@@ -23,6 +24,17 @@ th.uploader_filename, th.uploader_size, th.uploader_progress {
 .uploader_progress {
     min-width: 5em;
     text-align: right;
+}
+.uploader_button {
+    text-align: right;
+}
+.uploader_dropzone {
+    border: 2px dashed #888;
+    border-radius: 5px;
+    color: #888;
+    font-size: larger;
+    padding: 1em;
+    text-align: center;
 }
 .uploader_buttons {}
 .uploader_pickfiles {}

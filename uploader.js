@@ -46,7 +46,7 @@ class Widget {
         return Object.assign(JSON.parse(this.element.dataset.config), {
             browse_button: this.element.querySelector(".uploader_pickfiles"),
             container: this.element.querySelector(".uploader_buttons"),
-            drop_element: this.element,
+            drop_element: this.element.querySelector(".uploader_dropzone"),
             headers: { "X-CMSimple-XH-Request": "uploader" },
         });
     }

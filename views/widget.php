@@ -51,10 +51,11 @@ if (!defined("CMSIMPLE_XH_VERSION")) {http_response_code(403); exit;}
         <td class="uploader_filename"></td>
         <td class="uploader_size"></td>
         <td class="uploader_progress"></td>
-        <td><button type="button" class="uploader_remove"><?=$this->text('label_remove')?></button></td>
+        <td class="uploader_button"><button type="button" class="uploader_remove"><?=$this->text('label_remove')?></button></td>
       </tr>
     </template>
   </table>
+  <div class="uploader_dropzone"><?=$this->text("label_drop")?></div>
   <div class="uploader_buttons">
     <button type="button" class="uploader_pickfiles"><?=$this->text('label_select_files')?></button>
     <button type="button" class="uploader_uploadfiles"><?=$this->text('label_upload_files')?></button>
