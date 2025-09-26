@@ -18,18 +18,22 @@
     </select>
   </div>
   <table class="uploader_filelist">
-    <tr>
-      <th class="uploader_filename">Filename</th>
-      <th class="uploader_size">Size</th>
-      <th class="uploader_progress">State</th>
-      <th></th>
-    </tr>
-    <tr class="uploader_row_template">
-      <td class="uploader_filename"></td>
-      <td class="uploader_size"></td>
-      <td class="uploader_progress"></td>
-      <td><button type="button" class="uploader_remove">Remove</button></td>
-    </tr>
+    <tbody>
+      <tr>
+        <th class="uploader_filename">Filename</th>
+        <th class="uploader_size">Size</th>
+        <th class="uploader_progress">State</th>
+        <th></th>
+      </tr>
+    </tbody>
+    <template class="uploader_row_template">
+      <tr class="uploader_row">
+        <td class="uploader_filename"></td>
+        <td class="uploader_size"></td>
+        <td class="uploader_progress"></td>
+        <td><button type="button" class="uploader_remove">Remove</button></td>
+      </tr>
+    </template>
   </table>
   <div class="uploader_buttons">
     <button type="button" class="uploader_pickfiles">Select files</button>
