@@ -42,14 +42,14 @@ class Widget {
         });
         this.uploader.bind("QueueChanged", () => this.updateControls());
         this.uploader.bind("UploadProgress", (uploader, file) => {
-            this.uploadProgress(file.id).textContent = file.percent + "%";
+            this.setUploadProgress(file.id, file.percent + "%");
         });
         this.uploader.bind("FileUploaded", (uploader, file, result) => {
-            this.uploadProgress(file.id).textContent = result.response;
+            this.setUploadProgress(file.id, result.response);
         });
         this.uploader.bind("Error", (uploader, error) => {
             if (error.code === plupload.HTTP_ERROR && error.response) {
-                this.uploadProgress(error.file.id).textContent = error.response;
+                this.setUploadProgress(error.file.id, error.response);
             } else {
                 var message = error.message;
                 if (error.file) {
@@ -95,9 +95,9 @@ class Widget {
         request.send();
     }
 
-    /** @type {(id: string) => HTMLTableCellElement} */
-    uploadProgress(id) {
-        return document.getElementById(id).querySelector(".uploader_progress");
+    /** @type {(id: string, text: string) => void} */
+    setUploadProgress(id, text) {
+        document.getElementById(id).querySelector(".uploader_progress").textContent = text;
     }
 
     /** @type {(file: File) => void} */
