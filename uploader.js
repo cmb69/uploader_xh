@@ -49,18 +49,15 @@ class Widget {
             files.forEach((file) => this.addFile(file));
         });
         this.uploader.bind("QueueChanged", () => this.updateControls());
-        this.uploader.bind("UploadProgress", function (uploader, file) {
-            document.querySelector("#" + file.id + " .uploader_progress").textContent =
-                file.percent + "%";
+        this.uploader.bind("UploadProgress", (uploader, file) => {
+            this.uploadProgress(file.id).textContent = file.percent + "%";
         });
-        this.uploader.bind("FileUploaded", function (uploader, file, result) {
-            document.querySelector("#" + file.id + " .uploader_progress").textContent =
-                result.response;
+        this.uploader.bind("FileUploaded", (uploader, file, result) => {
+            this.uploadProgress(file.id).textContent = result.response;
         });
-        this.uploader.bind("Error", function (uploader, error) {
+        this.uploader.bind("Error", (uploader, error) => {
             if (error.code === plupload.HTTP_ERROR && error.response) {
-                document.querySelector("#" + error.file.id + " .uploader_progress").textContent =
-                    error.response;
+                this.uploadProgress(error.file.id).textContent = error.response;
             } else {
                 var message = error.message;
                 if (error.file) {
@@ -88,6 +85,11 @@ class Widget {
             drop_element: this.element,
             headers: { "X-CMSimple-XH-Request": "uploader" },
         });
+    }
+
+    /** @type {(id: string) => HTMLTableCellElement} */
+    uploadProgress(id) {
+        return document.getElementById(id).querySelector(".uploader_progress");
     }
 
     /** @type {(file: File) => void} */
