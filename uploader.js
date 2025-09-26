@@ -45,27 +45,8 @@ class Widget {
 
         this.uploader = /** @type {plupload} */ (new plupload.Uploader(this.config));
         this.uploader.init();
-        this.uploader.bind("FilesAdded", function (uploader, files) {
-            files.forEach(function (file) {
-                var clone = /** @type {HTMLTableRowElement} */ (
-                    element.querySelector(".uploader_row_template").cloneNode(true)
-                );
-                clone.classList.remove("uploader_row_template");
-                clone.classList.add("uploader_row");
-                clone.id = file.id;
-                clone.querySelector(".uploader_filename").textContent = file.name;
-                // @ts-ignore
-                var size = plupload.formatSize(file.size);
-                clone.querySelector(".uploader_size").textContent = size;
-                clone.querySelector(".uploader_progress").textContent = "0%";
-                /** @type {HTMLButtonElement} */ (clone.querySelector(".uploader_remove")).onclick =
-                    function (event) {
-                        uploader.removeFile(file);
-                        var button = /** @type {HTMLButtonElement} */ (event.currentTarget);
-                        button.closest(".uploader_row").remove();
-                    };
-                element.querySelector(".uploader_filelist").append(clone);
-            });
+        this.uploader.bind("FilesAdded", (uploader, files) => {
+            files.forEach((file) => this.addFile(file));
         });
         this.uploader.bind("QueueChanged", () => this.updateControls());
         this.uploader.bind("UploadProgress", function (uploader, file) {
@@ -107,6 +88,30 @@ class Widget {
             drop_element: this.element,
             headers: { "X-CMSimple-XH-Request": "uploader" },
         });
+    }
+
+    /** @type {(file: File) => void} */
+    addFile(file) {
+        var clone = /** @type {HTMLTableRowElement} */ (
+            this.element.querySelector(".uploader_row_template").cloneNode(true)
+        );
+        clone.classList.remove("uploader_row_template");
+        clone.classList.add("uploader_row");
+        // @ts-ignore
+        clone.id = file.id;
+        clone.querySelector(".uploader_filename").textContent = file.name;
+        // @ts-ignore
+        var size = plupload.formatSize(file.size);
+        clone.querySelector(".uploader_size").textContent = size;
+        clone.querySelector(".uploader_progress").textContent = "0%";
+        /** @type {HTMLButtonElement} */ (clone.querySelector(".uploader_remove")).onclick = (
+            event
+        ) => {
+            this.uploader.removeFile(file);
+            var button = /** @type {HTMLButtonElement} */ (event.currentTarget);
+            button.closest(".uploader_row").remove();
+        };
+        this.element.querySelector(".uploader_filelist").append(clone);
     }
 
     /** @type {() => void} */
