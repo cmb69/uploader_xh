@@ -107,11 +107,16 @@ class Widget {
         /** @type {HTMLButtonElement} */ (clone.querySelector(".uploader_remove")).onclick = (
             event
         ) => {
-            this.uploader.removeFile(file);
             var button = /** @type {HTMLButtonElement} */ (event.currentTarget);
-            button.closest(".uploader_row").remove();
+            this.removeFile(button.closest(".uploader_row").id);
         };
         this.element.querySelector(".uploader_filelist").append(clone);
+    }
+
+    /** @type {(id: string) => void} */
+    removeFile(id) {
+        this.uploader.removeFile(id);
+        document.getElementById(id).remove();
     }
 
     /** @type {() => void} */
