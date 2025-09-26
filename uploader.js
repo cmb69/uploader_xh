@@ -27,20 +27,7 @@ function replaceWidget(element, html) {
 
 class Widget {
     constructor(/** @type {HTMLElement} */ element) {
-        /** @type {(uploader: plupload) => void} */
-        function updateControls(uploader) {
-            var hasPendingUploads =
-                uploader.files.length > uploader.total.uploaded + uploader.total.failed;
-            /** @type {NodeListOf<HTMLInputElement>} */ (
-                element.querySelectorAll(".uploader_type, .uploader_subdir, .uploader_resize")
-            ).forEach(function (el) {
-                el.disabled = hasPendingUploads;
-            });
-            /** @type {HTMLButtonElement} */ (
-                element.querySelector(".uploader_uploadfiles")
-            ).disabled = !hasPendingUploads;
-        }
-
+        this.element = element;
         /** @type {NodeListOf<HTMLInputElement>} */ (
             element.querySelectorAll(".uploader_type, .uploader_subdir, .uploader_resize")
         ).forEach(function (el) {
@@ -87,7 +74,7 @@ class Widget {
                 element.querySelector(".uploader_filelist").append(clone);
             });
         });
-        uploader.bind("QueueChanged", updateControls);
+        uploader.bind("QueueChanged", this.updateControls.bind(this));
         uploader.bind("UploadProgress", function (uploader, file) {
             document.querySelector("#" + file.id + " .uploader_progress").textContent =
                 file.percent + "%";
@@ -108,7 +95,7 @@ class Widget {
                 alert(message);
             }
         });
-        uploader.bind("UploadComplete", updateControls);
+        uploader.bind("UploadComplete", this.updateControls.bind(this));
         var uploadFilesButton = /** @type {HTMLButtonElement} */ (
             element.querySelector(".uploader_uploadfiles")
         );
@@ -117,6 +104,20 @@ class Widget {
             uploader.start();
             event.stopPropagation();
         };
+    }
+
+    /** @type {(uploader: plupload) => void} */
+    updateControls(uploader) {
+        var hasPendingUploads =
+            uploader.files.length > uploader.total.uploaded + uploader.total.failed;
+        /** @type {NodeListOf<HTMLInputElement>} */ (
+            this.element.querySelectorAll(".uploader_type, .uploader_subdir, .uploader_resize")
+        ).forEach(function (el) {
+            el.disabled = hasPendingUploads;
+        });
+        /** @type {HTMLButtonElement} */ (
+            this.element.querySelector(".uploader_uploadfiles")
+        ).disabled = !hasPendingUploads;
     }
 }
 
