@@ -50,9 +50,9 @@ class Widget {
             headers: { "X-CMSimple-XH-Request": "uploader" },
         });
 
-        var uploader = new plupload.Uploader(config);
-        uploader.init();
-        uploader.bind("FilesAdded", function (uploader, files) {
+        this.uploader = /** @type {plupload} */ (new plupload.Uploader(config));
+        this.uploader.init();
+        this.uploader.bind("FilesAdded", function (uploader, files) {
             files.forEach(function (file) {
                 var clone = /** @type {HTMLTableRowElement} */ (
                     element.querySelector(".uploader_row_template").cloneNode(true)
@@ -74,16 +74,16 @@ class Widget {
                 element.querySelector(".uploader_filelist").append(clone);
             });
         });
-        uploader.bind("QueueChanged", this.updateControls.bind(this));
-        uploader.bind("UploadProgress", function (uploader, file) {
+        this.uploader.bind("QueueChanged", () => this.updateControls());
+        this.uploader.bind("UploadProgress", function (uploader, file) {
             document.querySelector("#" + file.id + " .uploader_progress").textContent =
                 file.percent + "%";
         });
-        uploader.bind("FileUploaded", function (uploader, file, result) {
+        this.uploader.bind("FileUploaded", function (uploader, file, result) {
             document.querySelector("#" + file.id + " .uploader_progress").textContent =
                 result.response;
         });
-        uploader.bind("Error", function (uploader, error) {
+        this.uploader.bind("Error", function (uploader, error) {
             if (error.code === plupload.HTTP_ERROR && error.response) {
                 document.querySelector("#" + error.file.id + " .uploader_progress").textContent =
                     error.response;
@@ -95,21 +95,21 @@ class Widget {
                 alert(message);
             }
         });
-        uploader.bind("UploadComplete", this.updateControls.bind(this));
+        this.uploader.bind("UploadComplete", () => this.updateControls());
         var uploadFilesButton = /** @type {HTMLButtonElement} */ (
             element.querySelector(".uploader_uploadfiles")
         );
         uploadFilesButton.disabled = true;
-        uploadFilesButton.onclick = function (event) {
-            uploader.start();
+        uploadFilesButton.onclick = (event) => {
+            this.uploader.start();
             event.stopPropagation();
         };
     }
 
-    /** @type {(uploader: plupload) => void} */
-    updateControls(uploader) {
+    /** @type {() => void} */
+    updateControls() {
         var hasPendingUploads =
-            uploader.files.length > uploader.total.uploaded + uploader.total.failed;
+            this.uploader.files.length > this.uploader.total.uploaded + this.uploader.total.failed;
         /** @type {NodeListOf<HTMLInputElement>} */ (
             this.element.querySelectorAll(".uploader_type, .uploader_subdir, .uploader_resize")
         ).forEach(function (el) {
