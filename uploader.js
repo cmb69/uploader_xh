@@ -51,11 +51,7 @@ class Widget {
             if (error.code === plupload.HTTP_ERROR && error.response) {
                 this.setUploadProgress(error.file.id, error.response);
             } else {
-                var message = error.message;
-                if (error.file) {
-                    message = error.file.name + ": " + message;
-                }
-                alert(message);
+                this.reportError(error);
             }
         });
         this.uploader.bind("UploadComplete", () => this.updateControls());
@@ -98,6 +94,15 @@ class Widget {
     /** @type {(id: string, text: string) => void} */
     setUploadProgress(id, text) {
         document.getElementById(id).querySelector(".uploader_progress").textContent = text;
+    }
+
+    /** @type {(error: object) => void} */
+    reportError(error) {
+        let message = error.message;
+        if (error.file) {
+            message = error.file.name + ": " + message;
+        }
+        alert(message);
     }
 
     /** @type {(file: File) => void} */
