@@ -28,33 +28,14 @@ function replaceWidget(element, html) {
 class Widget {
     constructor(/** @type {HTMLElement} */ element) {
         this.element = element;
+        this.uploader = /** @type {plupload} */ (new plupload.Uploader(this.config));
+        this.setUpUploader();
         this.selects.forEach((el) => {
             el.onchange = () => {
                 let url = el.dataset.url.replace("FIXME", encodeURIComponent(el.value));
                 this.fetchWidget(url);
             };
         });
-
-        this.uploader = /** @type {plupload} */ (new plupload.Uploader(this.config));
-        this.uploader.init();
-        this.uploader.bind("FilesAdded", (uploader, files) => {
-            files.forEach((file) => this.addFile(file));
-        });
-        this.uploader.bind("QueueChanged", () => this.updateControls());
-        this.uploader.bind("UploadProgress", (uploader, file) => {
-            this.setUploadProgress(file.id, file.percent + "%");
-        });
-        this.uploader.bind("FileUploaded", (uploader, file, result) => {
-            this.setUploadProgress(file.id, result.response);
-        });
-        this.uploader.bind("Error", (uploader, error) => {
-            if (error.code === plupload.HTTP_ERROR && error.response) {
-                this.setUploadProgress(error.file.id, error.response);
-            } else {
-                this.reportError(error);
-            }
-        });
-        this.uploader.bind("UploadComplete", () => this.updateControls());
         let uploadFilesButton = this.uploadFilesButton;
         uploadFilesButton.disabled = true;
         uploadFilesButton.onclick = () => this.uploader.start();
@@ -78,6 +59,29 @@ class Widget {
     /** @type {HTMLButtonElement} */
     get uploadFilesButton() {
         return this.element.querySelector(".uploader_uploadfiles");
+    }
+
+    /** @type {() => void} */
+    setUpUploader() {
+        this.uploader.init();
+        this.uploader.bind("FilesAdded", (uploader, files) => {
+            files.forEach((file) => this.addFile(file));
+        });
+        this.uploader.bind("QueueChanged", () => this.updateControls());
+        this.uploader.bind("UploadProgress", (uploader, file) => {
+            this.setUploadProgress(file.id, file.percent + "%");
+        });
+        this.uploader.bind("FileUploaded", (uploader, file, result) => {
+            this.setUploadProgress(file.id, result.response);
+        });
+        this.uploader.bind("Error", (uploader, error) => {
+            if (error.code === plupload.HTTP_ERROR && error.response) {
+                this.setUploadProgress(error.file.id, error.response);
+            } else {
+                this.reportError(error);
+            }
+        });
+        this.uploader.bind("UploadComplete", () => this.updateControls());
     }
 
     /** @type {(url: string) => void} */
