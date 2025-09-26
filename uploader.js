@@ -67,9 +67,7 @@ class Widget {
             }
         });
         this.uploader.bind("UploadComplete", () => this.updateControls());
-        var uploadFilesButton = /** @type {HTMLButtonElement} */ (
-            element.querySelector(".uploader_uploadfiles")
-        );
+        let uploadFilesButton = this.uploadFilesButton;
         uploadFilesButton.disabled = true;
         uploadFilesButton.onclick = (event) => {
             this.uploader.start();
@@ -85,6 +83,11 @@ class Widget {
             drop_element: this.element,
             headers: { "X-CMSimple-XH-Request": "uploader" },
         });
+    }
+
+    /** @type {HTMLButtonElement} */
+    get uploadFilesButton() {
+        return this.element.querySelector(".uploader_uploadfiles");
     }
 
     /** @type {(id: string) => HTMLTableCellElement} */
