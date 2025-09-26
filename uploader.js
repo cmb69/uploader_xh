@@ -30,7 +30,7 @@ class Widget {
         this.element = element;
         this.selects.forEach((el) => {
             el.onchange = () => {
-                var url = el.dataset.url.replace("FIXME", encodeURIComponent(el.value));
+                let url = el.dataset.url.replace("FIXME", encodeURIComponent(el.value));
                 this.fetchWidget(url);
             };
         });
@@ -107,7 +107,7 @@ class Widget {
 
     /** @type {(file: File) => void} */
     addFile(file) {
-        var clone = /** @type {HTMLTableRowElement} */ (
+        let clone = /** @type {HTMLTableRowElement} */ (
             this.element.querySelector(".uploader_row_template").cloneNode(true)
         );
         clone.classList.remove("uploader_row_template");
@@ -116,12 +116,12 @@ class Widget {
         clone.id = file.id;
         clone.querySelector(".uploader_filename").textContent = file.name;
         // @ts-ignore
-        var size = plupload.formatSize(file.size);
+        let size = plupload.formatSize(file.size);
         clone.querySelector(".uploader_size").textContent = size;
         clone.querySelector(".uploader_progress").textContent = "0%";
         let button = /** @type {HTMLButtonElement} */ (clone.querySelector(".uploader_remove"));
         button.onclick = (event) => {
-            var button = /** @type {HTMLButtonElement} */ (event.currentTarget);
+            let button = /** @type {HTMLButtonElement} */ (event.currentTarget);
             this.removeFile(button.closest(".uploader_row").id);
         };
         this.element.querySelector(".uploader_filelist").append(clone);
@@ -135,7 +135,7 @@ class Widget {
 
     /** @type {() => void} */
     updateControls() {
-        var hasPendingUploads =
+        let hasPendingUploads =
             this.uploader.files.length > this.uploader.total.uploaded + this.uploader.total.failed;
         this.selects.forEach(function (el) {
             el.disabled = hasPendingUploads;
@@ -146,10 +146,10 @@ class Widget {
 
 /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll(".uploader_placeholder")).forEach(
     function (el) {
-        var params = new URLSearchParams();
+        let params = new URLSearchParams();
         params.append("uploader_action", "widget");
         params.append("uploader_serial", el.dataset.serial);
-        var request = new XMLHttpRequest();
+        let request = new XMLHttpRequest();
         request.open("GET", location.href + "&" + params.toString());
         request.setRequestHeader("X-CMSimple-XH-Request", "uploader");
         request.onload = function () {
