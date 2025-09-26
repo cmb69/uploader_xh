@@ -40,15 +40,15 @@ if (!defined("CMSIMPLE_XH_VERSION")) {http_response_code(403); exit;}
   <table class="uploader_filelist">
     <tbody>
       <tr>
-        <th class="uploader_filename"><?=$this->text('label_filename')?></th>
-        <th class="uploader_size"><?=$this->text('label_size')?></th>
-        <th class="uploader_progress"><?=$this->text('label_state')?></th>
+        <th scope="col" class="uploader_filename"><?=$this->text('label_filename')?></th>
+        <th scope="col" class="uploader_size"><?=$this->text('label_size')?></th>
+        <th scope="col" class="uploader_progress"><?=$this->text('label_state')?></th>
         <th></th>
       </tr>
     </tbody>
     <template class="uploader_row_template">
       <tr class="uploader_row">
-        <td class="uploader_filename"></td>
+        <th scrope="row" class="uploader_filename"></th>
         <td class="uploader_size"></td>
         <td class="uploader_progress"></td>
         <td class="uploader_button"><button type="button" class="uploader_remove"><?=$this->text('label_remove')?></button></td>

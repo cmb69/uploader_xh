@@ -17,6 +17,9 @@ th.uploader_filename, th.uploader_size, th.uploader_progress {
 .uploader_filename {
     min-width: 12em;
 }
+.uploader_row th.uploader_filename {
+    text-align: left;
+}
 .uploader_size {
     min-width: 5em;
     text-align: center;
