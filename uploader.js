@@ -43,14 +43,7 @@ class Widget {
             };
         });
 
-        var config = Object.assign(JSON.parse(element.dataset.config), {
-            browse_button: element.querySelector(".uploader_pickfiles"),
-            container: element.querySelector(".uploader_buttons"),
-            drop_element: element,
-            headers: { "X-CMSimple-XH-Request": "uploader" },
-        });
-
-        this.uploader = /** @type {plupload} */ (new plupload.Uploader(config));
+        this.uploader = /** @type {plupload} */ (new plupload.Uploader(this.config));
         this.uploader.init();
         this.uploader.bind("FilesAdded", function (uploader, files) {
             files.forEach(function (file) {
@@ -104,6 +97,16 @@ class Widget {
             this.uploader.start();
             event.stopPropagation();
         };
+    }
+
+    /** @type {object} */
+    get config() {
+        return Object.assign(JSON.parse(this.element.dataset.config), {
+            browse_button: this.element.querySelector(".uploader_pickfiles"),
+            container: this.element.querySelector(".uploader_buttons"),
+            drop_element: this.element,
+            headers: { "X-CMSimple-XH-Request": "uploader" },
+        });
     }
 
     /** @type {() => void} */
