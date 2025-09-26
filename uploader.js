@@ -119,9 +119,8 @@ class Widget {
         var size = plupload.formatSize(file.size);
         clone.querySelector(".uploader_size").textContent = size;
         clone.querySelector(".uploader_progress").textContent = "0%";
-        /** @type {HTMLButtonElement} */ (clone.querySelector(".uploader_remove")).onclick = (
-            event
-        ) => {
+        let button = /** @type {HTMLButtonElement} */ (clone.querySelector(".uploader_remove"));
+        button.onclick = (event) => {
             var button = /** @type {HTMLButtonElement} */ (event.currentTarget);
             this.removeFile(button.closest(".uploader_row").id);
         };
