@@ -142,8 +142,8 @@ class Widget {
 
     /** @type {() => void} */
     updateControls() {
-        let hasPendingUploads =
-            this.uploader.files.length > this.uploader.total.uploaded + this.uploader.total.failed;
+        let total = this.uploader.total;
+        let hasPendingUploads = this.uploader.files.length > total.uploaded + total.failed;
         this.selects.forEach((el) => (el.disabled = hasPendingUploads));
         this.uploadFilesButton.disabled = !hasPendingUploads;
     }
