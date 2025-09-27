@@ -26,7 +26,10 @@ th.uploader_filename, th.uploader_size, th.uploader_progress {
 }
 .uploader_progress {
     min-width: 5em;
-    text-align: right;
+    text-align: center;
+}
+.uploader_progress progress {
+    width: 5em;
 }
 .uploader_button {
     text-align: right;

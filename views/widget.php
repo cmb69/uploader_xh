@@ -50,7 +50,7 @@ if (!defined("CMSIMPLE_XH_VERSION")) {http_response_code(403); exit;}
       <tr class="uploader_row">
         <th scrope="row" class="uploader_filename"></th>
         <td class="uploader_size"></td>
-        <td class="uploader_progress"></td>
+        <td class="uploader_progress"><progress value="0"></progress></td>
         <td class="uploader_button"><button type="button" class="uploader_remove"><?=$this->text('label_remove')?></button></td>
       </tr>
     </template>

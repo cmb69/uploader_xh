@@ -74,14 +74,14 @@ class Widget {
         });
         this.uploader.bind("QueueChanged", () => this.updateControls());
         this.uploader.bind("UploadProgress", (uploader, file) => {
-            this.setUploadProgress(file.id, file.percent + "%");
+            this.setUploadProgress(file.id, file.percent / 100);
         });
         this.uploader.bind("FileUploaded", (uploader, file, result) => {
-            this.setUploadProgress(file.id, result.response);
+            this.setUploadStatus(file.id, result.response);
         });
         this.uploader.bind("Error", (uploader, error) => {
             if (error.code === plupload.HTTP_ERROR && error.response) {
-                this.setUploadProgress(error.file.id, error.response);
+                this.setUploadStatus(error.file.id, error.response);
             } else {
                 this.reportError(error);
             }
@@ -100,8 +100,15 @@ class Widget {
         request.send();
     }
 
+    /** @type {(id: string, text: number) => void} */
+    setUploadProgress(id, value) {
+        /** @type {HTMLProgressElement} */ (
+            document.getElementById(id).querySelector(".uploader_progress progress")
+        ).value = value;
+    }
+
     /** @type {(id: string, text: string) => void} */
-    setUploadProgress(id, text) {
+    setUploadStatus(id, text) {
         document.getElementById(id).querySelector(".uploader_progress").textContent = text;
     }
 
@@ -123,7 +130,6 @@ class Widget {
         // @ts-ignore
         let size = plupload.formatSize(file.size);
         clone.querySelector(".uploader_size").textContent = size;
-        clone.querySelector(".uploader_progress").textContent = "0%";
         let button = /** @type {HTMLButtonElement} */ (clone.querySelector(".uploader_remove"));
         button.onclick = (event) => {
             let button = /** @type {HTMLButtonElement} */ (event.currentTarget);
