@@ -187,6 +187,9 @@ Vielen Dank an [Ephox](https://www.ephox.com/) für die Veröffentlichung unter 
 Das Pluginlogo wurde von [schollidesign](https://www.deviantart.com/schollidesign) gestaltet.
 Vielen Dank für die Veröffentlichung dieses Icons unter GPL.
 
+Das Plugin verwendet [Material Icons](https://fonts.google.com/icons).
+Vielen Dank für die Veröffentlichung unter einer liberalen Lizenz.
+
 Vielen Dank an die Community im [CMSimple_XH-Forum](http://www.cmsimpleforum.com)
 für Anregungen, Vorschläge und das Testen.
 Besonders möchte ich *twc* danken, der mich auf Plupload aufmerksam gemacht hat,

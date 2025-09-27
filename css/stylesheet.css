@@ -35,7 +35,7 @@ th.uploader_filename, th.uploader_size, th.uploader_progress {
 }
 .uploader_button {
     text-align: right;
-    width: 5em;
+    width: 3em;
 }
 .uploader_dropzone {
     border: 2px dashed #888;
@@ -46,5 +46,8 @@ th.uploader_filename, th.uploader_size, th.uploader_progress {
     text-align: center;
 }
 .uploader_buttons {}
+.uploader_buttons button > * {
+    vertical-align: middle;
+}
 .uploader_pickfiles {}
 .uploader_uploadfiles {}
