@@ -43,7 +43,7 @@ if (!defined("CMSIMPLE_XH_VERSION")) {http_response_code(403); exit;}
         <th scope="col" class="uploader_filename"><?=$this->text('label_filename')?></th>
         <th scope="col" class="uploader_size"><?=$this->text('label_size')?></th>
         <th scope="col" class="uploader_progress"><?=$this->text('label_state')?></th>
-        <th></th>
+        <th scope="col" class="uploader_button"></th>
       </tr>
     </tbody>
     <template class="uploader_row_template">

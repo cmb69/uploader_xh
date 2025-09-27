@@ -4,6 +4,7 @@
 }
 .uploader_filelist {
     margin: 1em 0;
+    table-layout: fixed;
     width: 100%;
 }
 .uploader_controls {}
@@ -15,24 +16,26 @@ th.uploader_filename, th.uploader_size, th.uploader_progress {
     padding-right: 1em;
 }
 .uploader_filename {
-    min-width: 12em;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 .uploader_row th.uploader_filename {
     text-align: left;
 }
 .uploader_size {
-    min-width: 5em;
     text-align: center;
+    width: 5em;
 }
 .uploader_progress {
-    min-width: 5em;
     text-align: center;
+    width: 5em;
 }
 .uploader_progress progress {
     width: 5em;
 }
 .uploader_button {
     text-align: right;
+    width: 5em;
 }
 .uploader_dropzone {
     border: 2px dashed #888;
