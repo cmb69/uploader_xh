@@ -181,6 +181,9 @@ to [Ephox](https://www.ephox.com/) for releasing it under AGPL.
 The plugin logo is designed by [schollidesign](https://www.deviantart.com/schollidesign).
 Many thanks for publishing this icon under GPL.
 
+The plugin uses [Material Icons](https://fonts.google.com/icons).
+Many thanks for making these available under a liberal license.
+
 Many thanks to the community at the [CMSimple_XH-Forum](http://www.cmsimpleforum.com/)
 for tips, suggestions and testing.
 Particularly I want to thank *twc*, who made me aware of Plupload,

@@ -43,21 +43,31 @@ if (!defined("CMSIMPLE_XH_VERSION")) {http_response_code(403); exit;}
         <th scope="col" class="uploader_filename"><?=$this->text('label_filename')?></th>
         <th scope="col" class="uploader_size"><?=$this->text('label_size')?></th>
         <th scope="col" class="uploader_progress"><?=$this->text('label_state')?></th>
-        <th></th>
+        <th scope="col" class="uploader_button"></th>
       </tr>
     </tbody>
     <template class="uploader_row_template">
       <tr class="uploader_row">
-        <th scrope="row" class="uploader_filename"></th>
+        <td class="uploader_filename"></th>
         <td class="uploader_size"></td>
-        <td class="uploader_progress"></td>
-        <td class="uploader_button"><button type="button" class="uploader_remove"><?=$this->text('label_remove')?></button></td>
+        <td class="uploader_progress"><progress value="0"></progress></td>
+        <td class="uploader_button">
+          <button type="button" class="uploader_remove" title="<?=$this->text('label_remove')?>">
+            <svg xmlns="http://www.w3.org/2000/svg" focusable="false" height="1.5em" viewBox="0 -960 960 960" width="1.5em" fill="currentColor"><path d="M200-440v-80h560v80H200Z"/></svg>
+          </button>
+        </td>
       </tr>
     </template>
   </table>
   <div class="uploader_dropzone"><?=$this->text("label_drop")?></div>
   <div class="uploader_buttons">
-    <button type="button" class="uploader_pickfiles"><?=$this->text('label_select_files')?></button>
-    <button type="button" class="uploader_uploadfiles"><?=$this->text('label_upload_files')?></button>
+    <button type="button" class="uploader_pickfiles">
+      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" height="1.5em" viewBox="0 -960 960 960" width="1.5em" fill="currentColor"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+      <span><?=$this->text('label_select_files')?><span>
+    </button>
+    <button type="button" class="uploader_uploadfiles">
+      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" height="1.5em" viewBox="0 -960 960 960" width="1.5em" fill="currentColor"><path d="M440-320v-326L336-542l-56-58 200-200 200 200-56 58-104-104v326h-80ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>
+      <span><?=$this->text('label_upload_files')?></span>
+    </button>
   </div>
 </div>

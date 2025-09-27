@@ -23,21 +23,31 @@
         <th scope="col" class="uploader_filename">Filename</th>
         <th scope="col" class="uploader_size">Size</th>
         <th scope="col" class="uploader_progress">State</th>
-        <th></th>
+        <th scope="col" class="uploader_button"></th>
       </tr>
     </tbody>
     <template class="uploader_row_template">
       <tr class="uploader_row">
-        <th scrope="row" class="uploader_filename"></th>
+        <td class="uploader_filename"></th>
         <td class="uploader_size"></td>
-        <td class="uploader_progress"></td>
-        <td class="uploader_button"><button type="button" class="uploader_remove">Remove</button></td>
+        <td class="uploader_progress"><progress value="0"></progress></td>
+        <td class="uploader_button">
+          <button type="button" class="uploader_remove" title="Remove">
+            <svg xmlns="http://www.w3.org/2000/svg" focusable="false" height="1.5em" viewBox="0 -960 960 960" width="1.5em" fill="currentColor"><path d="M200-440v-80h560v80H200Z"/></svg>
+          </button>
+        </td>
       </tr>
     </template>
   </table>
   <div class="uploader_dropzone">Drop files here</div>
   <div class="uploader_buttons">
-    <button type="button" class="uploader_pickfiles">Select files</button>
-    <button type="button" class="uploader_uploadfiles">Upload files</button>
+    <button type="button" class="uploader_pickfiles">
+      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" height="1.5em" viewBox="0 -960 960 960" width="1.5em" fill="currentColor"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+      <span>Select files<span>
+    </button>
+    <button type="button" class="uploader_uploadfiles">
+      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" height="1.5em" viewBox="0 -960 960 960" width="1.5em" fill="currentColor"><path d="M440-320v-326L336-542l-56-58 200-200 200 200-56 58-104-104v326h-80ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>
+      <span>Upload files</span>
+    </button>
   </div>
 </div>
