@@ -27,6 +27,17 @@ function replaceWidget(element, html) {
 }
 
 class Widget {
+    /** @type {(element: HTMLElement, url: string) => void} */
+    static fetchWidget(element, url) {
+        let request = new XMLHttpRequest();
+        request.open("GET", url);
+        request.setRequestHeader("X-CMSimple-XH-Request", "uploader");
+        request.onload = () => {
+            replaceWidget(element, request.responseText);
+        };
+        request.send();
+    }
+
     constructor(/** @type {HTMLElement} */ element) {
         this.element = element;
         this.uploader = /** @type {plupload} */ (new plupload.Uploader(this.config));
@@ -34,7 +45,7 @@ class Widget {
         this.selects.forEach((el) => {
             el.onchange = () => {
                 let url = el.dataset.url.replace("FIXME", encodeURIComponent(el.value));
-                this.fetchWidget(url);
+                Widget.fetchWidget(this.element, url);
             };
         });
         let uploadFilesButton = this.uploadFilesButton;
@@ -88,17 +99,6 @@ class Widget {
             }
         });
         this.uploader.bind("UploadComplete", () => this.updateControls());
-    }
-
-    /** @type {(url: string) => void} */
-    fetchWidget(url) {
-        let request = new XMLHttpRequest();
-        request.open("GET", url);
-        request.setRequestHeader("X-CMSimple-XH-Request", "uploader");
-        request.onload = () => {
-            replaceWidget(this.element, request.responseText);
-        };
-        request.send();
     }
 
     /** @type {(id: string, text: number) => void} */
