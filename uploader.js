@@ -30,6 +30,10 @@ class Widget {
             element.outerHTML = request.responseText;
             new Widget(parent.querySelector(".uploader_widget"));
         };
+        request.onloadend = () => {
+            element.style.visibility = "";
+        };
+        element.style.visibility = "hidden";
         request.send();
     }
 
