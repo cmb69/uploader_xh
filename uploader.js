@@ -159,10 +159,6 @@ class Widget {
         let params = new URLSearchParams();
         params.append("uploader_action", "widget");
         params.append("uploader_serial", el.dataset.serial);
-        let request = new XMLHttpRequest();
-        request.open("GET", location.href + "&" + params.toString());
-        request.setRequestHeader("X-CMSimple-XH-Request", "uploader");
-        request.onload = () => replaceWidget(el, request.responseText);
-        request.send();
+        Widget.load(el, location.href + "&" + params.toString());
     }
 );
