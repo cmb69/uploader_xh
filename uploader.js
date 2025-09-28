@@ -21,8 +21,9 @@
 
 /** @type {(element: Element, html: string) => void} */
 function replaceWidget(element, html) {
-    element.innerHTML = html;
-    new Widget(element.querySelector(".uploader_widget"));
+    let parent = element.parentElement;
+    element.outerHTML = html;
+    new Widget(parent.querySelector(".uploader_widget"));
 }
 
 class Widget {
