@@ -28,7 +28,7 @@ function replaceWidget(element, html) {
 
 class Widget {
     /** @type {(element: HTMLElement, url: string) => void} */
-    static fetchWidget(element, url) {
+    static load(element, url) {
         let request = new XMLHttpRequest();
         request.open("GET", url);
         request.setRequestHeader("X-CMSimple-XH-Request", "uploader");
@@ -45,7 +45,7 @@ class Widget {
         this.selects.forEach((el) => {
             el.onchange = () => {
                 let url = el.dataset.url.replace("FIXME", encodeURIComponent(el.value));
-                Widget.fetchWidget(this.element, url);
+                Widget.load(this.element, url);
             };
         });
         let uploadFilesButton = this.uploadFilesButton;
