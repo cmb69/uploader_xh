@@ -19,14 +19,24 @@
 
 /* global alert,plupload */
 
-/** @type {(element: Element, html: string) => void} */
-function replaceWidget(element, html) {
-    let parent = element.parentElement;
-    element.outerHTML = html;
-    new Widget(parent.querySelector(".uploader_widget"));
-}
-
 class Widget {
+    /** @type {(element: HTMLElement, url: string) => void} */
+    static load(element, url) {
+        let request = new XMLHttpRequest();
+        request.open("GET", url);
+        request.setRequestHeader("X-CMSimple-XH-Request", "uploader");
+        request.onload = () => {
+            let parent = element.parentElement;
+            element.outerHTML = request.responseText;
+            new Widget(parent.querySelector(".uploader_widget"));
+        };
+        request.onloadend = () => {
+            element.style.visibility = "";
+        };
+        element.style.visibility = "hidden";
+        request.send();
+    }
+
     constructor(/** @type {HTMLElement} */ element) {
         this.element = element;
         this.uploader = /** @type {plupload} */ (new plupload.Uploader(this.config));
@@ -34,7 +44,7 @@ class Widget {
         this.selects.forEach((el) => {
             el.onchange = () => {
                 let url = el.dataset.url.replace("FIXME", encodeURIComponent(el.value));
-                this.fetchWidget(url);
+                Widget.load(this.element, url);
             };
         });
         let uploadFilesButton = this.uploadFilesButton;
@@ -88,17 +98,6 @@ class Widget {
             }
         });
         this.uploader.bind("UploadComplete", () => this.updateControls());
-    }
-
-    /** @type {(url: string) => void} */
-    fetchWidget(url) {
-        let request = new XMLHttpRequest();
-        request.open("GET", url);
-        request.setRequestHeader("X-CMSimple-XH-Request", "uploader");
-        request.onload = () => {
-            replaceWidget(this.element, request.responseText);
-        };
-        request.send();
     }
 
     /** @type {(id: string, text: number) => void} */
@@ -159,10 +158,6 @@ class Widget {
         let params = new URLSearchParams();
         params.append("uploader_action", "widget");
         params.append("uploader_serial", el.dataset.serial);
-        let request = new XMLHttpRequest();
-        request.open("GET", location.href + "&" + params.toString());
-        request.setRequestHeader("X-CMSimple-XH-Request", "uploader");
-        request.onload = () => replaceWidget(el, request.responseText);
-        request.send();
+        Widget.load(el, location.href + "&" + params.toString());
     }
 );
