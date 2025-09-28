@@ -19,13 +19,6 @@
 
 /* global alert,plupload */
 
-/** @type {(element: Element, html: string) => void} */
-function replaceWidget(element, html) {
-    let parent = element.parentElement;
-    element.outerHTML = html;
-    new Widget(parent.querySelector(".uploader_widget"));
-}
-
 class Widget {
     /** @type {(element: HTMLElement, url: string) => void} */
     static load(element, url) {
@@ -33,7 +26,9 @@ class Widget {
         request.open("GET", url);
         request.setRequestHeader("X-CMSimple-XH-Request", "uploader");
         request.onload = () => {
-            replaceWidget(element, request.responseText);
+            let parent = element.parentElement;
+            element.outerHTML = request.responseText;
+            new Widget(parent.querySelector(".uploader_widget"));
         };
         request.send();
     }
